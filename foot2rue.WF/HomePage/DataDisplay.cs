@@ -41,7 +41,7 @@ namespace foot2rue.WF.HomePage
             pictureBox_NoData.Hide();
             pictureBox_Loading.Show();
 
-            IEnumerable<Control>? data = await Task.Run(loadDataFunction);
+            IEnumerable<Control>? data = await loadDataFunction();
             pictureBox_Loading.Hide();
             if (data == null)
                 // Loading of the data failed, displaying the error

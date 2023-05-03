@@ -34,7 +34,7 @@ namespace foot2rue.WF.Services
         public async Task<IEnumerable<Match>?> GetMatches()
         {
             if (matches == null)
-                matches = await repository.GetMatches();
+                matches = await Task.Run(repository.GetMatches);
             return matches;
         }
 
@@ -45,10 +45,10 @@ namespace foot2rue.WF.Services
             {
                 if (matches != null)
                     // If matches have already been loaded, just filter them
-                    matchesByFifaCode.Add(fifaCode, (await GetMatches())?.Where(match => match.HomeTeam.FifaCode == fifaCode || match.AwayTeam.FifaCode == fifaCode));
+                    matchesByFifaCode.Add(fifaCode, (await Task.Run(GetMatches))?.Where(match => match.HomeTeam.FifaCode == fifaCode || match.AwayTeam.FifaCode == fifaCode));
                 else
                     // If no matches have been loaded yet, only get the matches we need from API
-                    matchesByFifaCode.Add(fifaCode, await repository.GetMatchesByFifaCode(fifaCode));
+                    matchesByFifaCode.Add(fifaCode, await Task.Run(() => repository.GetMatchesByFifaCode(fifaCode)));
             }
             return matchesByFifaCode[fifaCode];
         }
@@ -58,7 +58,7 @@ namespace foot2rue.WF.Services
         {
             if (!playersByFifaCode.ContainsKey(fifaCode))
             {
-                Match? match = (await repository.GetMatchesByFifaCode(fifaCode))?.ElementAt(0);
+                Match? match = (await Task.Run(() => repository.GetMatchesByFifaCode(fifaCode)))?.ElementAt(0);
                 Statistics? teamStatistics = match?.HomeTeam.FifaCode == fifaCode ? match?.HomeTeamStatistics : match?.AwayTeamStatistics;
                 playersByFifaCode.Add(fifaCode, teamStatistics?.StartingEleven.Union(teamStatistics.Substitutes));
             }
@@ -69,7 +69,7 @@ namespace foot2rue.WF.Services
         public async Task<IEnumerable<Team>?> GetTeams()
         {
             if (teams == null)
-                teams = await repository.GetTeams();
+                teams = await Task.Run(repository.GetTeams);
             return teams;
         }
 
@@ -77,7 +77,7 @@ namespace foot2rue.WF.Services
         public async Task<IEnumerable<TeamResult>?> GetTeamResults()
         {
             if (teamResults == null)
-                teamResults = await repository.GetTeamResults();
+                teamResults = await Task.Run(repository.GetTeamResults);
             return teamResults;
         }
 
@@ -85,7 +85,7 @@ namespace foot2rue.WF.Services
         public async Task<IEnumerable<GroupResult>?> GetGroupResults()
         {
             if (groupResults == null)
-                groupResults = await repository.GetGroupResults();
+                groupResults = await Task.Run(repository.GetGroupResults);
             return groupResults;
         }
 
