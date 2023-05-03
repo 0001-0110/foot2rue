@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             button1 = new Button();
-            comboBox1 = new ComboBox();
-            comboBox2 = new ComboBox();
+            comboBox_TeamSelection = new ComboBox();
+            comboBox_GenreSelection = new ComboBox();
             SuspendLayout();
             // 
             // button1
@@ -43,28 +43,32 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
-            // comboBox1
+            // comboBox_TeamSelection
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(78, 132);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(151, 28);
-            comboBox1.TabIndex = 1;
+            comboBox_TeamSelection.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox_TeamSelection.FormattingEnabled = true;
+            comboBox_TeamSelection.Location = new Point(78, 132);
+            comboBox_TeamSelection.Name = "comboBox_TeamSelection";
+            comboBox_TeamSelection.Size = new Size(151, 28);
+            comboBox_TeamSelection.TabIndex = 1;
+            comboBox_TeamSelection.SelectedIndexChanged += comboBox_TeamSelection_SelectedIndexChanged;
             // 
-            // comboBox2
+            // comboBox_GenreSelection
             // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(78, 82);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(151, 28);
-            comboBox2.TabIndex = 2;
+            comboBox_GenreSelection.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox_GenreSelection.FormattingEnabled = true;
+            comboBox_GenreSelection.Location = new Point(78, 82);
+            comboBox_GenreSelection.Name = "comboBox_GenreSelection";
+            comboBox_GenreSelection.Size = new Size(151, 28);
+            comboBox_GenreSelection.TabIndex = 2;
+            comboBox_GenreSelection.SelectedIndexChanged += comboBox_GenreSelection_SelectedIndexChanged;
             // 
             // TeamSelectionUserControl
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(comboBox2);
-            Controls.Add(comboBox1);
+            Controls.Add(comboBox_GenreSelection);
+            Controls.Add(comboBox_TeamSelection);
             Controls.Add(button1);
             Name = "TeamSelectionUserControl";
             Size = new Size(304, 274);
@@ -75,7 +79,7 @@
         #endregion
 
         private Button button1;
-        private ComboBox comboBox1;
-        private ComboBox comboBox2;
+        private ComboBox comboBox_TeamSelection;
+        private ComboBox comboBox_GenreSelection;
     }
 }

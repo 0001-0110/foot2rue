@@ -1,9 +1,11 @@
 using foot2rue.DAL.Models;
 using foot2rue.DAL.Repositories;
-using foot2rue.WF.Services;
 using foot2rue.WF.Extensions;
-using System.Data;
 using foot2rue.WF.MessageBoxes;
+using foot2rue.WF.Services;
+using foot2rue.WF.Utilities;
+using System.Data;
+using System.Linq;
 
 namespace foot2rue.WF.HomePage
 {
@@ -102,7 +104,7 @@ namespace foot2rue.WF.HomePage
                 // TODO
                 throw new Exception("HELP");
 
-            
+
         }
 
         #endregion
@@ -127,19 +129,22 @@ namespace foot2rue.WF.HomePage
 
         private async Task InitSelectionComboBoxes()
         {
-            toolStripComboBox_GenreSelection.SetItems(Enum.GetValues(typeof(Genre)).Cast<Genre>());
-            // TODO Find the correct value to select according to the current selection
-            toolStripComboBox_GenreSelection.SelectedIndex = 0;
+            toolStripComboBox_GenreSelection.SetItems(EnumUtility.GetEnumValues<Genre>(), settingsService.SelectedGenre);
 
-            await this.Wait(async () => toolStripComboBox_TeamSelection.SetItems(await dataService!.GetTeams()));
-            // TODO Find the correct value to select according to the current selection
-            toolStripComboBox_TeamSelection.SelectedIndex = 0;
+            IEnumerable<Team>? teams = await this.Wait(dataService!.GetTeams);
+            Team? selectedTeam = teams?.Single(team => team.FifaCode == settingsService.SelectedTeamFifaCode);
+            toolStripComboBox_TeamSelection.SetItems(teams, selectedTeam);
         }
 
         private async Task InitDataDisplays()
         {
-            favoritesDataDisplay = new DataDisplay(async () => (await dataService.GetPlayersByFifaCode(GetSelectedTeam().FifaCode))?.Where(player => player.IsFavorite).Select(player => new PlayerDisplayUserControl(player)));
-            allPlayersDataDisplay = new DataDisplay(async () => (await dataService.GetPlayersByFifaCode(GetSelectedTeam().FifaCode))?.Select(player => new PlayerDisplayUserControl(player)));
+            favoritesDataDisplay = new DataDisplay(
+                async () => (await dataService.GetPlayersByFifaCode(GetSelectedTeam().FifaCode))?
+                .Where(player => player.IsFavorite)
+                .Select(player => new PlayerDisplayUserControl(player)));
+            allPlayersDataDisplay = new DataDisplay(
+                async () => (await dataService.GetPlayersByFifaCode(GetSelectedTeam().FifaCode))?
+                .Select(player => new PlayerDisplayUserControl(player)));
         }
 
         #endregion

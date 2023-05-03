@@ -8,5 +8,13 @@
             await loadingFunction();
             form.UseWaitCursor = false;
         }
+
+        public static async Task<T> Wait<T>(this Form form, Func<Task<T>> loadingFunction)
+        {
+            form.UseWaitCursor = true;
+            T result = await loadingFunction();
+            form.UseWaitCursor = false;
+            return result;
+        }
     }
 }

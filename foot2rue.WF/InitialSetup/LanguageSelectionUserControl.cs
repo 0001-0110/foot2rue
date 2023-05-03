@@ -17,9 +17,10 @@ namespace foot2rue.WF.InitialSetup
         private void LanguageSelectionUserControl_Load(object sender, EventArgs e)
         {
             comboBox1.DisplayMember = "DisplayName";
-            CultureInfo? currentCulture = SettingsService.Instance.Culture;
+            CultureInfo systemCulture = CultureInfo.CurrentCulture;
             List<CultureInfo> supportedLanguages = LocalizationUtility.GetAllSupportedLanguages().ToList();
-            comboBox1.SetItems(supportedLanguages, supportedLanguages.IndexOf(currentCulture));
+            // If the systemCulture is not part of the supported culture, the comboBox will stay empty
+            comboBox1.SetItems(supportedLanguages, systemCulture);
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -30,6 +31,12 @@ namespace foot2rue.WF.InitialSetup
 
         private void validate_Click(object sender, EventArgs e)
         {
+            if (comboBox1.SelectedIndex == -1)
+            {
+                // Show invalid input
+                return;
+            }
+
             SettingsService.Instance.Culture = (CultureInfo)comboBox1.SelectedItem;
             // TODO Should we save ?
             onValidate.Invoke();
