@@ -30,18 +30,15 @@ namespace foot2rue.WF
         public CultureInfo Culture
         {
             get { return new CultureInfo(Default.CultureLCID); }
-            set
-            {
-                // Save it to the settings
-                Default.CultureLCID = value.LCID;
-                // Localization
-                Thread.CurrentThread.CurrentUICulture = value;
-                // Globalization
-                Thread.CurrentThread.CurrentCulture = value;
-            }
+            set { Default.CultureLCID = value.LCID; }
         }
 
-        private SettingsService() { }
+        private SettingsService() 
+        {
+#if DEBUG
+            Default.Reset();
+#endif
+        }
 
         public void Save()
         {
