@@ -4,9 +4,9 @@ namespace foot2rue.WF.HomePage
 {
     public partial class DataDisplay : UserControl
     {
-        private Func<Task<IEnumerable<Control>?>> loadDataFunction;
+        private Func<string, Task<IEnumerable<Control>?>> loadDataFunction;
 
-        public DataDisplay(Func<Task<IEnumerable<Control>?>> loadDataFunction)
+        public DataDisplay(Func<string, Task<IEnumerable<Control>?>> loadDataFunction)
         {
             InitializeComponent();
 
@@ -25,23 +25,23 @@ namespace foot2rue.WF.HomePage
             pictureBox_NoData.Show();
         }
 
-        public async Task RefreshData()
+        public async Task RefreshData(string fifaCode)
         {
             // This dataGridView is already filled, no need to do anything
             if (HasData())
                 return;
 
             // The data hasn't been loaded yet, load it
-            await LoadData();
+            await LoadData(fifaCode);
         }
 
-        public async Task LoadData()
+        public async Task LoadData(string fifaCode)
         {
             // Show loading screen
             pictureBox_NoData.Hide();
             pictureBox_Loading.Show();
 
-            IEnumerable<Control>? data = await loadDataFunction();
+            IEnumerable<Control>? data = await loadDataFunction(fifaCode);
             pictureBox_Loading.Hide();
             if (data == null)
                 // Loading of the data failed, displaying the error

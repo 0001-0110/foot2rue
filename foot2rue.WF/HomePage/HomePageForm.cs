@@ -5,18 +5,16 @@ using foot2rue.WF.MessageBoxes;
 using foot2rue.WF.Services;
 using foot2rue.WF.Utilities;
 using System.Data;
-using System.Linq;
 
 namespace foot2rue.WF.HomePage
 {
     public partial class HomePageForm : Form
     {
-        private DataService dataService;
+        private DataService? dataService;
 
         private DataDisplay? favoritesDataDisplay;
         private DataDisplay? allPlayersDataDisplay;
 
-        // TODO Handle warning
         public HomePageForm()
         {
             InitializeComponent();
@@ -38,10 +36,10 @@ namespace foot2rue.WF.HomePage
 
             // We need to run this on the main thread (so don't use Task.Run)
             await InitSelectionComboBoxes();
-            await InitDataDisplays();
+            InitDataDisplays();
+            await RefreshDataDisplays();
 
-            // TODO Load and display data (no idea if this works)
-            // TODO This should only be loaded when the datagrids are shown
+            // No need to load the data for dataDisplays since this is handled by the tabControl
         }
 
         private void HomePageForm_FormClosing(object? sender, FormClosingEventArgs e)
@@ -66,27 +64,31 @@ namespace foot2rue.WF.HomePage
 
         #region ToolStripComboBox event handlers
 
-        private void toolStripComboBox_GenreSelection_SelectedIndexChanged(object? sender, EventArgs e)
+        private async void toolStripComboBox_GenreSelection_SelectedIndexChanged(object? sender, EventArgs e)
         {
-            // TODO Check if value changed
-            if (false)
+            Genre selectedGenre = (Genre)toolStripComboBox_GenreSelection.SelectedItem;
+
+            // If the value is the same than the previous one, no need to reload everything
+            if (selectedGenre == SettingsService.SelectedGenre)
                 return;
 
-            Genre selectedGenre = (Genre)toolStripComboBox_GenreSelection.SelectedItem;
             dataService?.SetGenre(selectedGenre);
             SettingsService.SelectedGenre = selectedGenre;
-            ResetDataDisplays();
+            // This line is refreshing genre comboBox for nothing, but it's not a big deal
+            await InitSelectionComboBoxes();
+            await RefreshDataDisplays();
         }
 
-        private void toolStripComboBox_TeamSelection_SelectedIndexChanged(object? sender, EventArgs e)
+        private async void toolStripComboBox_TeamSelection_SelectedIndexChanged(object? sender, EventArgs e)
         {
-            // TODO Check if value changed
-            if (false)
+            Team selectedTeam = (Team)toolStripComboBox_TeamSelection.SelectedItem;
+
+            // If the value is the same than the previous one, no need to reload everything
+            if (selectedTeam.FifaCode == SettingsService.SelectedTeamFifaCode)
                 return;
 
-            Team selectedTeam = (Team)toolStripComboBox_TeamSelection.SelectedItem;
             SettingsService.SelectedTeamFifaCode = selectedTeam.FifaCode;
-            ResetDataDisplays();
+            await RefreshDataDisplays();
         }
 
         #endregion
@@ -131,26 +133,36 @@ namespace foot2rue.WF.HomePage
             toolStripComboBox_GenreSelection.SetItems(EnumUtility.GetEnumValues<Genre>(), SettingsService.SelectedGenre);
 
             IEnumerable<Team>? teams = await this.Wait(dataService!.GetTeams);
-            Team? selectedTeam = teams?.Single(team => team.FifaCode == SettingsService.SelectedTeamFifaCode);
+            // When swithcing genre, this line might output a null
+            Team? selectedTeam = teams?.SingleOrDefault(team => team.FifaCode == SettingsService.SelectedTeamFifaCode);
+            // If that is the case, the comboBox removes its current selection
             toolStripComboBox_TeamSelection.SetItems(teams, selectedTeam);
         }
 
-        private async Task InitDataDisplays()
+        private void InitDataDisplays()
         {
+            // This is hard to watch
             favoritesDataDisplay = new DataDisplay(
-                async () => (await dataService.GetPlayersByFifaCode(GetSelectedTeam().FifaCode))?
+                async (string fifaCode) => (await dataService!.GetPlayersByFifaCode(fifaCode))?
                 .Where(player => player.IsFavorite)
-                .Select(player => new PlayerDisplayUserControl(player)));
+                .Select(player => new PlayerDisplayUserControl(player)))
+            {
+                Parent = tabControl1.TabPages[0],
+                Dock = DockStyle.Fill,
+            };
             allPlayersDataDisplay = new DataDisplay(
-                async () => (await dataService.GetPlayersByFifaCode(GetSelectedTeam().FifaCode))?
-                .Select(player => new PlayerDisplayUserControl(player)));
+                async (string fifaCode) => (await dataService!.GetPlayersByFifaCode(fifaCode))?
+                .Select(player => new PlayerDisplayUserControl(player)))
+            {
+                Parent = tabControl1.TabPages[1],
+                Dock = DockStyle.Fill,
+            };
         }
 
         #endregion
 
-        private Team GetSelectedTeam()
+        private Team? GetSelectedTeam()
         {
-            // TODO handle warning
             return toolStripComboBox_TeamSelection.SelectedItem as Team;
         }
 
@@ -163,13 +175,19 @@ namespace foot2rue.WF.HomePage
             // TODO Add all data displays to clear here
         }
 
-        private async Task RefreshDataGridView(DataDisplay dataDisplay)
+        private async Task RefreshDataDisplays()
         {
             ResetDataDisplays();
+
+            // If there is no team currently selected, don't load anything
+            Team? selectedTeam = GetSelectedTeam();
+            if (selectedTeam == null)
+                return;
+
             DataDisplay activeDataDisplay = tabControl1.SelectedTab.Controls.OfType<DataDisplay>().Single();
             // Refresh the data of the current data display right now
             // Other data displays will be refreshed by themselves when shown again
-            await activeDataDisplay.LoadData();
+            await activeDataDisplay.LoadData(selectedTeam.FifaCode);
         }
 
         #endregion
