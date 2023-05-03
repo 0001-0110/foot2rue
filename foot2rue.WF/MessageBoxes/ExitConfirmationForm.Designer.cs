@@ -41,7 +41,7 @@
             button_Confirm.TabIndex = 0;
             button_Confirm.Text = "button1";
             button_Confirm.UseVisualStyleBackColor = true;
-            button_Confirm.Click += button1_Click;
+            button_Confirm.Click += button_Confirm_Click;
             // 
             // button_Cancel
             // 
@@ -51,7 +51,7 @@
             button_Cancel.TabIndex = 1;
             button_Cancel.Text = "button2";
             button_Cancel.UseVisualStyleBackColor = true;
-            button_Cancel.Click += button2_Click;
+            button_Cancel.Click += button_Cancel_Click;
             // 
             // label1
             // 
