@@ -30,8 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InitialSetupForm));
             label_AppName = new Label();
-            panel1 = new Panel();
             button_Quit = new Button();
+            panel1 = new Panel();
             SuspendLayout();
             // 
             // label_AppName
@@ -39,17 +39,17 @@
             resources.ApplyResources(label_AppName, "label_AppName");
             label_AppName.Name = "label_AppName";
             // 
-            // panel1
-            // 
-            resources.ApplyResources(panel1, "panel1");
-            panel1.Name = "panel1";
-            // 
             // button_Quit
             // 
             resources.ApplyResources(button_Quit, "button_Quit");
             button_Quit.Name = "button_Quit";
             button_Quit.UseVisualStyleBackColor = true;
             button_Quit.Click += button_Quit_Click;
+            // 
+            // panel1
+            // 
+            resources.ApplyResources(panel1, "panel1");
+            panel1.Name = "panel1";
             // 
             // InitialSetupForm
             // 
@@ -68,7 +68,7 @@
         #endregion
 
         private Label label_AppName;
-        private Panel panel1;
         private Button button_Quit;
+        private Panel panel1;
     }
 }

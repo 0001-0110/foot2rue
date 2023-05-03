@@ -1,4 +1,5 @@
 ﻿using foot2rue.WF.InitialSetup;
+using foot2rue.WF.Extensions;
 
 namespace foot2rue.WF
 {
@@ -14,10 +15,10 @@ namespace foot2rue.WF
         private void SetControl(Control newControl)
         {
             if (control != null)
-                Controls.Remove(control);
+                panel1.Controls.Remove(control);
 
             control = newControl;
-            Controls.Add(control);
+            control.SetParent(panel1);
             control.Show();
         }
 
@@ -28,7 +29,6 @@ namespace foot2rue.WF
                 {
                     Anchor = AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom | AnchorStyles.Left,
                     Dock = DockStyle.Fill,
-                    Parent = panel1,
                 });
         }
 
@@ -38,7 +38,6 @@ namespace foot2rue.WF
                 new TeamSelectionUserControl(OnTeamValidation)
                 {
                     Dock = DockStyle.Fill,
-                    Parent = panel1,
                 });
         }
 
@@ -48,7 +47,6 @@ namespace foot2rue.WF
                 new FavoritesSelectionUserControl(OnFavoritesValidation)
                 {
                     Dock = DockStyle.Fill,
-                    Parent = panel1,
                 });
         }
 

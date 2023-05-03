@@ -31,7 +31,7 @@ namespace foot2rue.WF.HomePage
             // Get the genre from the settings
             // The genre is either loaded from the config file by the SettingsService
             // or in case of the first use, has been selected during the initial setup
-            dataService = new DataService(SettingsService.SelectedGenre);
+            dataService = new DataService();
 
             // We need to run this on the main thread (so don't use Task.Run)
             await InitSelectionComboBoxes();

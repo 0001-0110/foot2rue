@@ -29,8 +29,8 @@ namespace foot2rue.WF.InitialSetup
             SettingsService.SelectedGenre = selectedGenre;
 
             // Once we have the genre, load the teams
-            dataService = new DataService(selectedGenre);
-            IEnumerable<Team>? teams = await dataService.GetTeams();
+            dataService = new DataService();
+            IEnumerable<Team>? teams = await this.Wait(dataService.GetTeams);
             // Set the selected item to null to clear the selection
             comboBox_TeamSelection.SetItems(teams, null);
         }

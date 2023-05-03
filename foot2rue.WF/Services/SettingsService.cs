@@ -1,6 +1,7 @@
 ﻿using static foot2rue.WF.Properties.Settings;
 using foot2rue.DAL.Repositories;
 using System.Globalization;
+using System.Collections.Specialized;
 
 namespace foot2rue.WF
 {
@@ -29,6 +30,12 @@ namespace foot2rue.WF
         {
             get { return Default.SelectedTeamFifaCode; }
             set { Default.SelectedTeamFifaCode = value; }
+        }
+
+        public static StringCollection FavoritePlayers
+        {
+            get { return Default.FavoritePlayers; }
+            set { Default.FavoritePlayers = value; }
         }
 
         public static bool OfflineMode

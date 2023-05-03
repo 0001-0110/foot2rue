@@ -96,6 +96,8 @@ namespace foot2rue.WF.Services
             OfflineMode = offlineMode;
             UpdateRepository();
         }
+
+        public DataService() : this(SettingsService.SelectedGenre, SettingsService.OfflineMode) { }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         private void ResetData()
