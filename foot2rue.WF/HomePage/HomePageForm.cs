@@ -119,8 +119,8 @@ namespace foot2rue.WF.HomePage
             // Could have failed if the user forcefully close the form for example
             if (dialogResult != DialogResult.OK)
             {
-                // TODO Replace by form
-                MessageBox.Show("Failed to setup the app, now closing");
+                // TODO Do this form
+                new InitialSetupFailureForm().ShowDialog();
                 // Force quit
                 Application.Exit();
             }

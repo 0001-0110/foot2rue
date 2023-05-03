@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExitConfirmationForm));
             button_Confirm = new Button();
             button_Cancel = new Button();
             label1 = new Label();
@@ -35,43 +36,31 @@
             // 
             // button_Confirm
             // 
-            button_Confirm.Location = new Point(690, 264);
+            resources.ApplyResources(button_Confirm, "button_Confirm");
             button_Confirm.Name = "button_Confirm";
-            button_Confirm.Size = new Size(94, 29);
-            button_Confirm.TabIndex = 0;
-            button_Confirm.Text = "button1";
             button_Confirm.UseVisualStyleBackColor = true;
             button_Confirm.Click += button_Confirm_Click;
             // 
             // button_Cancel
             // 
-            button_Cancel.Location = new Point(563, 261);
+            resources.ApplyResources(button_Cancel, "button_Cancel");
             button_Cancel.Name = "button_Cancel";
-            button_Cancel.Size = new Size(94, 29);
-            button_Cancel.TabIndex = 1;
-            button_Cancel.Text = "button2";
             button_Cancel.UseVisualStyleBackColor = true;
             button_Cancel.Click += button_Cancel_Click;
             // 
             // label1
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(655, 159);
+            resources.ApplyResources(label1, "label1");
             label1.Name = "label1";
-            label1.Size = new Size(50, 20);
-            label1.TabIndex = 2;
-            label1.Text = "label1";
             // 
             // ExitConfirmationForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            resources.ApplyResources(this, "$this");
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
             Controls.Add(label1);
             Controls.Add(button_Cancel);
             Controls.Add(button_Confirm);
             Name = "ExitConfirmationForm";
-            Text = "ExitConfirmationForm";
             ResumeLayout(false);
             PerformLayout();
         }
