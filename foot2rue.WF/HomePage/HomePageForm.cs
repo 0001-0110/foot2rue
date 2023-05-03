@@ -11,7 +11,6 @@ namespace foot2rue.WF.HomePage
 {
     public partial class HomePageForm : Form
     {
-        private SettingsService settingsService => SettingsService.Instance;
         private DataService dataService;
 
         private DataDisplay? favoritesDataDisplay;
@@ -35,7 +34,7 @@ namespace foot2rue.WF.HomePage
             // Get the genre from the settings
             // The genre is either loaded from the config file by the SettingsService
             // or in case of the first use, has been selected during the initial setup
-            dataService = new DataService(settingsService.SelectedGenre);
+            dataService = new DataService(SettingsService.SelectedGenre);
 
             // We need to run this on the main thread (so don't use Task.Run)
             await InitSelectionComboBoxes();
@@ -59,7 +58,7 @@ namespace foot2rue.WF.HomePage
             }
 
             // Before exiting, we save his settings
-            settingsService.Save();
+            SettingsService.Save();
             // Then the form is closed
         }
 
@@ -75,7 +74,7 @@ namespace foot2rue.WF.HomePage
 
             Genre selectedGenre = (Genre)toolStripComboBox_GenreSelection.SelectedItem;
             dataService?.SetGenre(selectedGenre);
-            settingsService.SelectedGenre = selectedGenre;
+            SettingsService.SelectedGenre = selectedGenre;
             ResetDataDisplays();
         }
 
@@ -86,7 +85,7 @@ namespace foot2rue.WF.HomePage
                 return;
 
             Team selectedTeam = (Team)toolStripComboBox_TeamSelection.SelectedItem;
-            settingsService.SelectedTeamFifaCode = selectedTeam.FifaCode;
+            SettingsService.SelectedTeamFifaCode = selectedTeam.FifaCode;
             ResetDataDisplays();
         }
 
@@ -129,10 +128,10 @@ namespace foot2rue.WF.HomePage
 
         private async Task InitSelectionComboBoxes()
         {
-            toolStripComboBox_GenreSelection.SetItems(EnumUtility.GetEnumValues<Genre>(), settingsService.SelectedGenre);
+            toolStripComboBox_GenreSelection.SetItems(EnumUtility.GetEnumValues<Genre>(), SettingsService.SelectedGenre);
 
             IEnumerable<Team>? teams = await this.Wait(dataService!.GetTeams);
-            Team? selectedTeam = teams?.Single(team => team.FifaCode == settingsService.SelectedTeamFifaCode);
+            Team? selectedTeam = teams?.Single(team => team.FifaCode == SettingsService.SelectedTeamFifaCode);
             toolStripComboBox_TeamSelection.SetItems(teams, selectedTeam);
         }
 

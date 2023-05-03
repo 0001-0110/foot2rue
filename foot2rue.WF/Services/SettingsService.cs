@@ -4,43 +4,33 @@ using System.Globalization;
 
 namespace foot2rue.WF
 {
-    internal class SettingsService
+    internal static class SettingsService
     {
-        // Eager singleton since this is always gonna be needed
-        public static SettingsService Instance = new SettingsService();
-
-        public Genre SelectedGenre
+        public static Genre SelectedGenre
         {
             get { return (Genre)Default.SelectedGenre; }
             set { Default.SelectedGenre = (int)value; }
         }
 
-        public string SelectedTeamFifaCode
+        public static string SelectedTeamFifaCode
         {
             get { return Default.SelectedTeamFifaCode; }
             set { Default.SelectedTeamFifaCode = value; }
         }
 
-        public bool OfflineMode
+        public static bool OfflineMode
         {
             get { return Default.OfflineMode; }
             set { Default.OfflineMode = value; }
         }
 
-        public CultureInfo Culture
+        public static CultureInfo Culture
         {
             get { return new CultureInfo(Default.CultureLCID); }
             set { Default.CultureLCID = value.LCID; }
         }
 
-        private SettingsService() 
-        {
-#if DEBUG
-            Default.Reset();
-#endif
-        }
-
-        public void Save()
+        public static void Save()
         {
             Default.Save();
         }

@@ -37,8 +37,8 @@ namespace foot2rue.WF.InitialSetup
                 return;
             }
 
-            SettingsService.Instance.Culture = (CultureInfo)comboBox1.SelectedItem;
-            // TODO Should we save ?
+            SettingsService.Culture = (CultureInfo)comboBox1.SelectedItem;
+            SettingsService.Save();
             onValidate.Invoke();
         }
     }

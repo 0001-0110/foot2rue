@@ -26,18 +26,19 @@ namespace foot2rue.WF.InitialSetup
         private async void comboBox_GenreSelection_SelectedIndexChanged(object sender, EventArgs e)
         {
             Genre selectedGenre = (Genre)comboBox_GenreSelection.SelectedItem;
-            SettingsService.Instance.SelectedGenre = selectedGenre;
+            SettingsService.SelectedGenre = selectedGenre;
 
             // Once we have the genre, load the teams
             dataService = new DataService(selectedGenre);
             IEnumerable<Team>? teams = await dataService.GetTeams();
+            // Set the selected item to null to clear the selection
             comboBox_TeamSelection.SetItems(teams, null);
         }
 
         private void comboBox_TeamSelection_SelectedIndexChanged(object sender, EventArgs e)
         {
             Team selectedTeam = (Team)comboBox_TeamSelection.SelectedItem;
-            SettingsService.Instance.SelectedTeamFifaCode = selectedTeam.FifaCode;
+            SettingsService.SelectedTeamFifaCode = selectedTeam.FifaCode;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -48,7 +49,7 @@ namespace foot2rue.WF.InitialSetup
                 return;
             }
 
-            SettingsService.Instance.Save();
+            SettingsService.Save();
             onValidate.Invoke();
         }
     }
