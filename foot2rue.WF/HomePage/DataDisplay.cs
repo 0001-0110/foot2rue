@@ -44,8 +44,11 @@ namespace foot2rue.WF.HomePage
             IEnumerable<Control>? data = await loadDataFunction(fifaCode);
             pictureBox_Loading.Hide();
             if (data == null)
+            {
                 // Loading of the data failed, displaying the error
                 pictureBox_NoData.Show();
+                return;
+            }
 
             // Show the data
             foreach (Control control in data)

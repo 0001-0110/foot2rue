@@ -6,6 +6,19 @@ namespace foot2rue.WF
 {
     internal static class SettingsService
     {
+#if DEBUG
+        static SettingsService()
+        {
+            Default.Reset();
+        }
+#endif
+
+        public static bool FirstLaunch
+        {
+            get { return Default.FirstLaunch; }
+            set { Default.FirstLaunch = value; }
+        }
+
         public static Genre SelectedGenre
         {
             get { return (Genre)Default.SelectedGenre; }
@@ -28,6 +41,11 @@ namespace foot2rue.WF
         {
             get { return new CultureInfo(Default.CultureLCID); }
             set { Default.CultureLCID = value.LCID; }
+        }
+
+        public static bool HasValues()
+        {
+            return Default.Properties.Count > 0;
         }
 
         public static void Save()

@@ -24,9 +24,8 @@ namespace foot2rue.WF.HomePage
 
         private async void HomePageForm_Shown(object? sender, EventArgs e)
         {
-            // TODO
             // If there already is a settings file, we can skip the initial setup
-            if (!File.Exists(""))
+            if (SettingsService.FirstLaunch)
                 InitialSetup();
 
             // Get the genre from the settings
@@ -126,6 +125,7 @@ namespace foot2rue.WF.HomePage
                 // Force quit
                 Application.Exit();
             }
+            SettingsService.FirstLaunch = false;
         }
 
         private async Task InitSelectionComboBoxes()
@@ -187,7 +187,7 @@ namespace foot2rue.WF.HomePage
             DataDisplay activeDataDisplay = tabControl1.SelectedTab.Controls.OfType<DataDisplay>().Single();
             // Refresh the data of the current data display right now
             // Other data displays will be refreshed by themselves when shown again
-            await activeDataDisplay.LoadData(selectedTeam.FifaCode);
+            await this.Wait(async () => await activeDataDisplay.LoadData(selectedTeam.FifaCode));
         }
 
         #endregion
