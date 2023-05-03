@@ -14,8 +14,7 @@ namespace foot2rue.DAL.Repositories
 
         protected virtual async Task<IEnumerable<T>?> GetRequest<T>(string url)
         {
-            // TODO might not be the best way to handle errors
-            // Some more refined code might be needed here
+            // Kinda ugly, but it'll do
             try
             {
                 using (HttpClient client = new HttpClient())
@@ -23,7 +22,7 @@ namespace foot2rue.DAL.Repositories
                 using (HttpContent content = response.Content)
                     return JsonConvert.DeserializeObject<IEnumerable<T>>(await content.ReadAsStringAsync());
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 return null;
             }

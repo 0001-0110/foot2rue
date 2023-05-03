@@ -6,7 +6,7 @@ namespace foot2rue.WF.Extensions
     {
         public static void Clear(this DataGridView dataGridView)
         {
-            // TODO What is the best way to do this ?
+            // What is the best way to do this ?
             //dataGridView.Rows.Clear();
             dataGridView.DataSource = null;
         }

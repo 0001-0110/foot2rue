@@ -22,6 +22,10 @@
 
         public static void SetItems<T>(this ToolStripComboBox comboBox, IEnumerable<T>? items, int selectedIndex = -1)
         {
+            // This line is creating exception that I can't catch when the app is closed during setup
+            // I don't know why, I can't figure out how to fix it, and these exceptions are not creating any issues
+            // TODO Ignore for now
+            // Fix attempt counter: 3
             comboBox.Items.Clear();
 
             if (items == null)

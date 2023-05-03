@@ -18,7 +18,7 @@ namespace foot2rue.WF.InitialSetup
             this.onValidate = onValidate;
         }
 
-        private async void TeamSelectionUserControl_Load(object sender, EventArgs e)
+        private void TeamSelectionUserControl_Load(object sender, EventArgs e)
         {
             comboBox_GenreSelection.SetItems(EnumUtility.GetEnumValues<Genre>(), -1);
         }
