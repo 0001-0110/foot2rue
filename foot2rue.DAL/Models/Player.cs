@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.ComponentModel;
 
 namespace foot2rue.DAL.Models
 {
@@ -16,10 +15,5 @@ namespace foot2rue.DAL.Models
 
         [JsonProperty("position")]
         public string Position { get; set; }
-
-        // TODO how to handle this thing ?
-        // This attributes is not part of the API
-        [DefaultValue(false)]
-        public bool IsFavorite { get; set; }
     }
 }

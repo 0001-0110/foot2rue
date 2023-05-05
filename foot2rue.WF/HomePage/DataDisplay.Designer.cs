@@ -42,6 +42,7 @@
             dataGridView.Dock = DockStyle.Fill;
             dataGridView.Location = new Point(0, 0);
             dataGridView.Name = "dataGridView";
+            dataGridView.ReadOnly = true;
             dataGridView.RowHeadersWidth = 51;
             dataGridView.Size = new Size(628, 373);
             dataGridView.TabIndex = 0;

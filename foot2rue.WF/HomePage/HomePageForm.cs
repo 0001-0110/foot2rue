@@ -144,15 +144,15 @@ namespace foot2rue.WF.HomePage
             // This is hard to watch
             favoritesDataDisplay = new DataDisplay(
                 async (string fifaCode) => (await dataService!.GetPlayersByFifaCode(fifaCode))?
-                .Where(player => player.IsFavorite)
-                .Select(player => new PlayerDisplayUserControl(player)))
+                .Where(player => SettingsService.FavoritePlayers.Contains(player.Name))
+                .Select(player => new PlayerDisplayUserControl(player, true)))
             {
                 Parent = tabControl1.TabPages[0],
                 Dock = DockStyle.Fill,
             };
             allPlayersDataDisplay = new DataDisplay(
                 async (string fifaCode) => (await dataService!.GetPlayersByFifaCode(fifaCode))?
-                .Select(player => new PlayerDisplayUserControl(player)))
+                .Select(player => new PlayerDisplayUserControl(player, SettingsService.FavoritePlayers.Contains(player.Name))))
             {
                 Parent = tabControl1.TabPages[1],
                 Dock = DockStyle.Fill,

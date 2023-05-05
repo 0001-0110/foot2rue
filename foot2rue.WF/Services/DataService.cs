@@ -1,5 +1,8 @@
 ﻿using foot2rue.DAL.Models;
 using foot2rue.DAL.Repositories;
+using foot2rue.WF.Extensions;
+using foot2rue.WF.Models;
+using System.Reflection;
 
 namespace foot2rue.WF.Services
 {
@@ -53,15 +56,23 @@ namespace foot2rue.WF.Services
             return matchesByFifaCode[fifaCode];
         }
 
-        private Dictionary<string, IEnumerable<Player>?> playersByFifaCode = new Dictionary<string, IEnumerable<Player>?>();
-        public async Task<IEnumerable<Player>?> GetPlayersByFifaCode(string fifaCode)
+        private Dictionary<string, IEnumerable<Models.Player>?> playersByFifaCode = new Dictionary<string, IEnumerable<Models.Player>?>();
+        public async Task<IEnumerable<Models.Player>?> GetPlayersByFifaCode(string fifaCode)
         {
             if (!playersByFifaCode.ContainsKey(fifaCode))
             {
+                // Get players from the repo
                 Match? match = (await Task.Run(() => repository.GetMatchesByFifaCode(fifaCode)))?.ElementAt(0);
                 Statistics? teamStatistics = match?.HomeTeam.FifaCode == fifaCode ? match?.HomeTeamStatistics : match?.AwayTeamStatistics;
-                playersByFifaCode.Add(fifaCode, teamStatistics?.StartingEleven.Union(teamStatistics.Substitutes));
+                IEnumerable<DAL.Models.Player>? players = teamStatistics?.StartingEleven.Concat(teamStatistics.Substitutes);
+
+                // Convert those players to BLL model using the events of the matches
+                IEnumerable<Match>? matches = await GetMatchesByFifaCode(fifaCode);
+                IEnumerable<Event>? events = matches?.SelectMany(
+                    match => match.HomeTeam.FifaCode == fifaCode ? match.HomeTeamEvents : match.AwayTeamEvents);
+                playersByFifaCode.Add(fifaCode, players?.Select(player => GetBllPlayer(player, events)));
             }
+
             return playersByFifaCode[fifaCode];
         }
 
@@ -113,6 +124,19 @@ namespace foot2rue.WF.Services
         private void UpdateRepository()
         {
             repository = OfflineMode ? new JsonRepository(Genre) : new ApiRepository(Genre);
+        }
+
+        private Models.Player GetBllPlayer(DAL.Models.Player player, IEnumerable<Event> events)
+        {
+            // Copy all the data from DAL Player
+            Models.Player BllPlayer = player.ExtendParentClass<DAL.Models.Player, Models.Player>();
+            // Add additional data needed
+            BllPlayer.Goals = events.Count(_event => _event.Player == BllPlayer.Name && _event.Type.Contains("goal"));
+            BllPlayer.YellowCards = events.Count(_event => _event.Player == BllPlayer.Name && _event.Type == "yellow-card");
+            BllPlayer.IsFavorite = SettingsService.FavoritePlayers?.Contains(player.Name) ?? false;
+            // TODO How to get the image ?
+            //BllPlayer.Image;
+            return BllPlayer;
         }
     }
 }

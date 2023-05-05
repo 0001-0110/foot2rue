@@ -18,7 +18,7 @@ namespace foot2rue.DAL.Models
         [JsonProperty("id")]
         public int Id { get; set; }
 
-        [JsonProperty("type")]
+        [JsonProperty("type_of_event")]
         public string Type { get; set; }
 
         [JsonProperty("player")]

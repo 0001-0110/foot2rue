@@ -32,7 +32,7 @@ namespace foot2rue.WF
             set { Default.SelectedTeamFifaCode = value; }
         }
 
-        public static StringCollection FavoritePlayers
+        public static StringCollection? FavoritePlayers
         {
             get { return Default.FavoritePlayers; }
             set { Default.FavoritePlayers = value; }
