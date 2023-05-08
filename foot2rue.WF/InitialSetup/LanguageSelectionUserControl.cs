@@ -16,7 +16,7 @@ namespace foot2rue.WF.InitialSetup
 
         private void LanguageSelectionUserControl_Load(object sender, EventArgs e)
         {
-            comboBox1.DisplayMember = "DisplayName";
+            comboBox1.DisplayMember = "NativeName";
             CultureInfo systemCulture = CultureInfo.CurrentCulture;
             List<CultureInfo> supportedLanguages = LocalizationUtility.GetAllSupportedLanguages().ToList();
             // If the systemCulture is not part of the supported culture, the comboBox will stay empty
