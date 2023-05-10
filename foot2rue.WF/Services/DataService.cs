@@ -2,6 +2,8 @@
 using foot2rue.DAL.Repositories;
 using foot2rue.WF.Extensions;
 using foot2rue.WF.Models;
+using foot2rue.WF.Utilities;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace foot2rue.WF.Services
@@ -68,9 +70,11 @@ namespace foot2rue.WF.Services
 
                 // Convert those players to BLL model using the events of the matches
                 IEnumerable<Match>? matches = await GetMatchesByFifaCode(fifaCode);
+                IEnumerable<Statistics>? statistics = matches?.Select(
+                    match => match.HomeTeam.FifaCode == fifaCode ? match.HomeTeamStatistics : match.AwayTeamStatistics);
                 IEnumerable<Event>? events = matches?.SelectMany(
                     match => match.HomeTeam.FifaCode == fifaCode ? match.HomeTeamEvents : match.AwayTeamEvents);
-                playersByFifaCode.Add(fifaCode, players?.Select(player => GetBllPlayer(player, events)));
+                playersByFifaCode.Add(fifaCode, ExtendPlayers(players, statistics, events));
             }
 
             return playersByFifaCode[fifaCode];
@@ -126,17 +130,56 @@ namespace foot2rue.WF.Services
             repository = OfflineMode ? new JsonRepository(Genre) : new ApiRepository(Genre);
         }
 
-        private Models.Player GetBllPlayer(DAL.Models.Player player, IEnumerable<Event> events)
+        private IEnumerable<Models.Player> ExtendPlayers(IEnumerable<DAL.Models.Player>? players, IEnumerable<Statistics>? statistics,IEnumerable<Event>? events)
         {
-            // Copy all the data from DAL Player
-            Models.Player BllPlayer = player.ExtendParentClass<DAL.Models.Player, Models.Player>();
-            // Add additional data needed
-            BllPlayer.Goals = events.Count(_event => _event.Player == BllPlayer.Name && _event.Type.Contains("goal"));
-            BllPlayer.YellowCards = events.Count(_event => _event.Player == BllPlayer.Name && _event.Type == "yellow-card");
-            BllPlayer.IsFavorite = SettingsService.FavoritePlayers?.Contains(player.Name) ?? false;
-            // TODO How to get the image ?
-            //BllPlayer.Image;
-            return BllPlayer;
+            if (players == null)
+                return Enumerable.Empty<Models.Player>();
+
+            // Copy all the data from DAL Players
+            // Check if this player is a favorite
+            // TODO Get the image of the player
+            Dictionary<string, Models.Player> extendedPlayers = new Dictionary<string, Models.Player>();
+            foreach (DAL.Models.Player player in players)
+            {
+                Models.Player extendedPlayer = player.ExtendParentClass<DAL.Models.Player, Models.Player>();
+                extendedPlayer.IsFavorite = SettingsService.FavoritePlayers?.Contains(player.Name) ?? false;
+                // TODO How to get the image ?
+                //BllPlayer.Image = ;
+                extendedPlayers.Add(player.Name, extendedPlayer);
+            }
+
+            // If statistics is null, skip this count
+            // Players that are present at the start of the match
+            foreach (Statistics stats in statistics ?? Enumerable.Empty<Statistics>())
+                foreach (var player in stats.StartingEleven)
+                    extendedPlayers[player.Name].MatchesPalyed++;
+
+            // If event is null, skip this part
+            // Count players that are:
+            // Scoring
+            // Gets a yellow card
+            // Joining during a match (If a player joins a match twice, it will be counted for two different matches)
+            foreach (Event matchEvent in events ?? Enumerable.Empty<Event>())
+            {
+                Models.Player player = extendedPlayers[matchEvent.Player];
+                switch (matchEvent.Type)
+                {
+                    // Hard coding is ugly, but it'll do
+                    case "goal":
+                    case "goal-penalty":
+                    case "goal-own":
+                        player.Goals++;
+                        break;
+                    case "yellow-card":
+                        player.YellowCards++;
+                        break;
+                    case "substitution-in":
+                        player.MatchesPalyed++;
+                        break;
+                }
+            }
+
+            return extendedPlayers.Select(pair => pair.Value).AsEnumerable();
         }
     }
 }

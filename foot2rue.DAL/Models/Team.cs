@@ -13,6 +13,9 @@ namespace foot2rue.DAL.Models
         [JsonProperty("fifa_code")]
         public string FifaCode { get; set; }
 
+        [JsonProperty("code")]
+        public string Code { set { FifaCode = value; } }
+
         [JsonProperty("group_id")]
         public int GroupId { get; set; }
 
