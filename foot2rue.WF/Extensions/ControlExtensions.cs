@@ -46,34 +46,19 @@ namespace foot2rue.WF.Extensions
             return controls;
         }
 
-        /*public static void LoadLocalization(this Control control, CultureInfo culture)
+        public static void LoadLocalization(this Control control)
         {
-            RefreshCulture(control, culture, new ComponentResourceManager(control.GetType()));
+            control.LoadLocalization(LocalizationService.Instance.Culture);
         }
 
-        public static void LoadLocalization(this Control control, CultureInfo culture, ComponentResourceManager resourceManager)
-        {
-            // TODO does this thing work ?
-            resourceManager.ApplyResources(control, control.Name, culture);
-
-            // Recursive call to refresh everything inside this component
-            foreach (Control child in control.Controls)
-                RefreshCulture(child, culture, resourceManager);
-        }*/
-
-        public static async Task LoadLocalization(this Control control)
-        {
-            await control.LoadLocalization(CultureInfo.CurrentCulture);
-        }
-
-        public static async Task LoadLocalization(this Control control, CultureInfo culture)
+        public static void LoadLocalization(this Control control, CultureInfo culture)
         {
             if (control.Tag is string)
-                control.Text = await LocalizationService.Instance.GetLocalizedString((string)control.Tag);
+                control.Text = LocalizationService.Instance.GetLocalizedString((string)control.Tag);
 
             // Recursive call to refresh everything inside this component
             foreach (Control child in control.Controls)
-                await LoadLocalization(child, culture);
+                LoadLocalization(child, culture);
         }
     }
 }

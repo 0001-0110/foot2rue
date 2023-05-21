@@ -34,7 +34,7 @@
             toolStripComboBox_GenreSelection = new ToolStripComboBox();
             toolStripSeparator1 = new ToolStripSeparator();
             toolStripComboBox_TeamSelection = new ToolStripComboBox();
-            toolStripButton1 = new ToolStripButton();
+            toolStripButton_Settings = new ToolStripButton();
             tabControl1 = new TabControl();
             favoriteTabPage = new TabPage();
             allPlayersTabPage = new TabPage();
@@ -45,7 +45,7 @@
             // toolStrip1
             // 
             toolStrip1.ImageScalingSize = new Size(20, 20);
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripComboBox_GenreSelection, toolStripSeparator1, toolStripComboBox_TeamSelection, toolStripButton1 });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripComboBox_GenreSelection, toolStripSeparator1, toolStripComboBox_TeamSelection, toolStripButton_Settings });
             resources.ApplyResources(toolStrip1, "toolStrip1");
             toolStrip1.Name = "toolStrip1";
             // 
@@ -68,12 +68,13 @@
             resources.ApplyResources(toolStripComboBox_TeamSelection, "toolStripComboBox_TeamSelection");
             toolStripComboBox_TeamSelection.SelectedIndexChanged += toolStripComboBox_TeamSelection_SelectedIndexChanged;
             // 
-            // toolStripButton1
+            // toolStripButton_Settings
             // 
-            toolStripButton1.Alignment = ToolStripItemAlignment.Right;
-            toolStripButton1.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            resources.ApplyResources(toolStripButton1, "toolStripButton1");
-            toolStripButton1.Name = "toolStripButton1";
+            toolStripButton_Settings.Alignment = ToolStripItemAlignment.Right;
+            toolStripButton_Settings.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(toolStripButton_Settings, "toolStripButton_Settings");
+            toolStripButton_Settings.Name = "toolStripButton_Settings";
+            toolStripButton_Settings.Click += toolStripButton_Settings_Click;
             // 
             // tabControl1
             // 
@@ -118,7 +119,7 @@
         private ToolStripComboBox toolStripComboBox_GenreSelection;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripComboBox toolStripComboBox_TeamSelection;
-        private ToolStripButton toolStripButton1;
+        private ToolStripButton toolStripButton_Settings;
         private TabControl tabControl1;
         private TabPage favoriteTabPage;
         private TabPage allPlayersTabPage;

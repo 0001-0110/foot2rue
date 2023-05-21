@@ -1,4 +1,6 @@
-﻿namespace foot2rue.WF.Localization
+﻿using System.Globalization;
+
+namespace foot2rue.WF.Localization
 {
     internal enum SupportedLanguage
     {

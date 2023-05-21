@@ -10,6 +10,7 @@ namespace foot2rue.WF
         public InitialSetupForm()
         {
             InitializeComponent();
+            this.LoadLocalization();
         }
 
         private void SetControl(Control newControl)

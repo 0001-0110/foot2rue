@@ -1,4 +1,4 @@
-﻿using foot2rue.WF.Utilities;
+﻿using foot2rue.WF.Services;
 using System.Globalization;
 
 namespace foot2rue.WF.Extensions
@@ -51,8 +51,8 @@ namespace foot2rue.WF.Extensions
         public static void LoadLanguageSelection(this ComboBox comboBox)
         {
             comboBox.DisplayMember = "NativeName";
-            CultureInfo systemCulture = CultureInfo.CurrentCulture;
-            List<CultureInfo> supportedLanguages = LocalizationUtility.GetAllSupportedLanguages().ToList();
+            CultureInfo systemCulture = LocalizationService.Instance.Culture;
+            List<CultureInfo> supportedLanguages = LocalizationService.GetAllSupportedLanguages().ToList();
             // If the systemCulture is not part of the supported culture, the comboBox will stay empty
             comboBox.SetItems(supportedLanguages, systemCulture);
         }

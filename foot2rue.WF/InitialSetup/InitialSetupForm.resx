@@ -103,7 +103,7 @@
     <value>2</value>
   </data>
   <data name="button_Quit.Text" xml:space="preserve">
-    <value>Quit</value>
+    <value>button_Quit</value>
   </data>
   <data name="&gt;&gt;button_Quit.Name" xml:space="preserve">
     <value>button_Quit</value>

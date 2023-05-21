@@ -3,6 +3,7 @@ using foot2rue.DAL.Repositories;
 using foot2rue.WF.Extensions;
 using foot2rue.WF.MessageBoxes;
 using foot2rue.WF.Services;
+using foot2rue.WF.Settings;
 using foot2rue.WF.Utilities;
 using System.Data;
 
@@ -94,7 +95,7 @@ namespace foot2rue.WF.HomePage
 
         #region TabControl event handlers
 
-        private async void tabControl1_SelectedIndexChanged(object? sender, EventArgs e)
+        private void tabControl1_SelectedIndexChanged(object? sender, EventArgs e)
         {
             // TODO
             // Find the data grid view
@@ -126,6 +127,7 @@ namespace foot2rue.WF.HomePage
                 Application.Exit();
             }
             SettingsService.FirstLaunch = false;
+            SettingsService.Save();
         }
 
         private async Task InitSelectionComboBoxes()
@@ -191,5 +193,17 @@ namespace foot2rue.WF.HomePage
         }
 
         #endregion
+
+        private void toolStripButton_Settings_Click(object sender, EventArgs e)
+        {
+            SettingsForm settingsForm = new SettingsForm();
+            settingsForm.ShowDialog();
+            if (settingsForm.SettingsDialogResult.HasFlag(SettingsDialogResult.Cancel))
+                return;
+            if (settingsForm.SettingsDialogResult.HasFlag(SettingsDialogResult.LanguageChanged))
+                this.LoadLocalization();
+            if (settingsForm.SettingsDialogResult.HasFlag(SettingsDialogResult.OfflineModeChanged))
+                dataService!.SetOfflineMode(SettingsService.OfflineMode);
+        }
     }
 }

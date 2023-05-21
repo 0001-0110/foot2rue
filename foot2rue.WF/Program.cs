@@ -1,6 +1,7 @@
 using foot2rue.WF.Services;
 using System.Globalization;
 using foot2rue.WF.HomePage;
+using System.Diagnostics;
 
 namespace foot2rue.WF
 {
@@ -10,7 +11,7 @@ namespace foot2rue.WF
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
-        static int Main()
+        public static int Main()
         {
             try
             {

@@ -25,7 +25,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="LocalizationFiles\fr.xml">
+    <None Update="Localization\LocalizationFiles\de-DE.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Localization\LocalizationFiles\en-UK.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Localization\LocalizationFiles\hr-HR.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Localization\LocalizationFiles\en-US.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Localization\LocalizationFiles\fr-FR.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Properties\Settings.settings">

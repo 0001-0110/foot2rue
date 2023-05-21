@@ -43,6 +43,7 @@
             // 
             resources.ApplyResources(button_Quit, "button_Quit");
             button_Quit.Name = "button_Quit";
+            button_Quit.Tag = "{button_Quit}";
             button_Quit.UseVisualStyleBackColor = true;
             button_Quit.Click += button_Quit_Click;
             // 

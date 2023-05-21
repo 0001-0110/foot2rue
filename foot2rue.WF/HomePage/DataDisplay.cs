@@ -51,9 +51,9 @@ namespace foot2rue.WF.HomePage
             }
 
             // Show the data
-            foreach (Control control in data)
-                // TODO
-                throw new NotImplementedException();
+            //foreach (Control control in data)
+                // TODO Add each control to the flow layout panel
+                //throw new NotImplementedException();
         }
     }
 }
