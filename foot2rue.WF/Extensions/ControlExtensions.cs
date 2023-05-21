@@ -1,4 +1,7 @@
-﻿namespace foot2rue.WF.Extensions
+﻿using foot2rue.WF.Services;
+using System.Globalization;
+
+namespace foot2rue.WF.Extensions
 {
     internal static class ControlExtensions
     {
@@ -41,6 +44,36 @@
             IEnumerable<T> controls = new List<T>();
             control.FindChildrenOfType(ref controls, recursive);
             return controls;
+        }
+
+        /*public static void LoadLocalization(this Control control, CultureInfo culture)
+        {
+            RefreshCulture(control, culture, new ComponentResourceManager(control.GetType()));
+        }
+
+        public static void LoadLocalization(this Control control, CultureInfo culture, ComponentResourceManager resourceManager)
+        {
+            // TODO does this thing work ?
+            resourceManager.ApplyResources(control, control.Name, culture);
+
+            // Recursive call to refresh everything inside this component
+            foreach (Control child in control.Controls)
+                RefreshCulture(child, culture, resourceManager);
+        }*/
+
+        public static async Task LoadLocalization(this Control control)
+        {
+            await control.LoadLocalization(CultureInfo.CurrentCulture);
+        }
+
+        public static async Task LoadLocalization(this Control control, CultureInfo culture)
+        {
+            if (control.Tag is string)
+                control.Text = await LocalizationService.Instance.GetLocalizedString((string)control.Tag);
+
+            // Recursive call to refresh everything inside this component
+            foreach (Control child in control.Controls)
+                await LoadLocalization(child, culture);
         }
     }
 }

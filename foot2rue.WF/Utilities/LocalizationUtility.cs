@@ -11,6 +11,16 @@ namespace foot2rue.WF.Utilities
                 yield return new CultureInfo((int)language);
         }
 
+        public static CultureInfo GetCulture()
+        {
+            return CultureInfo.CurrentCulture;
+        }
+
+        public static bool IsCurrentCulture(CultureInfo culture)
+        {
+            return GetCulture().Equals(culture);
+        }
+
         public static void SetCulture(CultureInfo culture)
         {
             // Localization

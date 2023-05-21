@@ -26,7 +26,13 @@ namespace foot2rue.WF.InitialSetup
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             CultureInfo selectedCulture = (CultureInfo)comboBox1.SelectedItem;
+
+            // Same language selected, no need to do anything
+            if (LocalizationUtility.IsCurrentCulture(selectedCulture))
+                return;
+
             LocalizationUtility.SetCulture(selectedCulture);
+            ParentForm.LoadLocalization(selectedCulture);
         }
 
         private void validate_Click(object sender, EventArgs e)
