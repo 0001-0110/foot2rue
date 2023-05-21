@@ -136,6 +136,7 @@ namespace foot2rue.WF.Services
                 return Enumerable.Empty<Models.Player>();
 
             // Copy all the data from DAL Players
+            // We store players in a dictionary so that the search complexity is O(1)
             // Check if this player is a favorite
             // TODO Get the image of the player
             Dictionary<string, Models.Player> extendedPlayers = new Dictionary<string, Models.Player>();
@@ -151,7 +152,7 @@ namespace foot2rue.WF.Services
             // If statistics is null, skip this count
             // Players that are present at the start of the match
             foreach (Statistics stats in statistics ?? Enumerable.Empty<Statistics>())
-                foreach (var player in stats.StartingEleven)
+                foreach (DAL.Models.Player player in stats.StartingEleven)
                     extendedPlayers[player.Name].MatchesPalyed++;
 
             // If event is null, skip this part

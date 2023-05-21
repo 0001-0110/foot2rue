@@ -13,18 +13,18 @@ namespace foot2rue.WF.Extensions
             // Get the properties
             PropertyInfo[] properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
-            var dataTable = new DataTable(typeof(T).Name);
+            DataTable dataTable = new DataTable(typeof(T).Name);
 
             // Create a new column for each property
-            foreach (var property in properties)
+            foreach (PropertyInfo property in properties)
                 dataTable.Columns.Add(property.Name, property.PropertyType);
 
             // Create a new row for each item
-            foreach (var item in items)
+            foreach (T? item in items)
             {
                 // Create a list of object, that where each value contains a property of this item
-                var values = new object[properties.Length];
-                for (var i = 0; i < properties.Length; i++)
+                object[] values = new object[properties.Length];
+                for (int i = 0; i < properties.Length; i++)
                     // TODO Can this warning be ignored ?
                     values[i] = properties[i].GetValue(item, null);
 

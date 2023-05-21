@@ -13,7 +13,7 @@ namespace foot2rue.WF.Extensions
 
         public static async Task<bool> LoadData<T>(this DataGridView dataGridView, Func<Task<IEnumerable<T>?>> loadingFunction)
         {
-            var data = await loadingFunction();
+            IEnumerable<T>? data = await loadingFunction();
             if (data == null)
             {
                 dataGridView.Clear();
