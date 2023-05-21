@@ -1,4 +1,7 @@
-﻿namespace foot2rue.WF.Extensions
+﻿using foot2rue.WF.Utilities;
+using System.Globalization;
+
+namespace foot2rue.WF.Extensions
 {
     internal static class ComboBoxExtensions
     {
@@ -43,6 +46,15 @@
         public static void SetItems<T>(this ToolStripComboBox comboBox, IEnumerable<T>? items, T selectedItem)
         {
             comboBox.SetItems(items, items?.ToList().IndexOf(selectedItem) ?? -1);
+        }
+
+        public static void LoadLanguageSelection(this ComboBox comboBox)
+        {
+            comboBox.DisplayMember = "NativeName";
+            CultureInfo systemCulture = CultureInfo.CurrentCulture;
+            List<CultureInfo> supportedLanguages = LocalizationUtility.GetAllSupportedLanguages().ToList();
+            // If the systemCulture is not part of the supported culture, the comboBox will stay empty
+            comboBox.SetItems(supportedLanguages, systemCulture);
         }
     }
 }
