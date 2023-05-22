@@ -14,8 +14,9 @@ namespace foot2rue.WF.InitialSetup
 
         public TeamSelectionUserControl(Action onValidate)
         {
-            InitializeComponent();
             this.onValidate = onValidate;
+            InitializeComponent();
+            this.LoadLocalization();
         }
 
         private void TeamSelectionUserControl_Load(object sender, EventArgs e)

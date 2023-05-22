@@ -1,4 +1,5 @@
 ﻿using foot2rue.DAL.Models;
+using foot2rue.WF.Extensions;
 
 namespace foot2rue.WF.InitialSetup
 {
@@ -8,8 +9,9 @@ namespace foot2rue.WF.InitialSetup
 
         public PlayerDisplayUserControl(Player player)
         {
-            InitializeComponent();
             Player = player;
+            InitializeComponent();
+            this.LoadLocalization();
         }
     }
 }

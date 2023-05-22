@@ -14,8 +14,9 @@ namespace foot2rue.WF.InitialSetup
         public LanguageSelectionUserControl(Action onValidate)
         {
             localizationService = LocalizationService.Instance;
-            InitializeComponent();
             this.onValidate += onValidate;
+            InitializeComponent();
+            this.LoadLocalization();
         }
 
         private void LanguageSelectionUserControl_Load(object sender, EventArgs e)

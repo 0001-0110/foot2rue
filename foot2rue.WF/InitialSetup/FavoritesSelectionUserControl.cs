@@ -10,8 +10,9 @@ namespace foot2rue.WF.InitialSetup
 
         public FavoritesSelectionUserControl(Action onValidation)
         {
-            InitializeComponent();
             this.onValidation = onValidation;
+            InitializeComponent();
+            this.LoadLocalization();
         }
 
         private async void FavoritesSelectionUserControl_Load(object sender, EventArgs e)

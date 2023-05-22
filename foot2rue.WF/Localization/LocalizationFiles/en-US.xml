@@ -7,4 +7,6 @@
 	<string name="Button_Settings">Settings</string>
 	<string name="TabPage_FavoritePlayers">Favorites</string>
 	<string name="TabPage_AllPlayers">All players</string>
+	<!-- Exit Confirmation -->
+	<string name="Label_QuitConfirmation">You are about to quit the app, Are you sure ?</string>
 </localization>

@@ -54,7 +54,7 @@
             // 
             resources.ApplyResources(label1, "label1");
             label1.Name = "label1";
-            label1.Tag = "{Button_QuitConfirmation}";
+            label1.Tag = "{Label_QuitConfirmation}";
             // 
             // ExitConfirmationForm
             // 
@@ -65,7 +65,6 @@
             Controls.Add(button_Confirm);
             Name = "ExitConfirmationForm";
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
