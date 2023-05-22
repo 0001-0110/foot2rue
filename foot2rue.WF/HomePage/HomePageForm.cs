@@ -19,6 +19,7 @@ namespace foot2rue.WF.HomePage
         public HomePageForm()
         {
             InitializeComponent();
+            this.LoadLocalization();
         }
 
         #region Form event handlers

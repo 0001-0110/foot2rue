@@ -1,5 +1,6 @@
 ﻿using foot2rue.WF.Services;
 using System.Globalization;
+using System.Windows.Forms.Layout;
 
 namespace foot2rue.WF.Extensions
 {
@@ -64,9 +65,23 @@ namespace foot2rue.WF.Extensions
             if (control.Tag is string)
                 control.Text = LocalizationService.Instance.GetLocalizedString((string)control.Tag);
 
+
             // Recursive call to refresh everything inside this component
+            if (control is ToolStrip)
+            {
+                foreach (ToolStripItem child in ((ToolStrip)control).Items)
+                    child.LoadLocalization(culture);
+                return;
+            }
+
             foreach (Control child in control.Controls)
-                LoadLocalization(child, culture);
+                (child as ToolStrip ?? child).LoadLocalization(culture);
+        }
+
+        public static void LoadLocalization(this ToolStripItem control, CultureInfo culture)
+        {
+            if (control.Tag is string)
+                control.Text = LocalizationService.Instance.GetLocalizedString((string)control.Tag);
         }
     }
 }

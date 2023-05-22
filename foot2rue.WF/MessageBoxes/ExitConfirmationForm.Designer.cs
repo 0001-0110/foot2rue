@@ -38,6 +38,7 @@
             // 
             resources.ApplyResources(button_Confirm, "button_Confirm");
             button_Confirm.Name = "button_Confirm";
+            button_Confirm.Tag = "{Button_Quit}";
             button_Confirm.UseVisualStyleBackColor = true;
             button_Confirm.Click += button_Confirm_Click;
             // 
@@ -45,6 +46,7 @@
             // 
             resources.ApplyResources(button_Cancel, "button_Cancel");
             button_Cancel.Name = "button_Cancel";
+            button_Cancel.Tag = "{Button_Cancel}";
             button_Cancel.UseVisualStyleBackColor = true;
             button_Cancel.Click += button_Cancel_Click;
             // 
@@ -52,6 +54,7 @@
             // 
             resources.ApplyResources(label1, "label1");
             label1.Name = "label1";
+            label1.Tag = "{Button_QuitConfirmation}";
             // 
             // ExitConfirmationForm
             // 

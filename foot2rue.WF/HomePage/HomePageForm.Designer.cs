@@ -74,6 +74,7 @@
             toolStripButton_Settings.DisplayStyle = ToolStripItemDisplayStyle.Image;
             resources.ApplyResources(toolStripButton_Settings, "toolStripButton_Settings");
             toolStripButton_Settings.Name = "toolStripButton_Settings";
+            toolStripButton_Settings.Tag = "{Button_Settings}";
             toolStripButton_Settings.Click += toolStripButton_Settings_Click;
             // 
             // tabControl1
@@ -83,18 +84,21 @@
             resources.ApplyResources(tabControl1, "tabControl1");
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
+            tabControl1.Tag = "";
             tabControl1.SelectedIndexChanged += tabControl1_SelectedIndexChanged;
             // 
             // favoriteTabPage
             // 
             resources.ApplyResources(favoriteTabPage, "favoriteTabPage");
             favoriteTabPage.Name = "favoriteTabPage";
+            favoriteTabPage.Tag = "{TabPage_FavoritePlayers}";
             favoriteTabPage.UseVisualStyleBackColor = true;
             // 
             // allPlayersTabPage
             // 
             resources.ApplyResources(allPlayersTabPage, "allPlayersTabPage");
             allPlayersTabPage.Name = "allPlayersTabPage";
+            allPlayersTabPage.Tag = "{TabPage_AllPlayers}";
             allPlayersTabPage.UseVisualStyleBackColor = true;
             // 
             // HomePageForm

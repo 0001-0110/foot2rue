@@ -1,4 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <localization>
-    <string name="button_Quit">Quitter</string>
+	<!-- Generic -->
+	<string name="Button_Cancel">Cancel</string>
+	<string name="Button_Quit">Quitter</string>
+	<!-- Home Page -->
+	<string name="Button_Settings">Settings</string>
+	<string name="TabPage_FavoritePlayers">Favorites</string>
+	<string name="TabPage_AllPlayers">All players</string>
 </localization>
