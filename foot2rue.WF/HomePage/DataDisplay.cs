@@ -4,6 +4,14 @@ namespace foot2rue.WF.HomePage
 {
     public partial class DataDisplay : UserControl
     {
+        private enum DisplayMode
+        {
+            Error,
+            Loading,
+            NoData,
+            Loaded,
+        }
+
         private Func<string, Task<IEnumerable<Control>?>> loadDataFunction;
 
         public DataDisplay(Func<string, Task<IEnumerable<Control>?>> loadDataFunction)
@@ -15,14 +23,22 @@ namespace foot2rue.WF.HomePage
 
         public bool HasData()
         {
-            return dataGridView.Rows.Count > 0;
+            return flowLayoutPanel_DataPanel.Controls.Count > 0;
         }
 
         public void Clear()
         {
-            dataGridView.Clear();
-            // TODO Display image showing no data
-            pictureBox_NoData.Show();
+            flowLayoutPanel_DataPanel.Controls.Clear();
+            // Display image showing no data
+            SetDisplayMode(DisplayMode.NoData);
+        }
+
+        private void SetDisplayMode(DisplayMode displayMode)
+        {
+            pictureBox_Error.Show(displayMode == DisplayMode.Error);
+            pictureBox_NoData.Show(displayMode == DisplayMode.NoData);
+            pictureBox_Loading.Show(displayMode == DisplayMode.Loading);
+            flowLayoutPanel_DataPanel.Show(displayMode == DisplayMode.Loaded);
         }
 
         public async Task RefreshData(string fifaCode)
@@ -38,22 +54,25 @@ namespace foot2rue.WF.HomePage
         public async Task LoadData(string fifaCode)
         {
             // Show loading screen
-            pictureBox_NoData.Hide();
-            pictureBox_Loading.Show();
+            SetDisplayMode(DisplayMode.Loading);
 
             IEnumerable<Control>? data = await loadDataFunction(fifaCode);
-            pictureBox_Loading.Hide();
             if (data == null)
             {
                 // Loading of the data failed, displaying the error
-                pictureBox_NoData.Show();
+                SetDisplayMode(DisplayMode.Error);
+                return;
+            }
+            if (data.Count() == 0)
+            {
+                // Nothing to display
+                SetDisplayMode(DisplayMode.NoData);
                 return;
             }
 
             // Show the data
-            //foreach (Control control in data)
-                // TODO Add each control to the flow layout panel
-                //throw new NotImplementedException();
+            flowLayoutPanel_DataPanel.Controls.AddRange(data.ToArray());
+            SetDisplayMode(DisplayMode.Loaded);
         }
     }
 }

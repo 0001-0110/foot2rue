@@ -74,6 +74,7 @@ namespace foot2rue.WF.HomePage
 
             dataService?.SetGenre(selectedGenre);
             SettingsService.SelectedGenre = selectedGenre;
+            SettingsService.Save();
             // This line is refreshing genre comboBox for nothing, but it's not a big deal
             await InitSelectionComboBoxes();
             await RefreshDataDisplays();
@@ -88,6 +89,7 @@ namespace foot2rue.WF.HomePage
                 return;
 
             SettingsService.SelectedTeamFifaCode = selectedTeam.FifaCode;
+            SettingsService.Save();
             await RefreshDataDisplays();
         }
 
@@ -95,7 +97,7 @@ namespace foot2rue.WF.HomePage
 
         #region TabControl event handlers
 
-        private void tabControl1_SelectedIndexChanged(object? sender, EventArgs e)
+        private async void tabControl1_SelectedIndexChanged(object? sender, EventArgs e)
         {
             // TODO
             // Find the data grid view
@@ -105,7 +107,7 @@ namespace foot2rue.WF.HomePage
                 // TODO
                 throw new Exception("HELP");
 
-
+            await dataDisplay.RefreshData(GetSelectedTeam().FifaCode);
         }
 
         #endregion
@@ -146,7 +148,8 @@ namespace foot2rue.WF.HomePage
             // This is hard to watch
             favoritesDataDisplay = new DataDisplay(
                 async (string fifaCode) => (await dataService!.GetPlayersByFifaCode(fifaCode))?
-                .Where(player => SettingsService.FavoritePlayers.Contains(player.Name))
+                // If favorite players is null, no player is a favorite
+                .Where(player => SettingsService.FavoritePlayers?.Contains(player.Name) ?? false)
                 .Select(player => new PlayerDisplayUserControl(player)))
             {
                 Parent = tabControl1.TabPages[0],

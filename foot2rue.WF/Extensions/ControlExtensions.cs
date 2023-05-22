@@ -5,6 +5,14 @@ namespace foot2rue.WF.Extensions
 {
     internal static class ControlExtensions
     {
+        public static void Show(this Control control, bool visible)
+        {
+            if (visible)
+                control.Show();
+            else
+                control.Hide();
+        }
+
         public static void SetParent(this Control control, Control? parent)
         {
             control.Parent?.Controls.Remove(control);

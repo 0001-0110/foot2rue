@@ -28,28 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridView = new DataGridView();
+            pictureBox_Error = new PictureBox();
             pictureBox_Loading = new PictureBox();
             pictureBox_NoData = new PictureBox();
-            ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
+            flowLayoutPanel_DataPanel = new FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Loading).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_NoData).BeginInit();
             SuspendLayout();
             // 
-            // dataGridView
-            // 
-            dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView.Dock = DockStyle.Fill;
-            dataGridView.Location = new Point(0, 0);
-            dataGridView.Name = "dataGridView";
-            dataGridView.ReadOnly = true;
-            dataGridView.RowHeadersWidth = 51;
-            dataGridView.Size = new Size(628, 373);
-            dataGridView.TabIndex = 0;
-            // 
             // pictureBox_Loading
             // 
-            pictureBox_Loading.Location = new Point(249, 156);
+            pictureBox_Loading.Dock = DockStyle.Fill;
+            pictureBox_Loading.Location = new Point(3, 3);
             pictureBox_Loading.Name = "pictureBox_Loading";
             pictureBox_Loading.Size = new Size(125, 62);
             pictureBox_Loading.TabIndex = 1;
@@ -57,22 +47,41 @@
             // 
             // pictureBox_NoData
             // 
-            pictureBox_NoData.Location = new Point(275, 194);
+            pictureBox_NoData.Dock = DockStyle.Fill;
+            pictureBox_NoData.Location = new Point(0, 0);
             pictureBox_NoData.Name = "pictureBox_NoData";
-            pictureBox_NoData.Size = new Size(125, 62);
+            pictureBox_NoData.Size = new Size(628, 373);
             pictureBox_NoData.TabIndex = 2;
             pictureBox_NoData.TabStop = false;
+            // 
+            // pictureBox_Error
+            // 
+            pictureBox_Error.Dock = DockStyle.Fill;
+            pictureBox_Error.Location = new Point(0, 0);
+            pictureBox_Error.Name = "pictureBox_Error";
+            pictureBox_Error.Size = new Size(628, 373);
+            pictureBox_Error.TabIndex = 3;
+            pictureBox_Error.TabStop = false;
+            // 
+            // flowLayoutPanel_DataPanel
+            // 
+            flowLayoutPanel_DataPanel.AutoScroll = true;
+            flowLayoutPanel_DataPanel.Dock = DockStyle.Fill;
+            flowLayoutPanel_DataPanel.Location = new Point(0, 0);
+            flowLayoutPanel_DataPanel.Name = "flowLayoutPanel_DataPanel";
+            flowLayoutPanel_DataPanel.Size = new Size(628, 373);
+            flowLayoutPanel_DataPanel.TabIndex = 4;
             // 
             // DataDisplay
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(pictureBox_Error);
             Controls.Add(pictureBox_NoData);
             Controls.Add(pictureBox_Loading);
-            Controls.Add(dataGridView);
+            Controls.Add(flowLayoutPanel_DataPanel);
             Name = "DataDisplay";
             Size = new Size(628, 373);
-            ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Loading).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_NoData).EndInit();
             ResumeLayout(false);
@@ -80,8 +89,9 @@
 
         #endregion
 
-        private DataGridView dataGridView;
-        private PictureBox pictureBox_Loading;
+        private FlowLayoutPanel flowLayoutPanel_DataPanel;
+        private PictureBox pictureBox_Error;
         private PictureBox pictureBox_NoData;
+        private PictureBox pictureBox_Loading;
     }
 }
