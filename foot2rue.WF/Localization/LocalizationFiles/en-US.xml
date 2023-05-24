@@ -1,12 +1,22 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <localization>
+	
 	<!-- Generic -->
+	
+	<string name="Enum_Men">Men</string>
+	<string name="Enum_Women">Women</string>
+	
 	<string name="Button_Cancel">Cancel</string>
-	<string name="Button_Quit">Quitter</string>
+	<string name="Button_Quit">Quit</string>
+	
 	<!-- Home Page -->
+	
 	<string name="Button_Settings">Settings</string>
+	
 	<string name="TabPage_FavoritePlayers">Favorites</string>
 	<string name="TabPage_AllPlayers">All players</string>
+	
 	<!-- Exit Confirmation -->
+	
 	<string name="Label_QuitConfirmation">You are about to quit the app, Are you sure ?</string>
 </localization>
