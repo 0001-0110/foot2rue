@@ -61,7 +61,7 @@ namespace foot2rue.WF.Settings
             SettingsDialogResult settingsDialogResult = SettingsDialogResult.None;
             if (languageChanged)
             {
-                CultureInfo culture = (CultureInfo)comboBox_LanguageSelection.SelectedItem;
+                CultureInfo culture = comboBox_LanguageSelection.GetSelectedItem<CultureInfo>();
                 SettingsService.Culture = culture;
                 localizationService.Culture = culture;
                 settingsDialogResult |= SettingsDialogResult.LanguageChanged;

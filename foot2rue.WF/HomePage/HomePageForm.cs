@@ -11,6 +11,7 @@ namespace foot2rue.WF.HomePage
 {
     public partial class HomePageForm : Form
     {
+        private static LocalizationService localizationService = LocalizationService.Instance;
         private DataService? dataService;
 
         private DataDisplay? favoritesDataDisplay;
@@ -67,7 +68,7 @@ namespace foot2rue.WF.HomePage
 
         private async void toolStripComboBox_GenreSelection_SelectedIndexChanged(object? sender, EventArgs e)
         {
-            Genre selectedGenre = (Genre)toolStripComboBox_GenreSelection.SelectedItem;
+            Genre selectedGenre = toolStripComboBox_GenreSelection.GetSelectedItem<Genre>();
 
             // If the value is the same than the previous one, no need to reload everything
             if (selectedGenre == SettingsService.SelectedGenre)
@@ -83,7 +84,7 @@ namespace foot2rue.WF.HomePage
 
         private async void toolStripComboBox_TeamSelection_SelectedIndexChanged(object? sender, EventArgs e)
         {
-            Team selectedTeam = (Team)toolStripComboBox_TeamSelection.SelectedItem;
+            Team selectedTeam = toolStripComboBox_TeamSelection.GetSelectedItem<Team>();
 
             // If the value is the same than the previous one, no need to reload everything
             if (selectedTeam.FifaCode == SettingsService.SelectedTeamFifaCode)
@@ -135,7 +136,7 @@ namespace foot2rue.WF.HomePage
 
         private async Task InitSelectionComboBoxes()
         {
-            toolStripComboBox_GenreSelection.SetItems(EnumUtility.GetEnumValues<Genre>(), SettingsService.SelectedGenre);
+            toolStripComboBox_GenreSelection.SetItems(EnumUtility.GetEnumValues<Genre>(), genre => genre.GetLocalizedString(), SettingsService.SelectedGenre);
 
             IEnumerable<Team>? teams = await this.Wait(dataService!.GetTeams);
             // When swithcing genre, this line might output a null
@@ -167,9 +168,9 @@ namespace foot2rue.WF.HomePage
 
         #endregion
 
-        private Team? GetSelectedTeam()
+        private Team GetSelectedTeam()
         {
-            return toolStripComboBox_TeamSelection.SelectedItem as Team;
+            return toolStripComboBox_TeamSelection.GetSelectedItem<Team>();
         }
 
         #region Data displays

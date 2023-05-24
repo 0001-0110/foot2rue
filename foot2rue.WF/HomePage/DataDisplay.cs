@@ -35,10 +35,10 @@ namespace foot2rue.WF.HomePage
 
         private void SetDisplayMode(DisplayMode displayMode)
         {
-            pictureBox_Error.Show(displayMode == DisplayMode.Error);
-            pictureBox_NoData.Show(displayMode == DisplayMode.NoData);
-            pictureBox_Loading.Show(displayMode == DisplayMode.Loading);
-            flowLayoutPanel_DataPanel.Show(displayMode == DisplayMode.Loaded);
+            pictureBox_Error.SetVisible(displayMode == DisplayMode.Error);
+            pictureBox_NoData.SetVisible(displayMode == DisplayMode.NoData);
+            pictureBox_Loading.SetVisible(displayMode == DisplayMode.Loading);
+            flowLayoutPanel_DataPanel.SetVisible(displayMode == DisplayMode.Loaded);
         }
 
         public async Task RefreshData(string fifaCode)

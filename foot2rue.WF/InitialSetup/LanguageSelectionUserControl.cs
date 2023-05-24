@@ -26,7 +26,7 @@ namespace foot2rue.WF.InitialSetup
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            CultureInfo selectedCulture = (CultureInfo)comboBox1.SelectedItem;
+            CultureInfo selectedCulture = comboBox1.GetSelectedItem<CultureInfo>();
 
             // Same language selected, no need to do anything
             if (localizationService.IsCurrentCulture(selectedCulture))
@@ -44,7 +44,7 @@ namespace foot2rue.WF.InitialSetup
                 return;
             }
 
-            SettingsService.Culture = (CultureInfo)comboBox1.SelectedItem;
+            SettingsService.Culture = comboBox1.GetSelectedItem<CultureInfo>();
             SettingsService.Save();
             onValidate.Invoke();
         }

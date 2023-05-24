@@ -38,6 +38,8 @@
             tabControl1 = new TabControl();
             favoriteTabPage = new TabPage();
             allPlayersTabPage = new TabPage();
+            toolStripButton_Print = new ToolStripButton();
+            toolStripSeparator2 = new ToolStripSeparator();
             toolStrip1.SuspendLayout();
             tabControl1.SuspendLayout();
             SuspendLayout();
@@ -45,7 +47,7 @@
             // toolStrip1
             // 
             toolStrip1.ImageScalingSize = new Size(20, 20);
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripComboBox_GenreSelection, toolStripSeparator1, toolStripComboBox_TeamSelection, toolStripButton_Settings });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripComboBox_GenreSelection, toolStripSeparator1, toolStripComboBox_TeamSelection, toolStripButton_Settings, toolStripSeparator2, toolStripButton_Print });
             resources.ApplyResources(toolStrip1, "toolStrip1");
             toolStrip1.Name = "toolStrip1";
             // 
@@ -101,6 +103,20 @@
             allPlayersTabPage.Tag = "{TabPage_AllPlayers}";
             allPlayersTabPage.UseVisualStyleBackColor = true;
             // 
+            // toolStripButton_Print
+            // 
+            toolStripButton_Print.Alignment = ToolStripItemAlignment.Right;
+            toolStripButton_Print.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(toolStripButton_Print, "toolStripButton_Print");
+            toolStripButton_Print.Name = "toolStripButton_Print";
+            toolStripButton_Print.Tag = "{Button_Print}";
+            // 
+            // toolStripSeparator2
+            // 
+            toolStripSeparator2.Alignment = ToolStripItemAlignment.Right;
+            toolStripSeparator2.Name = "toolStripSeparator2";
+            resources.ApplyResources(toolStripSeparator2, "toolStripSeparator2");
+            // 
             // HomePageForm
             // 
             resources.ApplyResources(this, "$this");
@@ -127,5 +143,7 @@
         private TabControl tabControl1;
         private TabPage favoriteTabPage;
         private TabPage allPlayersTabPage;
+        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripButton toolStripButton_Print;
     }
 }

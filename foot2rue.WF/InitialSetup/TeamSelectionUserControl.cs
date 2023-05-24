@@ -8,6 +8,7 @@ namespace foot2rue.WF.InitialSetup
 {
     public partial class TeamSelectionUserControl : UserControl
     {
+        private static LocalizationService localizationService = LocalizationService.Instance;
         private DataService? dataService;
 
         private Action onValidate;
@@ -21,12 +22,12 @@ namespace foot2rue.WF.InitialSetup
 
         private void TeamSelectionUserControl_Load(object sender, EventArgs e)
         {
-            comboBox_GenreSelection.SetItems(EnumUtility.GetEnumValues<Genre>(), -1);
+            comboBox_GenreSelection.SetItems(EnumUtility.GetEnumValues<Genre>(), genre => genre.GetLocalizedString(),-1);
         }
 
         private async void comboBox_GenreSelection_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Genre selectedGenre = (Genre)comboBox_GenreSelection.SelectedItem;
+            Genre selectedGenre = comboBox_GenreSelection.GetSelectedItem<Genre>();
             SettingsService.SelectedGenre = selectedGenre;
 
             // Once we have the genre, load the teams
@@ -38,7 +39,7 @@ namespace foot2rue.WF.InitialSetup
 
         private void comboBox_TeamSelection_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Team selectedTeam = (Team)comboBox_TeamSelection.SelectedItem;
+            Team selectedTeam = comboBox_TeamSelection.GetSelectedItem<Team>();
             SettingsService.SelectedTeamFifaCode = selectedTeam.FifaCode;
         }
 

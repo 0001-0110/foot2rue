@@ -6,7 +6,7 @@ namespace foot2rue.WF.Extensions
 {
     internal static class ControlExtensions
     {
-        public static void Show(this Control control, bool visible)
+        public static void SetVisible(this Control control, bool visible)
         {
             if (visible)
                 control.Show();
@@ -55,16 +55,32 @@ namespace foot2rue.WF.Extensions
             return controls;
         }
 
-        public static void LoadLocalization(this Control control)
+        #region Localization
+
+        public static void SetLocalizationString(this Control control, string localizationString)
         {
-            control.LoadLocalization(LocalizationService.Instance.Culture);
+            control.Tag = localizationString;
+            control.LoadLocalization(false);
         }
 
-        public static void LoadLocalization(this Control control, CultureInfo culture)
+        public static void SetLocalizationString(this ToolStripItem item, string localizationString)
+        {
+            item.Tag = localizationString;
+            item.LoadLocalization();
+        }
+
+        public static void LoadLocalization(this Control control, bool recursive = true)
+        {
+            control.LoadLocalization(LocalizationService.Instance.Culture, recursive);
+        }
+
+        public static void LoadLocalization(this Control control, CultureInfo culture, bool recursive = true)
         {
             if (control.Tag is string)
                 control.Text = LocalizationService.Instance.GetLocalizedString((string)control.Tag);
 
+            if (!recursive)
+                return;
 
             // Recursive call to refresh everything inside this component
             if (control is ToolStrip)
@@ -75,13 +91,20 @@ namespace foot2rue.WF.Extensions
             }
 
             foreach (Control child in control.Controls)
-                (child as ToolStrip ?? child).LoadLocalization(culture);
+                child.LoadLocalization(culture, recursive);
         }
 
-        public static void LoadLocalization(this ToolStripItem control, CultureInfo culture)
+        public static void LoadLocalization(this ToolStripItem item)
         {
-            if (control.Tag is string)
-                control.Text = LocalizationService.Instance.GetLocalizedString((string)control.Tag);
+            item.LoadLocalization(LocalizationService.Instance.Culture);
         }
+
+        public static void LoadLocalization(this ToolStripItem item, CultureInfo culture)
+        {
+            if (item.Tag is string)
+                item.Text = LocalizationService.Instance.GetLocalizedString((string)item.Tag);
+        }
+
+        #endregion
     }
 }
