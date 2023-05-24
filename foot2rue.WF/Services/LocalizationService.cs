@@ -39,6 +39,8 @@ namespace foot2rue.WF.Services
                 Thread.CurrentThread.CurrentUICulture = value;
                 // Globalization
                 Thread.CurrentThread.CurrentCulture = value;
+
+                LoadLocalizationFile();
             }
         }
 
