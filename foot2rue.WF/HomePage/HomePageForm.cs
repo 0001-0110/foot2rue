@@ -199,14 +199,17 @@ namespace foot2rue.WF.HomePage
 
         #endregion
 
-        private void toolStripButton_Settings_Click(object sender, EventArgs e)
+        private async void toolStripButton_Settings_Click(object sender, EventArgs e)
         {
             SettingsForm settingsForm = new SettingsForm();
             settingsForm.ShowDialog();
             if (settingsForm.SettingsDialogResult.HasFlag(SettingsDialogResult.Cancel))
                 return;
             if (settingsForm.SettingsDialogResult.HasFlag(SettingsDialogResult.LanguageChanged))
+            {
                 this.LoadLocalization();
+                await InitSelectionComboBoxes();
+            }
             if (settingsForm.SettingsDialogResult.HasFlag(SettingsDialogResult.OfflineModeChanged))
                 dataService!.SetOfflineMode(SettingsService.OfflineMode);
         }
