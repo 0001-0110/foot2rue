@@ -35,11 +35,11 @@
             toolStripSeparator1 = new ToolStripSeparator();
             toolStripComboBox_TeamSelection = new ToolStripComboBox();
             toolStripButton_Settings = new ToolStripButton();
+            toolStripSeparator2 = new ToolStripSeparator();
+            toolStripButton_Print = new ToolStripButton();
             tabControl1 = new TabControl();
             favoriteTabPage = new TabPage();
             allPlayersTabPage = new TabPage();
-            toolStripButton_Print = new ToolStripButton();
-            toolStripSeparator2 = new ToolStripSeparator();
             toolStrip1.SuspendLayout();
             tabControl1.SuspendLayout();
             SuspendLayout();
@@ -74,10 +74,26 @@
             // 
             toolStripButton_Settings.Alignment = ToolStripItemAlignment.Right;
             toolStripButton_Settings.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButton_Settings.Image = Properties.Resources.settings;
             resources.ApplyResources(toolStripButton_Settings, "toolStripButton_Settings");
             toolStripButton_Settings.Name = "toolStripButton_Settings";
             toolStripButton_Settings.Tag = "{Button_Settings}";
             toolStripButton_Settings.Click += toolStripButton_Settings_Click;
+            // 
+            // toolStripSeparator2
+            // 
+            toolStripSeparator2.Alignment = ToolStripItemAlignment.Right;
+            toolStripSeparator2.Name = "toolStripSeparator2";
+            resources.ApplyResources(toolStripSeparator2, "toolStripSeparator2");
+            // 
+            // toolStripButton_Print
+            // 
+            toolStripButton_Print.Alignment = ToolStripItemAlignment.Right;
+            toolStripButton_Print.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButton_Print.Image = Properties.Resources.print;
+            resources.ApplyResources(toolStripButton_Print, "toolStripButton_Print");
+            toolStripButton_Print.Name = "toolStripButton_Print";
+            toolStripButton_Print.Tag = "{Button_Print}";
             // 
             // tabControl1
             // 
@@ -102,20 +118,6 @@
             allPlayersTabPage.Name = "allPlayersTabPage";
             allPlayersTabPage.Tag = "{TabPage_AllPlayers}";
             allPlayersTabPage.UseVisualStyleBackColor = true;
-            // 
-            // toolStripButton_Print
-            // 
-            toolStripButton_Print.Alignment = ToolStripItemAlignment.Right;
-            toolStripButton_Print.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            resources.ApplyResources(toolStripButton_Print, "toolStripButton_Print");
-            toolStripButton_Print.Name = "toolStripButton_Print";
-            toolStripButton_Print.Tag = "{Button_Print}";
-            // 
-            // toolStripSeparator2
-            // 
-            toolStripSeparator2.Alignment = ToolStripItemAlignment.Right;
-            toolStripSeparator2.Name = "toolStripSeparator2";
-            resources.ApplyResources(toolStripSeparator2, "toolStripSeparator2");
             // 
             // HomePageForm
             // 

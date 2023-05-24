@@ -32,16 +32,26 @@
             pictureBox_Loading = new PictureBox();
             pictureBox_NoData = new PictureBox();
             flowLayoutPanel_DataPanel = new FlowLayoutPanel();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_Error).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Loading).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_NoData).BeginInit();
             SuspendLayout();
             // 
+            // pictureBox_Error
+            // 
+            pictureBox_Error.Dock = DockStyle.Fill;
+            pictureBox_Error.Location = new Point(0, 0);
+            pictureBox_Error.Name = "pictureBox_Error";
+            pictureBox_Error.Size = new Size(628, 373);
+            pictureBox_Error.TabIndex = 3;
+            pictureBox_Error.TabStop = false;
+            // 
             // pictureBox_Loading
             // 
             pictureBox_Loading.Dock = DockStyle.Fill;
-            pictureBox_Loading.Location = new Point(3, 3);
+            pictureBox_Loading.Location = new Point(0, 0);
             pictureBox_Loading.Name = "pictureBox_Loading";
-            pictureBox_Loading.Size = new Size(125, 62);
+            pictureBox_Loading.Size = new Size(628, 373);
             pictureBox_Loading.TabIndex = 1;
             pictureBox_Loading.TabStop = false;
             // 
@@ -53,15 +63,6 @@
             pictureBox_NoData.Size = new Size(628, 373);
             pictureBox_NoData.TabIndex = 2;
             pictureBox_NoData.TabStop = false;
-            // 
-            // pictureBox_Error
-            // 
-            pictureBox_Error.Dock = DockStyle.Fill;
-            pictureBox_Error.Location = new Point(0, 0);
-            pictureBox_Error.Name = "pictureBox_Error";
-            pictureBox_Error.Size = new Size(628, 373);
-            pictureBox_Error.TabIndex = 3;
-            pictureBox_Error.TabStop = false;
             // 
             // flowLayoutPanel_DataPanel
             // 
@@ -82,6 +83,7 @@
             Controls.Add(flowLayoutPanel_DataPanel);
             Name = "DataDisplay";
             Size = new Size(628, 373);
+            ((System.ComponentModel.ISupportInitialize)pictureBox_Error).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Loading).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_NoData).EndInit();
             ResumeLayout(false);
