@@ -179,7 +179,7 @@ namespace foot2rue.WF.HomePage
         {
             favoritesDataDisplay?.Clear();
             allPlayersDataDisplay?.Clear();
-            // TODO Add all data displays to clear here
+            // TODO Add all data displays to clear here when adding more tabs
         }
 
         private async Task RefreshDataDisplays()

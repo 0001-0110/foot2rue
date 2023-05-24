@@ -6,6 +6,14 @@ namespace foot2rue.WF.InitialSetup
 {
     public partial class FavoritesSelectionUserControl : UserControl
     {
+        /// <summary>
+        /// The number of players that must be selected as a favorite during the initial setup
+        /// </summary>
+        /// <remarks>
+        /// This has been defined in the project specifications
+        /// </remarks>
+        private const int FAVORITECOUNT = 3;
+
         private Action onValidation;
 
         public FavoritesSelectionUserControl(Action onValidation)
@@ -22,7 +30,6 @@ namespace foot2rue.WF.InitialSetup
 
         private async Task InitFlowPanelLayouts()
         {
-            // TODO Might wanna wrap this up somewhere clean
             IEnumerable<Control>? playerUserControls =
                 (await this.Wait(async () => await new DataService()
                 .GetPlayersByFifaCode(SettingsService.SelectedTeamFifaCode)))?
@@ -67,11 +74,12 @@ namespace foot2rue.WF.InitialSetup
 
         private void button_Validate_Click(object sender, EventArgs e)
         {
+            // TODO It would be nice to add some display showing how many players are and must be selected
+
             StringCollection names = new StringCollection();
             names.AddRange(flowLayoutPanel_FavoritePlayers.Controls.OfType<PlayerDisplayUserControl>().Select(control => control.Player.Name).ToArray());
 
-            // TODO Remove raw value
-            if (names.Count != 3)
+            if (names.Count != FAVORITECOUNT)
                 return;
             
             SettingsService.FavoritePlayers = names;

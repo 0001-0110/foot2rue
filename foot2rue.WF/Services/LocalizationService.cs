@@ -79,9 +79,14 @@ namespace foot2rue.WF.Services
             string path = Path.Combine(Directory.GetCurrentDirectory(), LOCALIZATIONFOLDER, $"{culture.Name}.xml");
             XmlDocument? localizationFile = XmlUtility.LoadXml(path);
             if (localizationFile == null)
+                // File does not exist
+                return;
+            XmlNodeList? xmlNodeList = localizationFile.SelectNodes($"localization/string");
+            if (xmlNodeList == null)
+                // File does not respect the expected format
                 return;
 
-            foreach (XmlNode node in localizationFile.SelectNodes($"localization/string"))
+            foreach (XmlNode node in xmlNodeList)
             {
                 if (node.InnerText == string.Empty)
                 {

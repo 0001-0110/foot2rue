@@ -25,8 +25,8 @@ namespace foot2rue.WF.Extensions
                 // Create a list of object, that where each value contains a property of this item
                 object[] values = new object[properties.Length];
                 for (int i = 0; i < properties.Length; i++)
-                    // TODO Can this warning be ignored ?
-                    values[i] = properties[i].GetValue(item, null);
+                    // Almost positive that this cannot be null
+                    values[i] = properties[i].GetValue(item, null)!;
 
                 dataTable.Rows.Add(values);
             }

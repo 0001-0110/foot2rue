@@ -20,7 +20,7 @@ namespace foot2rue.WF.Extensions
                 return false;
             }
 
-            // TODO Is the conversion to DataTable useful ?
+            // Is the conversion to DataTable useful ?
             dataGridView.DataSource = data.ToDataTable();
             return true;
         }
