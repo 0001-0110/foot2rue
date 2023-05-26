@@ -69,14 +69,9 @@ namespace foot2rue.WF.Services
 
         private void LoadLocalizationFile()
         {
-            LoadLocalizationFile(SettingsService.Culture);
-        }
-
-        private void LoadLocalizationFile(CultureInfo culture)
-        {
             localizationStrings = new Dictionary<string, string>();
 
-            string path = Path.Combine(Directory.GetCurrentDirectory(), LOCALIZATIONFOLDER, $"{culture.Name}.xml");
+            string path = Path.Combine(Directory.GetCurrentDirectory(), LOCALIZATIONFOLDER, $"{Culture.Name}.xml");
             XmlDocument? localizationFile = XmlUtility.LoadXml(path);
             if (localizationFile == null)
                 // File does not exist
