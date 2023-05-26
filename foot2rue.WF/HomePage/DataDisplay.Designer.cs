@@ -48,10 +48,13 @@
             // 
             // pictureBox_Loading
             // 
+            pictureBox_Loading.BackgroundImageLayout = ImageLayout.None;
             pictureBox_Loading.Dock = DockStyle.Fill;
+            pictureBox_Loading.Image = Properties.Resources.Soccer_Ball_Hexagon_Pattern_Loader;
             pictureBox_Loading.Location = new Point(0, 0);
             pictureBox_Loading.Name = "pictureBox_Loading";
             pictureBox_Loading.Size = new Size(628, 373);
+            pictureBox_Loading.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox_Loading.TabIndex = 1;
             pictureBox_Loading.TabStop = false;
             // 

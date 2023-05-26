@@ -79,5 +79,15 @@ namespace foot2rue.WF.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Soccer_Ball_Hexagon_Pattern_Loader {
+            get {
+                object obj = ResourceManager.GetObject("Soccer-Ball-Hexagon-Pattern-Loader", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

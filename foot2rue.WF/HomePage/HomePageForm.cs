@@ -6,12 +6,26 @@ using foot2rue.WF.Services;
 using foot2rue.WF.Settings;
 using foot2rue.WF.Utilities;
 using System.Data;
+using System.Drawing.Printing;
 
 namespace foot2rue.WF.HomePage
 {
     public partial class HomePageForm : Form
     {
-        private static LocalizationService localizationService = LocalizationService.Instance;
+        private static readonly Color BACKCOLOR = ColorUtility.FromHex("#333333");
+        private static readonly Color FONTCOLOR = Color.White;
+
+        // This class defines the color for the tool strip
+        private class CustomProfessionalColors : ProfessionalColorTable
+        {
+            public override Color ToolStripGradientBegin
+            { get { return BACKCOLOR; } }
+
+            public override Color ToolStripGradientEnd
+            { get { return BACKCOLOR; } }
+        }
+
+        //private static LocalizationService localizationService = LocalizationService.Instance;
         private DataService? dataService;
 
         private DataDisplay? favoritesDataDisplay;
@@ -20,8 +34,9 @@ namespace foot2rue.WF.HomePage
         public HomePageForm()
         {
             InitializeComponent();
+            // Set the tool strip color
+            ToolStripManager.Renderer = new ToolStripProfessionalRenderer(new CustomProfessionalColors());
             this.LoadLocalization();
-            //this.SetBackColor(ColorUtility.FromHex("#333333"));
         }
 
         #region Form event handlers
@@ -99,6 +114,26 @@ namespace foot2rue.WF.HomePage
         #endregion
 
         #region TabControl event handlers
+
+        // This function is used to draw tabs manually, to be able to change their color
+        // I have no idea how this works, please refer to:
+        // https://stackoverflow.com/questions/5338587/set-tabpage-header-color
+        private void tabControl1_DrawItem(object sender, DrawItemEventArgs _event)
+        {
+            using (Brush brush = new SolidBrush(BACKCOLOR))
+            {
+                _event.Graphics.FillRectangle(brush, _event.Bounds);
+                SizeF size = _event.Graphics.MeasureString(tabControl1.TabPages[_event.Index].Text, _event.Font!);
+                // Draw the labels on the tabs
+                _event.Graphics.DrawString(tabControl1.TabPages[_event.Index].Text, _event.Font!, new SolidBrush(FONTCOLOR), _event.Bounds.Left + (_event.Bounds.Width - size.Width) / 2, _event.Bounds.Top + (_event.Bounds.Height - size.Height) / 2 + 1);
+
+                Rectangle rectangle = _event.Bounds;
+                rectangle.Offset(0, 1);
+                rectangle.Inflate(0, -1);
+                _event.Graphics.DrawRectangle(Pens.DarkGray, rectangle);
+                _event.DrawFocusRectangle();
+            }
+        }
 
         private async void tabControl1_SelectedIndexChanged(object? sender, EventArgs e)
         {
@@ -196,6 +231,27 @@ namespace foot2rue.WF.HomePage
             // Refresh the data of the current data display right now
             // Other data displays will be refreshed by themselves when shown again
             await this.Wait(async () => await activeDataDisplay.LoadData(selectedTeam.FifaCode));
+        }
+
+        #endregion
+
+        #region Printing
+
+        private void PrintDocument_PrintPage(object sender, EventArgs e)
+        {
+            /*var tab = tabControl1.SelectedTab;
+            var bitmap = new Bitmap(tab.Width, tab.Height);
+            tab.DrawToBitmap(bitmap, new Rectangle
+            {
+                X = 0,
+                Y = 0,
+                Width = pnlData.Size.Width,
+                Height = pnlData.Size.Height
+            });
+            Graphics memoryGraphics = Graphics.FromImage(memoryImage);
+            memoryGraphics.CopyFromScreen(Location.X, Location.Y, 0, 0, s);
+
+            //printDocument1.Print();*/
         }
 
         #endregion

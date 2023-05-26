@@ -76,13 +76,14 @@ namespace foot2rue.WF.InitialSetup
         {
             // TODO It would be nice to add some display showing how many players are and must be selected
 
-            StringCollection names = new StringCollection();
+            StringCollection names = SettingsService.FavoritePlayers;
+            names.Clear();
             names.AddRange(flowLayoutPanel_FavoritePlayers.Controls.OfType<PlayerDisplayUserControl>().Select(control => control.Player.Name).ToArray());
 
             if (names.Count != FAVORITECOUNT)
                 return;
             
-            SettingsService.FavoritePlayers = names;
+            //SettingsService.FavoritePlayers = names;
             SettingsService.Save();
             onValidation.Invoke();
         }

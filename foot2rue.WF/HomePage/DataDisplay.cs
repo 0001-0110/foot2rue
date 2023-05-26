@@ -73,6 +73,8 @@ namespace foot2rue.WF.HomePage
             // Show the data
             flowLayoutPanel_DataPanel.Controls.AddRange(data.ToArray());
             SetDisplayMode(DisplayMode.Loaded);
+            // DEBUG
+            //SetDisplayMode(DisplayMode.Loading);
         }
     }
 }
