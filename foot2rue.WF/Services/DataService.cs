@@ -143,7 +143,7 @@ namespace foot2rue.WF.Services
             foreach (DAL.Models.Player player in players)
             {
                 Models.Player extendedPlayer = player.ExtendParentClass<DAL.Models.Player, Models.Player>();
-                extendedPlayer.IsFavorite = SettingsService.FavoritePlayers?.Contains(player.Name) ?? false;
+                extendedPlayer.IsFavorite = SettingsService.FavoritePlayers.Contains(player.Name);
                 // TODO How to get the image ?
                 //BllPlayer.Image = ;
                 extendedPlayers.Add(player.Name, extendedPlayer);
@@ -151,9 +151,15 @@ namespace foot2rue.WF.Services
 
             // If statistics is null, skip this count
             // Players that are present at the start of the match
-            foreach (Statistics stats in statistics ?? Enumerable.Empty<Statistics>())
+            foreach (Statistics stats in statistics.IfNotNull())
                 foreach (DAL.Models.Player player in stats.StartingEleven)
-                    extendedPlayers[player.Name].MatchesPalyed++;
+                {
+                    // We check before if the player is in the dictionnary to avoid crashes when the API contains typos
+                    // It will return a wrong result, but it's better than no result at all
+                    Models.Player extendedPlayer;
+                    if (extendedPlayers.TryGetValue(player.Name, out extendedPlayer!))
+                        extendedPlayer.MatchesPalyed++;
+                }
 
             // If event is null, skip this part
             // Count players that are:
@@ -165,6 +171,7 @@ namespace foot2rue.WF.Services
                 Models.Player player = extendedPlayers[matchEvent.Player];
                 switch (matchEvent.Type)
                 {
+                    // TODO Could be improved with a bit of reflection
                     // Hard coding is ugly, but it'll do
                     case "goal":
                     case "goal-penalty":

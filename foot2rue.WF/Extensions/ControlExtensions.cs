@@ -1,6 +1,5 @@
 ﻿using foot2rue.WF.Services;
 using System.Globalization;
-using System.Windows.Forms.Layout;
 
 namespace foot2rue.WF.Extensions
 {
@@ -19,6 +18,16 @@ namespace foot2rue.WF.Extensions
             control.Parent?.Controls.Remove(control);
             control.Parent = parent;
             parent?.Controls.Add(control);
+        }
+
+        [Obsolete]
+        public static void SetBackColor(this Control control, Color color, bool recursive = true)
+        {
+            control.BackColor = color;
+
+            if (recursive)
+                foreach (Control child in control.Controls)
+                    child.SetBackColor(color, recursive);
         }
 
         public static async Task Wait(this Control control, Func<Task> loadingFunction)
@@ -76,16 +85,16 @@ namespace foot2rue.WF.Extensions
 
         public static void LoadLocalization(this Control control, CultureInfo culture, bool recursive = true)
         {
-            if (control.Tag is string)
-                control.Text = LocalizationService.Instance.GetLocalizedString((string)control.Tag);
+            if (control.Tag is string localizationString)
+                control.Text = LocalizationService.Instance.GetLocalizedString(localizationString);
 
             if (!recursive)
                 return;
 
             // Recursive call to refresh everything inside this component
-            if (control is ToolStrip)
+            if (control is ToolStrip toolStrip)
             {
-                foreach (ToolStripItem child in ((ToolStrip)control).Items)
+                foreach (ToolStripItem child in toolStrip.Items)
                     child.LoadLocalization(culture);
                 return;
             }
@@ -101,8 +110,8 @@ namespace foot2rue.WF.Extensions
 
         public static void LoadLocalization(this ToolStripItem item, CultureInfo culture)
         {
-            if (item.Tag is string)
-                item.Text = LocalizationService.Instance.GetLocalizedString((string)item.Tag);
+            if (item.Tag is string localizationString)
+                item.Text = LocalizationService.Instance.GetLocalizedString(localizationString);
         }
 
         #endregion

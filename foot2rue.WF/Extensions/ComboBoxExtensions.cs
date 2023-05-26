@@ -65,8 +65,8 @@ namespace foot2rue.WF.Extensions
 
         public static T GetSelectedItem<T>(this ComboBox comboBox)
         {
-            if (comboBox.SelectedItem is ItemDisplay<T>)
-                return ((ItemDisplay<T>)comboBox.SelectedItem).Item;
+            if (comboBox.SelectedItem is ItemDisplay<T> itemDisplay)
+                return itemDisplay.Item;
             return (T)comboBox.SelectedItem;
         }
 
@@ -115,8 +115,8 @@ namespace foot2rue.WF.Extensions
 
         public static T GetSelectedItem<T>(this ToolStripComboBox comboBox)
         {
-            if (comboBox.SelectedItem is ItemDisplay<T>)
-                return ((ItemDisplay<T>)comboBox.SelectedItem).Item;
+            if (comboBox.SelectedItem is ItemDisplay<T> itemDisplay)
+                return itemDisplay.Item;
             return (T)comboBox.SelectedItem;
         }
 

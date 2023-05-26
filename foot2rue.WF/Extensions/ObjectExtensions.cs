@@ -5,7 +5,7 @@ namespace foot2rue.WF.Extensions
     internal static class ObjectExtensions
     {
         /// <summary>
-        /// This is SOOOOOOOOOOOOOOO overengineered
+        /// This is SOOOOOOOOOOOOOOO overengineered for what I need
         /// </summary>
         /// <typeparam name="TParent"></typeparam>
         /// <typeparam name="TChild"></typeparam>

@@ -10,7 +10,7 @@ namespace foot2rue.WF
 #if DEBUG
         static SettingsService()
         {
-            //Default.Reset();
+            Default.Reset();
         }
 #endif
 
@@ -32,10 +32,15 @@ namespace foot2rue.WF
             set { Default.SelectedTeamFifaCode = value; }
         }
 
-        public static StringCollection? FavoritePlayers
+        public static StringCollection FavoritePlayers
         {
-            get { return Default.FavoritePlayers; }
-            set { Default.FavoritePlayers = value; }
+            get 
+            { 
+                if (Default.FavoritePlayers == null)
+                    Default.FavoritePlayers = new StringCollection();
+                return Default.FavoritePlayers; 
+            }
+            private set { Default.FavoritePlayers = value; }
         }
 
         public static bool OfflineMode

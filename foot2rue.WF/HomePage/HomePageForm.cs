@@ -21,6 +21,7 @@ namespace foot2rue.WF.HomePage
         {
             InitializeComponent();
             this.LoadLocalization();
+            //this.SetBackColor(ColorUtility.FromHex("#333333"));
         }
 
         #region Form event handlers
@@ -151,7 +152,7 @@ namespace foot2rue.WF.HomePage
             favoritesDataDisplay = new DataDisplay(
                 async (string fifaCode) => (await dataService!.GetPlayersByFifaCode(fifaCode))?
                 // If favorite players is null, no player is a favorite
-                .Where(player => SettingsService.FavoritePlayers?.Contains(player.Name) ?? false)
+                .Where(player => SettingsService.FavoritePlayers.Contains(player.Name))
                 .Select(player => new PlayerDisplayUserControl(player)))
             {
                 Parent = tabControl1.TabPages[0],

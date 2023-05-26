@@ -5,6 +5,13 @@ namespace foot2rue.WF.Extensions
 {
     internal static class IEnumerableExtensions
     {
+        public static IEnumerable<T> IfNotNull<T>(this IEnumerable<T>? enumerable)
+        {
+            if (enumerable == null)
+                return Enumerable.Empty<T>();
+            return enumerable;
+        }
+
         public static DataTable? ToDataTable<T>(this IEnumerable<T>? items)
         {
             if (items == null)
