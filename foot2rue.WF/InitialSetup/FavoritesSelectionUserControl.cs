@@ -1,6 +1,7 @@
 ﻿using foot2rue.WF.Extensions;
 using foot2rue.WF.Services;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using Timer = System.Windows.Forms.Timer;
 
 namespace foot2rue.WF.InitialSetup
@@ -16,6 +17,11 @@ namespace foot2rue.WF.InitialSetup
         private const int FAVORITECOUNT = 3;
 
         private Action onValidation;
+
+        // Holding the mouse for less than this value is considered a click,
+        // If longer, then it is considered a drag
+        // Delay is in milliseconds
+        private const int CLICKDURATION = 200;
         private Timer clickTimer;
         private Control? clickedControl;
         private ICollection<Control> selectedControls;
@@ -25,7 +31,7 @@ namespace foot2rue.WF.InitialSetup
             this.onValidation = onValidation;
             clickTimer = new Timer()
             {
-                Interval = 300,
+                Interval = CLICKDURATION,
             };
             clickTimer.Tick += DragControl;
             selectedControls = new List<Control>();
@@ -35,10 +41,10 @@ namespace foot2rue.WF.InitialSetup
 
         private async void FavoritesSelectionUserControl_Load(object sender, EventArgs e)
         {
-            await InitFlowPanelLayouts();
+            await InitFlowLayoutPanels();
         }
 
-        private async Task InitFlowPanelLayouts()
+        private async Task InitFlowLayoutPanels()
         {
             IEnumerable<Control>? playerUserControls =
                 (await this.Wait(async () => await new DataService()
@@ -57,6 +63,7 @@ namespace foot2rue.WF.InitialSetup
                 // So that controls do not block from dropping in the panel
                 playerUserControl.DragEnter += control_DragEnter;
                 playerUserControl.DragDrop += control_DragDrop;
+                playerUserControl.ContextMenuStrip = contextMenuStrip;
             }
         }
 
@@ -64,8 +71,14 @@ namespace foot2rue.WF.InitialSetup
 
         private void control_MouseDown(object? sender, MouseEventArgs e)
         {
-            clickedControl = sender as Control;
-            clickTimer.Start();
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
+                    clickedControl = sender as Control;
+                    clickTimer.Start();
+                    break;
+                    // No need to handle right click since the context menu is already linked to it
+            }
         }
 
         private void control_MouseUp(object? sender, MouseEventArgs e)
@@ -84,19 +97,19 @@ namespace foot2rue.WF.InitialSetup
             if (selectedControls.Contains(control))
             {
                 selectedControls.Remove(control);
-                // TODO Show deselected
                 control.ShowDeselected();
             }
             else
             {
                 selectedControls.Add(control);
-                // TODO Show selected
                 control.ShowSelected();
             }
         }
 
         private void DragControl(object? sender, EventArgs e)
         {
+            // !-- sender is timer here, don't use it --!
+
             if (clickedControl == null)
                 return;
 
@@ -124,16 +137,95 @@ namespace foot2rue.WF.InitialSetup
                 // 
                 return;
 
+            SetParent(selectedControls.Append(draggedControl), _ => target_Panel);
+        }
+
+        private void MoveControls(ToolStripItem item, Control[] controls)
+        {
+            if (item == addFavoriteToolStripMenuItem)
+                AddFavorite(controls);
+            else if (item == removeFavoriteToolStripMenuItem)
+                RemoveFavorite(controls);
+            else
+                Inverse(controls);
+        }
+
+        private void SetParent(IEnumerable<Control> controls, Func<Control, Control> getParent)
+        {
             // Changing parent will also move the controls since they are flowLayoutPanels
-            draggedControl.SetParent(target_Panel);
-            foreach (Control control in selectedControls)
+            foreach (Control control in controls)
             {
-                control.SetParent(target_Panel);
+                control.SetParent(getParent(control));
                 control.ShowDeselected();
             }
             selectedControls.Clear();
         }
 
+        #region Context menu strip
+
+        private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+            // Retrieve the control that triggered the context menu
+            clickedControl = ((ContextMenuStrip)sender).SourceControl;
+            Action<ToolStripMenuItem, Panel> setToolStripVisible = (menuItem, panel) =>
+            {
+                // If the source control is in the panel, it can be moved with `This one`
+                bool thisOne = clickedControl.Parent == panel;
+                // If any of the selected controls are in this panel, they can be moved with `All selected`
+                bool allSelected = selectedControls.Any(control => control.Parent == panel);
+                // If any controls are in this panel, they can be moved with `All`
+                bool all = panel.Controls.Count > 0;
+
+                // Set the visiblity of all elements
+                menuItem.Visible = thisOne || allSelected || all;
+                menuItem.DropDownItems[0].Visible = thisOne;
+                menuItem.DropDownItems[1].Visible = allSelected;
+                menuItem.DropDownItems[2].Visible = all;
+            };
+
+            setToolStripVisible(addFavoriteToolStripMenuItem, flowLayoutPanel_AllPlayers);
+            setToolStripVisible(removeFavoriteToolStripMenuItem, flowLayoutPanel_FavoritePlayers);
+
+            // Inverse this one is always possible
+            allSelectedToolStripMenuItem2.Visible = selectedControls.Count > 0;
+            // Inverse all is always possible
+            // Inverse is always available
+        }
+
+        private void thisOneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (clickedControl == null)
+                return;
+
+            MoveControls(((ToolStripMenuItem)sender).OwnerItem, new Control[] { clickedControl, });
+        }
+
+        private void allSelectedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MoveControls(((ToolStripMenuItem)sender).OwnerItem, selectedControls.ToArray());
+        }
+
+        private void allToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MoveControls(((ToolStripMenuItem)sender).OwnerItem, GetAllControls());
+        }
+
+        private void AddFavorite(IEnumerable<Control> controls)
+        {
+            SetParent(controls, _ => flowLayoutPanel_FavoritePlayers);
+        }
+
+        private void RemoveFavorite(IEnumerable<Control> controls)
+        {
+            SetParent(controls, _ => flowLayoutPanel_AllPlayers);
+        }
+
+        private void Inverse(IEnumerable<Control> controls)
+        {
+            SetParent(controls, control => control.Parent == flowLayoutPanel_AllPlayers ? flowLayoutPanel_FavoritePlayers : flowLayoutPanel_AllPlayers);
+        }
+
+        #endregion
         #endregion
 
         private void button_Validate_Click(object sender, EventArgs e)
@@ -150,6 +242,14 @@ namespace foot2rue.WF.InitialSetup
             //SettingsService.FavoritePlayers = names;
             SettingsService.Save();
             onValidation.Invoke();
+        }
+
+        private Control[] GetAllControls()
+        {
+            Control[] controls = new Control[flowLayoutPanel_AllPlayers.Controls.Count + flowLayoutPanel_FavoritePlayers.Controls.Count];
+            flowLayoutPanel_AllPlayers.Controls.CopyTo(controls, 0);
+            flowLayoutPanel_FavoritePlayers.Controls.CopyTo(controls, flowLayoutPanel_AllPlayers.Controls.Count);
+            return controls;
         }
     }
 }

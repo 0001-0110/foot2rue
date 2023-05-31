@@ -10,7 +10,7 @@ namespace foot2rue.WF
 #if DEBUG
         static SettingsService()
         {
-            //Default.Reset();
+            Default.Reset();
         }
 #endif
 

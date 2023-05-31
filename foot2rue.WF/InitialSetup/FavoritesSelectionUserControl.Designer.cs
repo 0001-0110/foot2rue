@@ -28,9 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             button1 = new Button();
             flowLayoutPanel_FavoritePlayers = new FlowLayoutPanel();
             flowLayoutPanel_AllPlayers = new FlowLayoutPanel();
+            contextMenuStrip = new ContextMenuStrip(components);
+            addFavoriteToolStripMenuItem = new ToolStripMenuItem();
+            thisOneToolStripMenuItem = new ToolStripMenuItem();
+            allSelectedToolStripMenuItem = new ToolStripMenuItem();
+            allToolStripMenuItem = new ToolStripMenuItem();
+            removeFavoriteToolStripMenuItem = new ToolStripMenuItem();
+            thisOneToolStripMenuItem1 = new ToolStripMenuItem();
+            allSelectedToolStripMenuItem1 = new ToolStripMenuItem();
+            allToolStripMenuItem1 = new ToolStripMenuItem();
+            inverseSelectionToolStripMenuItem = new ToolStripMenuItem();
+            thisOneToolStripMenuItem2 = new ToolStripMenuItem();
+            allSelectedToolStripMenuItem2 = new ToolStripMenuItem();
+            allToolStripMenuItem2 = new ToolStripMenuItem();
+            contextMenuStrip.SuspendLayout();
             SuspendLayout();
             // 
             // button1
@@ -65,6 +80,98 @@
             flowLayoutPanel_AllPlayers.DragDrop += control_DragDrop;
             flowLayoutPanel_AllPlayers.DragEnter += control_DragEnter;
             // 
+            // contextMenuStrip
+            // 
+            contextMenuStrip.ImageScalingSize = new Size(20, 20);
+            contextMenuStrip.Items.AddRange(new ToolStripItem[] { addFavoriteToolStripMenuItem, removeFavoriteToolStripMenuItem, inverseSelectionToolStripMenuItem });
+            contextMenuStrip.Name = "contextMenuStrip1";
+            contextMenuStrip.Size = new Size(211, 104);
+            contextMenuStrip.Opening += contextMenuStrip_Opening;
+            // 
+            // addFavoriteToolStripMenuItem
+            // 
+            addFavoriteToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { thisOneToolStripMenuItem, allSelectedToolStripMenuItem, allToolStripMenuItem });
+            addFavoriteToolStripMenuItem.Name = "addFavoriteToolStripMenuItem";
+            addFavoriteToolStripMenuItem.Size = new Size(210, 24);
+            addFavoriteToolStripMenuItem.Text = "Add favorite";
+            // 
+            // thisOneToolStripMenuItem
+            // 
+            thisOneToolStripMenuItem.Name = "thisOneToolStripMenuItem";
+            thisOneToolStripMenuItem.Size = new Size(224, 26);
+            thisOneToolStripMenuItem.Text = "This one";
+            thisOneToolStripMenuItem.Click += thisOneToolStripMenuItem_Click;
+            // 
+            // allSelectedToolStripMenuItem
+            // 
+            allSelectedToolStripMenuItem.Name = "allSelectedToolStripMenuItem";
+            allSelectedToolStripMenuItem.Size = new Size(224, 26);
+            allSelectedToolStripMenuItem.Text = "All selected";
+            allSelectedToolStripMenuItem.Click += allSelectedToolStripMenuItem_Click;
+            // 
+            // allToolStripMenuItem
+            // 
+            allToolStripMenuItem.Name = "allToolStripMenuItem";
+            allToolStripMenuItem.Size = new Size(224, 26);
+            allToolStripMenuItem.Text = "All";
+            allToolStripMenuItem.Click += allToolStripMenuItem_Click;
+            // 
+            // removeFavoriteToolStripMenuItem
+            // 
+            removeFavoriteToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { thisOneToolStripMenuItem1, allSelectedToolStripMenuItem1, allToolStripMenuItem1 });
+            removeFavoriteToolStripMenuItem.Name = "removeFavoriteToolStripMenuItem";
+            removeFavoriteToolStripMenuItem.Size = new Size(210, 24);
+            removeFavoriteToolStripMenuItem.Text = "Remove favorite";
+            // 
+            // thisOneToolStripMenuItem1
+            // 
+            thisOneToolStripMenuItem1.Name = "thisOneToolStripMenuItem1";
+            thisOneToolStripMenuItem1.Size = new Size(224, 26);
+            thisOneToolStripMenuItem1.Text = "This one";
+            thisOneToolStripMenuItem1.Click += thisOneToolStripMenuItem_Click;
+            // 
+            // allSelectedToolStripMenuItem1
+            // 
+            allSelectedToolStripMenuItem1.Name = "allSelectedToolStripMenuItem1";
+            allSelectedToolStripMenuItem1.Size = new Size(224, 26);
+            allSelectedToolStripMenuItem1.Text = "All selected";
+            allSelectedToolStripMenuItem1.Click += allSelectedToolStripMenuItem_Click;
+            // 
+            // allToolStripMenuItem1
+            // 
+            allToolStripMenuItem1.Name = "allToolStripMenuItem1";
+            allToolStripMenuItem1.Size = new Size(224, 26);
+            allToolStripMenuItem1.Text = "All";
+            allToolStripMenuItem1.Click += allToolStripMenuItem_Click;
+            // 
+            // inverseSelectionToolStripMenuItem
+            // 
+            inverseSelectionToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { thisOneToolStripMenuItem2, allSelectedToolStripMenuItem2, allToolStripMenuItem2 });
+            inverseSelectionToolStripMenuItem.Name = "inverseSelectionToolStripMenuItem";
+            inverseSelectionToolStripMenuItem.Size = new Size(210, 24);
+            inverseSelectionToolStripMenuItem.Text = "Inverse";
+            // 
+            // thisOneToolStripMenuItem2
+            // 
+            thisOneToolStripMenuItem2.Name = "thisOneToolStripMenuItem2";
+            thisOneToolStripMenuItem2.Size = new Size(224, 26);
+            thisOneToolStripMenuItem2.Text = "This one";
+            thisOneToolStripMenuItem2.Click += thisOneToolStripMenuItem_Click;
+            // 
+            // allSelectedToolStripMenuItem2
+            // 
+            allSelectedToolStripMenuItem2.Name = "allSelectedToolStripMenuItem2";
+            allSelectedToolStripMenuItem2.Size = new Size(224, 26);
+            allSelectedToolStripMenuItem2.Text = "All selected";
+            allSelectedToolStripMenuItem2.Click += allSelectedToolStripMenuItem_Click;
+            // 
+            // allToolStripMenuItem2
+            // 
+            allToolStripMenuItem2.Name = "allToolStripMenuItem2";
+            allToolStripMenuItem2.Size = new Size(224, 26);
+            allToolStripMenuItem2.Text = "All";
+            allToolStripMenuItem2.Click += allToolStripMenuItem_Click;
+            // 
             // FavoritesSelectionUserControl
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -75,6 +182,7 @@
             Name = "FavoritesSelectionUserControl";
             Size = new Size(873, 373);
             Load += FavoritesSelectionUserControl_Load;
+            contextMenuStrip.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -83,5 +191,18 @@
         private Button button1;
         private FlowLayoutPanel flowLayoutPanel_FavoritePlayers;
         private FlowLayoutPanel flowLayoutPanel_AllPlayers;
+        private ContextMenuStrip contextMenuStrip;
+        private ToolStripMenuItem addFavoriteToolStripMenuItem;
+        private ToolStripMenuItem thisOneToolStripMenuItem;
+        private ToolStripMenuItem allSelectedToolStripMenuItem;
+        private ToolStripMenuItem allToolStripMenuItem;
+        private ToolStripMenuItem removeFavoriteToolStripMenuItem;
+        private ToolStripMenuItem thisOneToolStripMenuItem1;
+        private ToolStripMenuItem allSelectedToolStripMenuItem1;
+        private ToolStripMenuItem allToolStripMenuItem1;
+        private ToolStripMenuItem inverseSelectionToolStripMenuItem;
+        private ToolStripMenuItem thisOneToolStripMenuItem2;
+        private ToolStripMenuItem allSelectedToolStripMenuItem2;
+        private ToolStripMenuItem allToolStripMenuItem2;
     }
 }
