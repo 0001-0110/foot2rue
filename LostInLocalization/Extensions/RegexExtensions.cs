@@ -1,10 +1,10 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace foot2rue.WF.Extensions
+namespace LostInLocalization.Extensions
 {
     internal static class RegexExtensions
     {
-        public static string Replace(this Regex regex, string input, Func<string , string> replacing)
+        public static string Replace(this Regex regex, string input, Func<string, string> replacing)
         {
             Match match = regex.Match(input);
             for (int i = 1; i < match.Groups.Count; i++)

@@ -1,5 +1,5 @@
 ﻿using foot2rue.WF.Extensions;
-using foot2rue.WF.Services;
+using LostInLocalization;
 using System.Globalization;
 
 namespace foot2rue.WF.Settings

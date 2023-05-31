@@ -9,37 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Localization\LocalizationFiles\de-DE.xml" />
-    <None Remove="Localization\LocalizationFiles\en-UK.xml" />
-    <None Remove="Localization\LocalizationFiles\en-US.xml" />
-    <None Remove="Localization\LocalizationFiles\fr-FR.xml" />
-    <None Remove="Localization\LocalizationFiles\hr-HR.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="Localization\LocalizationFiles\de-DE.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </AdditionalFiles>
-    <AdditionalFiles Include="Localization\LocalizationFiles\en-UK.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </AdditionalFiles>
-    <AdditionalFiles Include="Localization\LocalizationFiles\en-US.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </AdditionalFiles>
-    <AdditionalFiles Include="Localization\LocalizationFiles\fr-FR.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </AdditionalFiles>
-    <AdditionalFiles Include="Localization\LocalizationFiles\hr-HR.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </AdditionalFiles>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\foot2rue.DAL\foot2rue.DAL.csproj" />
+    <ProjectReference Include="..\LostInLocalization\LostInLocalization.csproj" />
   </ItemGroup>
 
   <ItemGroup>

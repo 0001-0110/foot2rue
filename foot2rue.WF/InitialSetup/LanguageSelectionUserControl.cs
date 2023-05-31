@@ -1,7 +1,6 @@
-﻿using foot2rue.WF.Utilities;
-using foot2rue.WF.Extensions;
+﻿using foot2rue.WF.Extensions;
+using LostInLocalization;
 using System.Globalization;
-using foot2rue.WF.Services;
 
 namespace foot2rue.WF.InitialSetup
 {
