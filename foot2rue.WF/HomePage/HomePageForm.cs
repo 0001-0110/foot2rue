@@ -6,7 +6,6 @@ using foot2rue.WF.Services;
 using foot2rue.WF.Settings;
 using foot2rue.WF.Utilities;
 using System.Data;
-using System.Drawing.Printing;
 
 namespace foot2rue.WF.HomePage
 {
