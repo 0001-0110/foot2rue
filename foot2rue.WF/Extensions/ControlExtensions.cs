@@ -20,6 +20,31 @@ namespace foot2rue.WF.Extensions
             parent?.Controls.Add(control);
         }
 
+        #region
+
+        private static void control_PaintSelected(object? sender, PaintEventArgs e)
+        {
+            Control control = (Control)sender!;
+            // Draw a border around the selected control
+            ControlPaint.DrawBorder(e.Graphics, control.ClientRectangle, Color.Black, ButtonBorderStyle.Solid);
+        }
+
+        public static void ShowSelected(this Control control)
+        {
+            control.Paint += control_PaintSelected;
+            // Force redraw this control
+            control.Invalidate();
+        }
+
+        public static void ShowDeselected(this Control control)
+        {
+            control.Paint -= control_PaintSelected;
+            // Force redraw this control
+            control.Invalidate();
+        }
+
+        #endregion
+
         [Obsolete]
         public static void SetBackColor(this Control control, Color color, bool recursive = true)
         {

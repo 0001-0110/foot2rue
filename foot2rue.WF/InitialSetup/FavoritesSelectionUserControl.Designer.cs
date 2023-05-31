@@ -51,8 +51,8 @@
             flowLayoutPanel_FavoritePlayers.Name = "flowLayoutPanel_FavoritePlayers";
             flowLayoutPanel_FavoritePlayers.Size = new Size(410, 250);
             flowLayoutPanel_FavoritePlayers.TabIndex = 1;
-            flowLayoutPanel_FavoritePlayers.DragDrop += flowLayoutPanel_DragDrop;
-            flowLayoutPanel_FavoritePlayers.DragEnter += flowLayoutPanel_DragEnter;
+            flowLayoutPanel_FavoritePlayers.DragDrop += control_DragDrop;
+            flowLayoutPanel_FavoritePlayers.DragEnter += control_DragEnter;
             // 
             // flowLayoutPanel_AllPlayers
             // 
@@ -62,8 +62,8 @@
             flowLayoutPanel_AllPlayers.Name = "flowLayoutPanel_AllPlayers";
             flowLayoutPanel_AllPlayers.Size = new Size(371, 250);
             flowLayoutPanel_AllPlayers.TabIndex = 2;
-            flowLayoutPanel_AllPlayers.DragDrop += flowLayoutPanel_DragDrop;
-            flowLayoutPanel_AllPlayers.DragEnter += flowLayoutPanel_DragEnter;
+            flowLayoutPanel_AllPlayers.DragDrop += control_DragDrop;
+            flowLayoutPanel_AllPlayers.DragEnter += control_DragEnter;
             // 
             // FavoritesSelectionUserControl
             // 
