@@ -1,5 +1,6 @@
 ﻿using foot2rue.WF.InitialSetup;
 using foot2rue.WF.Extensions;
+using LostInLocalization.Extensions;
 
 namespace foot2rue.WF
 {

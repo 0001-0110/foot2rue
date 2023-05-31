@@ -1,5 +1,6 @@
 ﻿using foot2rue.WF.Extensions;
 using foot2rue.WF.Services;
+using LostInLocalization.Extensions;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using Timer = System.Windows.Forms.Timer;
