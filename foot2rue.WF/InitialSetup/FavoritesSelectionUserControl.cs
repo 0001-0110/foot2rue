@@ -38,6 +38,8 @@ namespace foot2rue.WF.InitialSetup
             selectedControls = new List<Control>();
             InitializeComponent();
             this.LoadLocalization();
+            // This must be loaded separalty since it is not one the the form's control
+            contextMenuStrip.LoadLocalization();
         }
 
         private async void FavoritesSelectionUserControl_Load(object sender, EventArgs e)

@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.Windows.Forms;
 
 namespace LostInLocalization.Extensions
 {
@@ -34,7 +33,13 @@ namespace LostInLocalization.Extensions
             if (control is ToolStrip toolStrip)
             {
                 foreach (ToolStripItem child in toolStrip.Items)
-                    child.LoadLocalization(culture);
+                {
+                    if (child is ToolStripMenuItem menuItem)
+                        menuItem.LoadLocalization(culture, recursive);
+                    else
+                        child.LoadLocalization(culture);
+                }
+
                 return;
             }
 
@@ -42,15 +47,30 @@ namespace LostInLocalization.Extensions
                 child.LoadLocalization(culture, recursive);
         }
 
-        public static void LoadLocalization(this ToolStripItem item)
+        public static void LoadLocalization(this ToolStripItem item, bool recursive = true)
         {
-            item.LoadLocalization(LocalizationService.Instance.Culture);
+            if (item is ToolStripMenuItem menuItem)
+                menuItem.LoadLocalization(LocalizationService.Instance.Culture, recursive);
+            else
+                item.LoadLocalization(LocalizationService.Instance.Culture);
         }
 
         public static void LoadLocalization(this ToolStripItem item, CultureInfo culture)
         {
             if (item.Tag is string localizationString)
                 item.Text = LocalizationService.Instance.GetLocalizedString(localizationString);
+        }
+
+        public static void LoadLocalization(this ToolStripMenuItem item, CultureInfo culture, bool recursive = true)
+        {
+            if (item.Tag is string localizationString)
+                item.Text = LocalizationService.Instance.GetLocalizedString(localizationString);
+
+            if (!recursive)
+                return;
+
+            foreach (ToolStripMenuItem child in item.DropDownItems)
+                child.LoadLocalization(culture, recursive);
         }
     }
 }

@@ -8,7 +8,16 @@
 	
 	<string name="Button_Cancel">Cancel</string>
 	<string name="Button_Quit">Quit</string>
-	
+
+	<!-- Favorite player selection -->
+
+	<string name="Button_AddFavorite">Add favorite</string>"
+	<string name="Button_RemoveFavorite">Remove favorite</string>"
+	<string name="Button_Inverse">Inverse</string>"
+	<string name="Button_ThisOne">This one</string>"
+	<string name="Button_AllSelected">All selected</string>"
+	<string name="Button_All">All</string>"
+
 	<!-- Home Page -->
 	
 	<string name="Button_Settings">Settings</string>
