@@ -1,30 +1,29 @@
-﻿using foot2rue.WF.Extensions;
-using foot2rue.WF.Localization;
-using foot2rue.WF.Utilities;
+﻿using LostInLocalization.Extensions;
+using LostInLocalization.Utilities;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Xml;
 
-namespace foot2rue.WF.Services
+namespace LostInLocalization
 {
-    internal class LocalizationService
+    public class LocalizationService
     {
-        private readonly string LOCALIZATIONFOLDER = Path.Combine("Localization", "LocalizationFiles");
+        private readonly string LOCALIZATIONFOLDER = "LocalizationFiles";
         // Matches and capture evertythin inside curly braces
         private static readonly Regex localizationRegex = new Regex("{([^}]*)}");
         private static readonly CultureInfo DefaultCulture = new CultureInfo((int)SupportedLanguage.English_US);
 
-        public static readonly LocalizationService Instance = new LocalizationService(SettingsService.Culture);
+        public static LocalizationService Instance = new LocalizationService();
 
         private Dictionary<string, string> localizationStrings;
 
         private CultureInfo culture;
         public CultureInfo Culture
         {
-            get 
+            get
             {
-                return culture; 
+                return culture;
             }
             set
             {
@@ -44,9 +43,9 @@ namespace foot2rue.WF.Services
             }
         }
 
-        private LocalizationService(CultureInfo culture)
+        private LocalizationService()
         {
-            Culture = culture;
+            Culture = DefaultCulture;
             // Not awaited on purpose
             LoadLocalizationFile();
         }

@@ -5,6 +5,7 @@ using foot2rue.WF.MessageBoxes;
 using foot2rue.WF.Services;
 using foot2rue.WF.Settings;
 using foot2rue.WF.Utilities;
+using LostInLocalization.Extensions;
 using System.Data;
 
 namespace foot2rue.WF.HomePage

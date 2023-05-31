@@ -1,8 +1,6 @@
-﻿using foot2rue.WF.Services;
-
-namespace foot2rue.WF.Extensions
+﻿namespace LostInLocalization.Extensions
 {
-    internal static class EnumExtensions
+    public static class EnumExtensions
     {
         public static string GetLocalizedString<T>(this T self) where T : Enum
         {

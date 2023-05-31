@@ -1,8 +1,10 @@
-﻿using foot2rue.WF.Services;
+﻿using foot2rue.DAL.Models;
 using foot2rue.DAL.Repositories;
 using foot2rue.WF.Extensions;
-using foot2rue.DAL.Models;
+using foot2rue.WF.Services;
 using foot2rue.WF.Utilities;
+using LostInLocalization;
+using LostInLocalization.Extensions;
 
 namespace foot2rue.WF.InitialSetup
 {

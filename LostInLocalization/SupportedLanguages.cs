@@ -1,8 +1,6 @@
-﻿using System.Globalization;
-
-namespace foot2rue.WF.Localization
+﻿namespace LostInLocalization
 {
-    internal enum SupportedLanguage
+    public enum SupportedLanguage
     {
         English_US = 1033,
         English_UK = 2057,
