@@ -75,6 +75,10 @@ namespace foot2rue.WF.Extensions
 
         public static void SetItems<T>(this ToolStripComboBox comboBox, IEnumerable<T>? items, Func<T, string> naming, T selectedItem)
         {
+            // This is necessary because (avoids crash on exit during setup)
+            if (comboBox.IsDisposed)
+                return;
+
             // ToList is necessary here
             // Not sure why, but it probably has to do with the fect that some enumerable are immutable (I guess ?)
             // If not present, the selectedItemDisplay cannot be found
