@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms.Layout;
-
-namespace foot2rue.WF.Extensions
+﻿namespace foot2rue.WF.Extensions
 {
     internal static class ToolStripItemCollectionExtensions
     {

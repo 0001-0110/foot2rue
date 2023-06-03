@@ -1,6 +1,5 @@
 ﻿using foot2rue.WF.Extensions;
 using foot2rue.WF.Services;
-using LostInLocalization.Extensions;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using Timer = System.Windows.Forms.Timer;
@@ -44,7 +43,27 @@ namespace foot2rue.WF.InitialSetup
 
         private async void FavoritesSelectionUserControl_Load(object sender, EventArgs e)
         {
+            RefreshLabel();
             await InitFlowLayoutPanels();
+        }
+
+        private void RefreshLabel()
+        {
+            int playerCount = flowLayoutPanel_FavoritePlayers.Controls.Count;
+            label1.SetLocalizationString($"{{Label_SelectedPlayers}}: {playerCount} / {FAVORITECOUNT}");
+            label1.ForeColor = playerCount != FAVORITECOUNT ? Color.Red : Color.White;
+        }
+
+        private async Task InvalidInput()
+        {
+            Color backColor = label1.BackColor;
+            for (int i = 0; i < 3; i++)
+            {
+                label1.BackColor = Color.Red;
+                await Task.Delay(50);
+                label1.BackColor = backColor;
+                await Task.Delay(50);
+            }
         }
 
         private async Task InitFlowLayoutPanels()
@@ -162,6 +181,7 @@ namespace foot2rue.WF.InitialSetup
                 control.ShowDeselected();
             }
             selectedControls.Clear();
+            RefreshLabel();
         }
 
         #region Context menu strip
@@ -240,7 +260,10 @@ namespace foot2rue.WF.InitialSetup
             names.AddRange(flowLayoutPanel_FavoritePlayers.Controls.OfType<PlayerDisplayUserControl>().Select(control => control.Player.Name).ToArray());
 
             if (names.Count != FAVORITECOUNT)
+            {
+                Task.Run(InvalidInput);
                 return;
+            }
 
             //SettingsService.FavoritePlayers = names;
             SettingsService.Save();

@@ -24,7 +24,7 @@ namespace foot2rue.WF.InitialSetup
 
         private void TeamSelectionUserControl_Load(object sender, EventArgs e)
         {
-            comboBox_GenreSelection.SetItems(EnumUtility.GetEnumValues<Genre>(), genre => genre.GetLocalizedString(),-1);
+            comboBox_GenreSelection.SetItems(EnumUtility.GetEnumValues<Genre>(), genre => genre.GetLocalizedString(), -1);
         }
 
         private async void comboBox_GenreSelection_SelectedIndexChanged(object sender, EventArgs e)

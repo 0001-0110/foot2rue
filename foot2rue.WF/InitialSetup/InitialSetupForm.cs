@@ -32,6 +32,8 @@ namespace foot2rue.WF
                     Anchor = AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom | AnchorStyles.Left,
                     Dock = DockStyle.Fill,
                 });
+            Size = new Size(640, 360);
+            CenterToScreen();
         }
 
         private void OnLanguageValidation()
@@ -41,6 +43,7 @@ namespace foot2rue.WF
                 {
                     Dock = DockStyle.Fill,
                 });
+            CenterToScreen();
         }
 
         private void OnTeamValidation()
@@ -50,6 +53,8 @@ namespace foot2rue.WF
                 {
                     Dock = DockStyle.Fill,
                 });
+            Size = new Size(1280, 720);
+            CenterToScreen();
         }
 
         private void OnFavoritesValidation()

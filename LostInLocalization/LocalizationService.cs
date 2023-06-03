@@ -96,5 +96,25 @@ namespace LostInLocalization
         {
             return localizationRegex.Replace(localizationString, str => localizationStrings.GetValueOrDefault(str, str));
         }
+
+        public string Globalize(int value)
+        {
+            return value.ToString(Culture);
+        }
+
+        public string Globalize(float value)
+        {
+            return value.ToString(Culture);
+        }
+
+        public string Globalize(double value)
+        {
+            return value.ToString(Culture);
+        }
+
+        public string Globalize(string value) 
+        {
+            return value.ToString(Culture);
+        }
     }
 }

@@ -43,6 +43,8 @@ namespace foot2rue.WF.HomePage
 
         private async void HomePageForm_Shown(object? sender, EventArgs e)
         {
+            CenterToScreen();
+
             // If there already is a settings file, we can skip the initial setup
             if (SettingsService.FirstLaunch)
                 InitialSetup();
