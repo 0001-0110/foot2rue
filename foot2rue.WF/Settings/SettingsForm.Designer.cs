@@ -34,11 +34,12 @@
             label1 = new Label();
             label2 = new Label();
             checkBox_OfflineModeSelection = new CheckBox();
+            buttonResetSettings = new Button();
             SuspendLayout();
             // 
             // button_Save
             // 
-            button_Save.Location = new Point(380, 247);
+            button_Save.Location = new Point(380, 244);
             button_Save.Name = "button_Save";
             button_Save.Size = new Size(94, 29);
             button_Save.TabIndex = 0;
@@ -49,7 +50,7 @@
             // 
             // button_Cancel
             // 
-            button_Cancel.Location = new Point(149, 247);
+            button_Cancel.Location = new Point(149, 244);
             button_Cancel.Name = "button_Cancel";
             button_Cancel.Size = new Size(94, 29);
             button_Cancel.TabIndex = 1;
@@ -62,7 +63,7 @@
             // 
             comboBox_LanguageSelection.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_LanguageSelection.FormattingEnabled = true;
-            comboBox_LanguageSelection.Location = new Point(323, 94);
+            comboBox_LanguageSelection.Location = new Point(323, 76);
             comboBox_LanguageSelection.Name = "comboBox_LanguageSelection";
             comboBox_LanguageSelection.Size = new Size(151, 28);
             comboBox_LanguageSelection.TabIndex = 2;
@@ -83,20 +84,19 @@
             // label2
             // 
             label2.ForeColor = Color.White;
-            label2.Location = new Point(149, 98);
+            label2.Location = new Point(149, 76);
             label2.Name = "label2";
             label2.Size = new Size(151, 28);
             label2.TabIndex = 5;
             label2.Tag = "{LanguageSelection}:";
             label2.Text = "label2";
             label2.TextAlign = ContentAlignment.MiddleRight;
-            label2.Click += label2_Click;
             // 
             // checkBox_OfflineModeSelection
             // 
             checkBox_OfflineModeSelection.AutoSize = true;
             checkBox_OfflineModeSelection.ForeColor = Color.White;
-            checkBox_OfflineModeSelection.Location = new Point(261, 163);
+            checkBox_OfflineModeSelection.Location = new Point(261, 133);
             checkBox_OfflineModeSelection.Name = "checkBox_OfflineModeSelection";
             checkBox_OfflineModeSelection.Size = new Size(101, 24);
             checkBox_OfflineModeSelection.TabIndex = 6;
@@ -105,12 +105,24 @@
             checkBox_OfflineModeSelection.UseVisualStyleBackColor = true;
             checkBox_OfflineModeSelection.CheckedChanged += checkBox_OfflineModeSelection_CheckedChanged;
             // 
+            // buttonResetSettings
+            // 
+            buttonResetSettings.Location = new Point(261, 186);
+            buttonResetSettings.Name = "buttonResetSettings";
+            buttonResetSettings.Size = new Size(94, 29);
+            buttonResetSettings.TabIndex = 7;
+            buttonResetSettings.Tag = "{ResetSettings}";
+            buttonResetSettings.Text = "button2";
+            buttonResetSettings.UseVisualStyleBackColor = true;
+            buttonResetSettings.Click += buttonResetSettings_Click;
+            // 
             // SettingsForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(51, 51, 51);
             ClientSize = new Size(622, 313);
+            Controls.Add(buttonResetSettings);
             Controls.Add(checkBox_OfflineModeSelection);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -134,5 +146,6 @@
         private Label label1;
         private Label label2;
         private CheckBox checkBox_OfflineModeSelection;
+        private Button buttonResetSettings;
     }
 }

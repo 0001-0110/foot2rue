@@ -60,7 +60,7 @@
             button1.Name = "button1";
             button1.Size = new Size(94, 29);
             button1.TabIndex = 2;
-            button1.Tag = "{Button_Ok}";
+            button1.Tag = "{Ok}";
             button1.Text = "button1";
             button1.UseVisualStyleBackColor = true;
             button1.Click += validate_Click;

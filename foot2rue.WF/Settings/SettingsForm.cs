@@ -15,6 +15,7 @@ namespace foot2rue.WF.Settings
         Cancel = 1 << 0,
         LanguageChanged = 1 << 1,
         OfflineModeChanged = 1 << 2,
+        SettingsReseted = LanguageChanged | 1 << 3,
     }
 
     public partial class SettingsForm : Form
@@ -22,12 +23,7 @@ namespace foot2rue.WF.Settings
         private SettingsService settingsService;
         private LocalizationService localizationService;
 
-        private SettingsDialogResult settingsDialogResult;
-        public SettingsDialogResult SettingsDialogResult
-        {
-            get { return settingsDialogResult; }
-            private set { settingsDialogResult = value; DialogResult = DialogResult.OK; }
-        }
+        public SettingsDialogResult SettingsDialogResult { get; private set; }
 
         private bool languageChanged;
         private bool offlineModeChanged;
@@ -39,55 +35,62 @@ namespace foot2rue.WF.Settings
             InitializeComponent();
         }
 
-        private void SettingsForm_Load(object sender, EventArgs e)
+        private void Init()
         {
             comboBox_LanguageSelection.LoadLanguageSelection();
             checkBox_OfflineModeSelection.Checked = settingsService.OfflineMode;
+        }
+
+        private void SettingsForm_Load(object sender, EventArgs e)
+        {
+            Init();
             // This needs to be set after loading the languages because otherwise index changed sets it back to true everytime
-            languageChanged = false;
-            offlineModeChanged = false;
+            SettingsDialogResult = SettingsDialogResult.None;
         }
 
         private void comboBox_LanguageSelection_SelectedIndexChanged(object sender, EventArgs e)
         {
-            languageChanged = true;
+            SettingsDialogResult |= SettingsDialogResult.LanguageChanged;
             this.LoadLocalization((CultureInfo)comboBox_LanguageSelection.SelectedItem);
         }
 
         private void checkBox_OfflineModeSelection_CheckedChanged(object sender, EventArgs e)
         {
-            offlineModeChanged = true;
+            SettingsDialogResult |= SettingsDialogResult.OfflineModeChanged;
+        }
+
+        private void buttonResetSettings_Click(object sender, EventArgs e)
+        {
+            // You can't cancel a reset
+            button_Cancel.Disable();
+            settingsService.ResetSettings();
+            settingsService.SaveSettings();
+            this.InitialSetup(settingsService);
+            SettingsDialogResult |= SettingsDialogResult.SettingsReseted;
+            Close();
         }
 
         private void button_Save_Click(object sender, EventArgs e)
         {
-            // TOCHECK Using a variable is necessary since setting the SettingsDialogResult would close the form
-            SettingsDialogResult settingsDialogResult = SettingsDialogResult.None;
-            if (languageChanged)
+            if (SettingsDialogResult.HasFlag(SettingsDialogResult.LanguageChanged))
             {
                 CultureInfo culture = comboBox_LanguageSelection.GetSelectedItem<CultureInfo>();
                 settingsService.Culture = culture;
                 localizationService.Culture = culture;
-                settingsDialogResult |= SettingsDialogResult.LanguageChanged;
             }
-            if (offlineModeChanged)
-            {
+            if (SettingsDialogResult.HasFlag(SettingsDialogResult.OfflineModeChanged))
                 settingsService.OfflineMode = checkBox_OfflineModeSelection.Checked;
-                settingsDialogResult |= SettingsDialogResult.OfflineModeChanged;
-            }
-            if (languageChanged || offlineModeChanged)
-                settingsService.SaveSettings();
-            SettingsDialogResult = settingsDialogResult;
+
+            // No need to do anything if settings have been reseted since it already modified these changes
+
+            settingsService.SaveSettings();
+            Close();
         }
 
         private void button_Cancel_Click(object sender, EventArgs e)
         {
             SettingsDialogResult = SettingsDialogResult.Cancel;
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
+            Close();
         }
     }
 }

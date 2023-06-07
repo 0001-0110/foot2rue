@@ -1,12 +1,12 @@
 ﻿using foot2rue.WF.Extensions;
-using LostInLocalization.Extensions;
 
 namespace foot2rue.WF.MessageBoxes
 {
-    public partial class ExitConfirmationForm : Form
+    public partial class ConfirmationForm : Form
     {
-        public ExitConfirmationForm()
+        public ConfirmationForm(string localizationString)
         {
+            label1.SetLocalizationString(localizationString);
             InitializeComponent();
             this.LoadLocalization();
         }

@@ -43,7 +43,7 @@
             button1.Name = "button1";
             button1.Size = new Size(80, 35);
             button1.TabIndex = 0;
-            button1.Tag = "{Button_Ok}";
+            button1.Tag = "{Ok}";
             button1.Text = "button1";
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;

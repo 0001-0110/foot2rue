@@ -85,7 +85,7 @@
             toolStripButton_Settings.Name = "toolStripButton_Settings";
             toolStripButton_Settings.RightToLeft = RightToLeft.No;
             toolStripButton_Settings.Size = new Size(29, 25);
-            toolStripButton_Settings.Tag = "{Button_Settings}";
+            toolStripButton_Settings.Tag = "{Settings}";
             toolStripButton_Settings.Text = "toolStripButton1";
             toolStripButton_Settings.Click += toolStripButton_Settings_Click;
             // 
@@ -104,7 +104,7 @@
             toolStripButton_Print.Name = "toolStripButton_Print";
             toolStripButton_Print.RightToLeft = RightToLeft.No;
             toolStripButton_Print.Size = new Size(29, 25);
-            toolStripButton_Print.Tag = "{Button_Print}";
+            toolStripButton_Print.Tag = "{Print}";
             toolStripButton_Print.Text = "toolStripButton1";
             // 
             // tabControl1
@@ -130,7 +130,7 @@
             favoriteTabPage.Padding = new Padding(3);
             favoriteTabPage.Size = new Size(1574, 792);
             favoriteTabPage.TabIndex = 0;
-            favoriteTabPage.Tag = "{TabPage_FavoritePlayers}";
+            favoriteTabPage.Tag = "{FavoritePlayers}";
             favoriteTabPage.Text = "Favorites";
             // 
             // allPlayersTabPage
@@ -141,7 +141,7 @@
             allPlayersTabPage.Padding = new Padding(3);
             allPlayersTabPage.Size = new Size(1574, 792);
             allPlayersTabPage.TabIndex = 1;
-            allPlayersTabPage.Tag = "{TabPage_AllPlayers}";
+            allPlayersTabPage.Tag = "{AllPlayers}";
             allPlayersTabPage.Text = "All Players";
             // 
             // HomePageForm

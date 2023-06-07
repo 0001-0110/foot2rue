@@ -4,6 +4,7 @@ using foot2rue.WF.Extensions;
 using foot2rue.Settings;
 using foot2rue.WF.Utilities;
 using foot2rue.Settings.Extensions;
+using System.Linq;
 
 namespace foot2rue.WF.Services
 {
@@ -88,6 +89,13 @@ namespace foot2rue.WF.Services
             return teams;
         }
 
+        public async Task<Team?> GetTeamByFifaCode(string fifaCode)
+        {
+            if (teams == null)
+                await GetTeams();
+            return teams?.FirstOrDefault(team => team.FifaCode == fifaCode);
+        }
+
         private IEnumerable<TeamResult>? teamResults;
         public async Task<IEnumerable<TeamResult>?> GetTeamResults()
         {
@@ -130,7 +138,7 @@ namespace foot2rue.WF.Services
             repository = OfflineMode ? new JsonRepository(Genre) : new ApiRepository(Genre);
         }
 
-        private IEnumerable<Models.Player> ExtendPlayers(IEnumerable<DAL.Models.Player>? players, IEnumerable<Statistics>? statistics,IEnumerable<Event>? events)
+        private IEnumerable<Models.Player> ExtendPlayers(IEnumerable<DAL.Models.Player>? players, IEnumerable<Statistics>? statistics, IEnumerable<Event>? events)
         {
             if (players == null)
                 return Enumerable.Empty<Models.Player>();

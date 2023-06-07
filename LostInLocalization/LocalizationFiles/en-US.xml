@@ -5,27 +5,42 @@
 	
 	<string name="Enum_Men">Men</string>
 	<string name="Enum_Women">Women</string>
-	
-	<string name="Button_Cancel">Cancel</string>
-	<string name="Button_Quit">Quit</string>
+
+	<string name="Ok">Ok</string>
+	<string name="Cancel">Cancel</string>
+	<string name="Quit">Quit</string>
 
 	<!-- Favorite player selection -->
 
-	<string name="Button_AddFavorite">Add favorite</string>"
-	<string name="Button_RemoveFavorite">Remove favorite</string>"
-	<string name="Button_Inverse">Inverse</string>"
-	<string name="Button_ThisOne">This one</string>"
-	<string name="Button_AllSelected">All selected</string>"
-	<string name="Button_All">All</string>"
+	<string name="AddFavorite">Add favorite</string>"
+	<string name="RemoveFavorite">Remove favorite</string>"
+	<string name="Inverse">Inverse</string>"
+	<string name="ThisOne">This one</string>"
+	<string name="AllSelected">All selected</string>"
+	<string name="All">All</string>"
 
 	<!-- Home Page -->
 	
-	<string name="Button_Settings">Settings</string>
+	<string name="Print">Print</string>
+	<string name="Settings">Settings</string>
 	
-	<string name="TabPage_FavoritePlayers">Favorites</string>
-	<string name="TabPage_AllPlayers">All players</string>
+	<string name="FavoritePlayers">Favorites</string>
+	<string name="AllPlayers">All players</string>
+	
+	<!-- Settings -->
+
+	<string name="LanguageSelection">Select a language</string>
+
+	<string name="OfflineModeSelection">Offline mode</string>
+	<string name="ResetSettings">Reset settings</string>
+	<string name="SaveSettings">Save</string>
 	
 	<!-- Exit Confirmation -->
 	
-	<string name="Label_QuitConfirmation">You are about to quit the app, Are you sure ?</string>
+	<string name="QuitConfirmation">You are about to quit the app, Are you sure ?</string>
+
+	<!-- InitialSetupFailure -->
+
+	<string name="InitialSetupFailure">You have to finish setup to use the app. Now closing</string>
+	
 </localization>

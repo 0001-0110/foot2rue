@@ -10,5 +10,10 @@ namespace foot2rue.WF.MessageBoxes
             InitializeComponent();
             this.LoadLocalization();
         }
+
+        private void button_Confirm_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

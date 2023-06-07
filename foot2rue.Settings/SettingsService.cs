@@ -54,7 +54,11 @@ namespace foot2rue.Settings
         {
             // These are default values
             // The real values are going to override these one if there is any
+            ResetSettings();
+        }
 
+        public void ResetSettings()
+        {
             SelectedGenre = Genre.Men;
             SelectedTeamFifaCode = "FRA";
             FavoritePlayers = new StringCollection();

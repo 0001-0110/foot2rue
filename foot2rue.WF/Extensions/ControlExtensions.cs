@@ -95,6 +95,9 @@ namespace foot2rue.WF.Extensions
 
         public static void SetLocalizationString(this Control control, string localizationString)
         {
+            if (control == null || control.IsDisposed)
+                return;
+
             control.Tag = localizationString;
             control.LoadLocalization(false);
         }

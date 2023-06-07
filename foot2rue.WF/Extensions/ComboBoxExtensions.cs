@@ -113,7 +113,7 @@ namespace foot2rue.WF.Extensions
             comboBox.SelectedIndex = selectedIndex;
         }
 
-        public static T GetSelectedItem<T>(this ToolStripComboBox comboBox)
+        public static T? GetSelectedItem<T>(this ToolStripComboBox comboBox)
         {
             if (comboBox.SelectedItem is ItemDisplay<T> itemDisplay)
                 return itemDisplay.Item;

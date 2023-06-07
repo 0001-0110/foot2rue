@@ -1,6 +1,6 @@
 ﻿namespace foot2rue.WF.MessageBoxes
 {
-    partial class ExitConfirmationForm
+    partial class ConfirmationForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExitConfirmationForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfirmationForm));
             button_Confirm = new Button();
             button_Cancel = new Button();
             label1 = new Label();
@@ -38,7 +38,7 @@
             // 
             resources.ApplyResources(button_Confirm, "button_Confirm");
             button_Confirm.Name = "button_Confirm";
-            button_Confirm.Tag = "{Button_Quit}";
+            button_Confirm.Tag = "{Quit}";
             button_Confirm.UseVisualStyleBackColor = true;
             button_Confirm.Click += button_Confirm_Click;
             // 
@@ -46,7 +46,7 @@
             // 
             resources.ApplyResources(button_Cancel, "button_Cancel");
             button_Cancel.Name = "button_Cancel";
-            button_Cancel.Tag = "{Button_Cancel}";
+            button_Cancel.Tag = "{Cancel}";
             button_Cancel.UseVisualStyleBackColor = true;
             button_Cancel.Click += button_Cancel_Click;
             // 
@@ -54,12 +54,13 @@
             // 
             resources.ApplyResources(label1, "label1");
             label1.Name = "label1";
-            label1.Tag = "{Label_QuitConfirmation}";
+            label1.Tag = "{QuitConfirmation}";
             // 
             // ExitConfirmationForm
             // 
             resources.ApplyResources(this, "$this");
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(51, 51, 51);
             Controls.Add(label1);
             Controls.Add(button_Cancel);
             Controls.Add(button_Confirm);

@@ -29,16 +29,38 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InitialSetupFailureForm));
+            label1 = new Label();
+            button_Confirm = new Button();
             SuspendLayout();
+            // 
+            // label1
+            // 
+            resources.ApplyResources(label1, "label1");
+            label1.Name = "label1";
+            label1.Tag = "{InitialSetupFailure}";
+            // 
+            // button_Confirm
+            // 
+            resources.ApplyResources(button_Confirm, "button_Confirm");
+            button_Confirm.Name = "button_Confirm";
+            button_Confirm.Tag = "{Quit}";
+            button_Confirm.UseVisualStyleBackColor = true;
+            button_Confirm.Click += button_Confirm_Click;
             // 
             // InitialSetupFailureForm
             // 
             resources.ApplyResources(this, "$this");
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(51, 51, 51);
+            Controls.Add(label1);
+            Controls.Add(button_Confirm);
             Name = "InitialSetupFailureForm";
             ResumeLayout(false);
         }
 
         #endregion
+
+        private Label label1;
+        private Button button_Confirm;
     }
 }

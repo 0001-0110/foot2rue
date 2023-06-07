@@ -8,11 +8,13 @@ using foot2rue.WF.Settings;
 using foot2rue.WF.Utilities;
 using LostInLocalization.Extensions;
 using System.Data;
+using System.Globalization;
 
 namespace foot2rue.WF.HomePage
 {
     public partial class HomePageForm : Form
     {
+        private const string QUITCONFIRMATIONLOCALIZATIONSTRING = "{QuitConfirmation}";
         private static readonly Color BACKCOLOR = ColorUtility.FromHex("#333333");
         private static readonly Color FONTCOLOR = Color.White;
 
@@ -26,18 +28,58 @@ namespace foot2rue.WF.HomePage
             { get { return BACKCOLOR; } }
         }
 
-        private static SettingsService settingsService = SettingsService.Instance;
-        private DataService? dataService;
+        private SettingsService settingsService;
+        private DataService dataService;
 
         private DataDisplay? favoritesDataDisplay;
         private DataDisplay? allPlayersDataDisplay;
+        // TODO Add data display
+        private DataDisplay? allMatchesDataDisplay;
 
         public HomePageForm()
         {
+            settingsService = SettingsService.Instance;
+            dataService = new DataService();
             InitializeComponent();
             // Set the tool strip color
             ToolStripManager.Renderer = new ToolStripProfessionalRenderer(new CustomProfessionalColors());
-            this.LoadLocalization();
+            // No need to localize since it's done in refresh form for this form
+        }
+
+        private async Task RefreshForm(Genre? newGenre = null, Team? newTeam = null, bool? newOfflineMode = null, CultureInfo? newCulture = null)
+        {
+            // Some of these lines might be redundant, but its better to have everything centralized
+
+            if (newGenre != null)
+            {
+                dataService.SetGenre((Genre)newGenre);
+                settingsService.SelectedGenre = (Genre)newGenre;
+                await RefreshSelectionComboBoxes();
+            }
+
+            if (newTeam != null)
+            {
+                settingsService.SelectedTeamFifaCode = newTeam.FifaCode;
+            }
+
+            if (newGenre != null || newTeam != null)
+            {
+                await RefreshDataDisplays();
+            }
+
+            if (newOfflineMode != null)
+            {
+                dataService.SetOfflineMode((bool)newOfflineMode);
+                settingsService.OfflineMode = (bool)newOfflineMode;
+            }
+
+            if (newCulture != null)
+            {
+                this.LoadLocalization();
+                await RefreshSelectionComboBoxes();
+            }
+
+            settingsService.SaveSettings();
         }
 
         #region Form event handlers
@@ -52,17 +94,15 @@ namespace foot2rue.WF.HomePage
 
             // If there already is a settings file, we can skip the initial setup
             if (!SettingsService.SettingsExists())
-                InitialSetup();
+                this.InitialSetup(settingsService);
 
             // Get the genre from the settings
             // The genre is either loaded from the config file by the SettingsService
             // or in case of the first use, has been selected during the initial setup
-            dataService = new DataService();
+            dataService.SetGenre(settingsService.SelectedGenre);
 
-            // We need to run this on the main thread (so don't use Task.Run)
-            await InitSelectionComboBoxes();
             InitDataDisplays();
-            await RefreshDataDisplays();
+            await RefreshForm(settingsService.SelectedGenre, GetSelectedTeam(), newCulture: settingsService.Culture);
 
             // No need to load the data for dataDisplays since this is handled by the tabControl
         }
@@ -72,7 +112,7 @@ namespace foot2rue.WF.HomePage
             // If the user is the one trying to close the app, ask for confirmation
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                if (new ExitConfirmationForm().ShowDialog() == DialogResult.Cancel)
+                if (new ConfirmationForm(QUITCONFIRMATIONLOCALIZATIONSTRING).ShowDialog() == DialogResult.Cancel)
                 {
                     // Cancel the Closing event from closing the form.
                     e.Cancel = true;
@@ -97,25 +137,20 @@ namespace foot2rue.WF.HomePage
             if (selectedGenre == settingsService.SelectedGenre)
                 return;
 
-            dataService?.SetGenre(selectedGenre);
-            settingsService.SelectedGenre = selectedGenre;
-            settingsService.SaveSettings();
             // This line is refreshing genre comboBox for nothing, but it's not a big deal
-            await InitSelectionComboBoxes();
-            await RefreshDataDisplays();
+            await RefreshForm(newGenre: selectedGenre);
         }
 
         private async void toolStripComboBox_TeamSelection_SelectedIndexChanged(object? sender, EventArgs e)
         {
-            Team selectedTeam = toolStripComboBox_TeamSelection.GetSelectedItem<Team>();
+            Team? selectedTeam = toolStripComboBox_TeamSelection.GetSelectedItem<Team>();
 
+            // If the value is null, no team is selected
             // If the value is the same than the previous one, no need to reload everything
-            if (selectedTeam.FifaCode == settingsService.SelectedTeamFifaCode)
+            if (selectedTeam == null || selectedTeam.FifaCode == settingsService.SelectedTeamFifaCode)
                 return;
 
-            settingsService.SelectedTeamFifaCode = selectedTeam.FifaCode;
-            settingsService.SaveSettings();
-            await RefreshDataDisplays();
+            await RefreshForm(newTeam: selectedTeam);
         }
 
         #endregion
@@ -144,39 +179,24 @@ namespace foot2rue.WF.HomePage
 
         private async void tabControl1_SelectedIndexChanged(object? sender, EventArgs e)
         {
-            // TODO
             // Find the data grid view
             // There should be only one, if there is none or more, throw
             DataDisplay? dataDisplay = (sender as TabControl)?.SelectedTab.Controls.OfType<DataDisplay>().Single();
             if (dataDisplay == null)
-                // TODO
+                // TODO ?
                 throw new Exception("HELP");
 
-            await dataDisplay.RefreshData(GetSelectedTeam().FifaCode);
+            // No need to refresh the form here, we only want the active datadisplay to load its data if needed
+            Team? selectedTeam = GetSelectedTeam();
+            if (selectedTeam != null)
+                await dataDisplay.RefreshData(selectedTeam.FifaCode);
         }
 
         #endregion
 
         #region Initialisation
 
-        private void InitialSetup()
-        {
-            Form initialSetupForm = new InitialSetupForm();
-            // We need to use ShowDialog to make sure that the initial setup is done before the user can interact with this form
-            DialogResult dialogResult = initialSetupForm.ShowDialog();
-            // We then check if the setup was succesful
-            // Could have failed if the user forcefully close the form for example
-            if (dialogResult != DialogResult.OK)
-            {
-                // TODO Do this form
-                new InitialSetupFailureForm().ShowDialog();
-                // Force quit
-                Application.Exit();
-            }
-            settingsService.SaveSettings();
-        }
-
-        private async Task InitSelectionComboBoxes()
+        private async Task RefreshSelectionComboBoxes()
         {
             toolStripComboBox_GenreSelection.SetItems(EnumUtility.GetEnumValues<Genre>(), genre => genre.GetLocalizedString(), settingsService.SelectedGenre);
 
@@ -210,7 +230,7 @@ namespace foot2rue.WF.HomePage
 
         #endregion
 
-        private Team GetSelectedTeam()
+        private Team? GetSelectedTeam()
         {
             return toolStripComboBox_TeamSelection.GetSelectedItem<Team>();
         }
@@ -266,15 +286,26 @@ namespace foot2rue.WF.HomePage
         {
             SettingsForm settingsForm = new SettingsForm();
             settingsForm.ShowDialog();
+
+            Genre? newGenre = null;
+            Team? newTeam = null;
+            bool? newOfflineMode = null;
+            CultureInfo? newCulture = null;
+
             if (settingsForm.SettingsDialogResult.HasFlag(SettingsDialogResult.Cancel))
                 return;
             if (settingsForm.SettingsDialogResult.HasFlag(SettingsDialogResult.LanguageChanged))
-            {
-                this.LoadLocalization();
-                await InitSelectionComboBoxes();
-            }
+                newCulture = settingsService.Culture;
             if (settingsForm.SettingsDialogResult.HasFlag(SettingsDialogResult.OfflineModeChanged))
-                dataService!.SetOfflineMode(settingsService.OfflineMode);
+                newOfflineMode = settingsService.OfflineMode;
+            if (settingsForm.SettingsDialogResult.HasFlag(SettingsDialogResult.SettingsReseted))
+            {
+                // No need to take care of the language here since a reset also triggers the language change
+                newGenre = settingsService.SelectedGenre;
+                newTeam = await dataService.GetTeamByFifaCode(settingsService.SelectedTeamFifaCode);
+            }
+
+            await RefreshForm(newGenre, newTeam, newOfflineMode, newCulture);
         }
     }
 }
