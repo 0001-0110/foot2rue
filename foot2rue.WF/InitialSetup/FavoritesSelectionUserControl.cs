@@ -1,4 +1,5 @@
-﻿using foot2rue.WF.Extensions;
+﻿using foot2rue.Settings;
+using foot2rue.WF.Extensions;
 using foot2rue.WF.Services;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -16,6 +17,8 @@ namespace foot2rue.WF.InitialSetup
         /// </remarks>
         private const int FAVORITECOUNT = 3;
 
+        private SettingsService settingsService;
+
         private Action onValidation;
 
         // Holding the mouse for less than this value is considered a click,
@@ -28,6 +31,7 @@ namespace foot2rue.WF.InitialSetup
 
         public FavoritesSelectionUserControl(Action onValidation)
         {
+            settingsService = SettingsService.Instance;
             this.onValidation = onValidation;
             clickTimer = new Timer()
             {
@@ -70,7 +74,7 @@ namespace foot2rue.WF.InitialSetup
         {
             IEnumerable<Control>? playerUserControls =
                 (await this.Wait(async () => await new DataService()
-                .GetPlayersByFifaCode(SettingsService.SelectedTeamFifaCode)))?
+                .GetPlayersByFifaCode(settingsService.SelectedTeamFifaCode)))?
                 .Select(player => new PlayerDisplayUserControl(player));
 
             if (playerUserControls == null)
@@ -255,7 +259,7 @@ namespace foot2rue.WF.InitialSetup
         {
             // TODO It would be nice to add some display showing how many players are and must be selected
 
-            StringCollection names = SettingsService.FavoritePlayers;
+            StringCollection names = settingsService.FavoritePlayers;
             names.Clear();
             names.AddRange(flowLayoutPanel_FavoritePlayers.Controls.OfType<PlayerDisplayUserControl>().Select(control => control.Player.Name).ToArray());
 
@@ -266,7 +270,7 @@ namespace foot2rue.WF.InitialSetup
             }
 
             //SettingsService.FavoritePlayers = names;
-            SettingsService.Save();
+            settingsService.SaveSettings();
             onValidation.Invoke();
         }
 

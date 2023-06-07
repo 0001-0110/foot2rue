@@ -2,6 +2,8 @@ using foot2rue.WF.Services;
 using System.Globalization;
 using foot2rue.WF.HomePage;
 using System.Diagnostics;
+using foot2rue.Settings.Extensions;
+using foot2rue.Settings;
 
 namespace foot2rue.WF
 {

@@ -12,7 +12,7 @@ namespace LostInLocalization
         private readonly string LOCALIZATIONFOLDER = "LocalizationFiles";
         // Matches and capture evertythin inside curly braces
         private static readonly Regex localizationRegex = new Regex("{([^}]*)}");
-        private static readonly CultureInfo DefaultCulture = new CultureInfo((int)SupportedLanguage.English_US);
+        public static readonly CultureInfo DefaultCulture = new CultureInfo((int)SupportedLanguage.English_US);
 
         public static LocalizationService Instance = new LocalizationService();
 
@@ -94,7 +94,7 @@ namespace LostInLocalization
 
         public string GetLocalizedString(string localizationString)
         {
-            return localizationRegex.Replace(localizationString, str => localizationStrings.GetValueOrDefault(str, str));
+            return localizationRegex.Replace(localizationString, str => localizationStrings.GetValueOrDefault(str, $"{{{str}}}"));
         }
 
         public string Globalize(int value)

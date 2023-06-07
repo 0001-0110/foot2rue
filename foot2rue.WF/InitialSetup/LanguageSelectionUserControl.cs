@@ -1,4 +1,5 @@
-﻿using foot2rue.WF.Extensions;
+﻿using foot2rue.Settings;
+using foot2rue.WF.Extensions;
 using LostInLocalization;
 using LostInLocalization.Extensions;
 using System.Globalization;
@@ -7,12 +8,14 @@ namespace foot2rue.WF.InitialSetup
 {
     public partial class LanguageSelectionUserControl : UserControl
     {
+        private SettingsService settingsService;
         private LocalizationService localizationService;
 
         private Action onValidate;
 
         public LanguageSelectionUserControl(Action onValidate)
         {
+            settingsService = SettingsService.Instance;
             localizationService = LocalizationService.Instance;
             this.onValidate += onValidate;
             InitializeComponent();
@@ -44,8 +47,8 @@ namespace foot2rue.WF.InitialSetup
                 return;
             }
 
-            SettingsService.Culture = comboBox1.GetSelectedItem<CultureInfo>();
-            SettingsService.Save();
+            settingsService.Culture = comboBox1.GetSelectedItem<CultureInfo>();
+            settingsService.SaveSettings();
             onValidate.Invoke();
         }
     }

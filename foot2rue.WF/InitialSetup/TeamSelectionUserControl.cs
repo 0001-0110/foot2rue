@@ -1,5 +1,6 @@
 ﻿using foot2rue.DAL.Models;
 using foot2rue.DAL.Repositories;
+using foot2rue.Settings;
 using foot2rue.WF.Extensions;
 using foot2rue.WF.Services;
 using foot2rue.WF.Utilities;
@@ -10,13 +11,16 @@ namespace foot2rue.WF.InitialSetup
 {
     public partial class TeamSelectionUserControl : UserControl
     {
-        private static LocalizationService localizationService = LocalizationService.Instance;
+        private SettingsService settingsService;
+        private LocalizationService localizationService;
         private DataService? dataService;
 
         private Action onValidate;
 
         public TeamSelectionUserControl(Action onValidate)
         {
+            settingsService = SettingsService.Instance;
+            localizationService = LocalizationService.Instance;
             this.onValidate = onValidate;
             InitializeComponent();
             this.LoadLocalization();
@@ -30,7 +34,7 @@ namespace foot2rue.WF.InitialSetup
         private async void comboBox_GenreSelection_SelectedIndexChanged(object sender, EventArgs e)
         {
             Genre selectedGenre = comboBox_GenreSelection.GetSelectedItem<Genre>();
-            SettingsService.SelectedGenre = selectedGenre;
+            settingsService.SelectedGenre = selectedGenre;
 
             // Once we have the genre, load the teams
             dataService = new DataService();
@@ -42,7 +46,7 @@ namespace foot2rue.WF.InitialSetup
         private void comboBox_TeamSelection_SelectedIndexChanged(object sender, EventArgs e)
         {
             Team selectedTeam = comboBox_TeamSelection.GetSelectedItem<Team>();
-            SettingsService.SelectedTeamFifaCode = selectedTeam.FifaCode;
+            settingsService.SelectedTeamFifaCode = selectedTeam.FifaCode;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -53,7 +57,7 @@ namespace foot2rue.WF.InitialSetup
                 return;
             }
 
-            SettingsService.Save();
+            settingsService.SaveSettings();
             onValidate.Invoke();
         }
     }

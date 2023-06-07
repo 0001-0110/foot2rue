@@ -79,7 +79,7 @@ namespace foot2rue.WF.Extensions
             // Not sure why, but it probably has to do with the fect that some enumerable are immutable (I guess ?)
             // If not present, the selectedItemDisplay cannot be found
             ICollection<ItemDisplay<T>>? itemDisplays = items?.Select(item => new ItemDisplay<T>(item, naming(item))).ToList();
-            ItemDisplay<T>? selectedItemDisplay = itemDisplays?.Single(itemDisplay => itemDisplay.Item?.Equals(selectedItem) ?? selectedItem is null);
+            ItemDisplay<T>? selectedItemDisplay = itemDisplays?.SingleOrDefault(itemDisplay => itemDisplay.Item?.Equals(selectedItem) ?? selectedItem is null);
             comboBox.SetItems(itemDisplays, selectedItemDisplay);
         }
 

@@ -1,5 +1,6 @@
 using foot2rue.DAL.Models;
 using foot2rue.DAL.Repositories;
+using foot2rue.Settings;
 using foot2rue.WF.Extensions;
 using foot2rue.WF.MessageBoxes;
 using foot2rue.WF.Services;
@@ -25,7 +26,7 @@ namespace foot2rue.WF.HomePage
             { get { return BACKCOLOR; } }
         }
 
-        //private static LocalizationService localizationService = LocalizationService.Instance;
+        private static SettingsService settingsService = SettingsService.Instance;
         private DataService? dataService;
 
         private DataDisplay? favoritesDataDisplay;
@@ -43,10 +44,14 @@ namespace foot2rue.WF.HomePage
 
         private async void HomePageForm_Shown(object? sender, EventArgs e)
         {
+            /*var thing = SettingsService.SelectedTeamFifaCode;
+            SettingsService.SelectedTeamFifaCode = "FRA";
+            SettingsService.Save();*/
+
             CenterToScreen();
 
             // If there already is a settings file, we can skip the initial setup
-            if (SettingsService.FirstLaunch)
+            if (!SettingsService.SettingsExists())
                 InitialSetup();
 
             // Get the genre from the settings
@@ -76,7 +81,7 @@ namespace foot2rue.WF.HomePage
             }
 
             // Before exiting, we save his settings
-            SettingsService.Save();
+            settingsService.SaveSettings();
             // Then the form is closed
         }
 
@@ -89,12 +94,12 @@ namespace foot2rue.WF.HomePage
             Genre selectedGenre = toolStripComboBox_GenreSelection.GetSelectedItem<Genre>();
 
             // If the value is the same than the previous one, no need to reload everything
-            if (selectedGenre == SettingsService.SelectedGenre)
+            if (selectedGenre == settingsService.SelectedGenre)
                 return;
 
             dataService?.SetGenre(selectedGenre);
-            SettingsService.SelectedGenre = selectedGenre;
-            SettingsService.Save();
+            settingsService.SelectedGenre = selectedGenre;
+            settingsService.SaveSettings();
             // This line is refreshing genre comboBox for nothing, but it's not a big deal
             await InitSelectionComboBoxes();
             await RefreshDataDisplays();
@@ -105,11 +110,11 @@ namespace foot2rue.WF.HomePage
             Team selectedTeam = toolStripComboBox_TeamSelection.GetSelectedItem<Team>();
 
             // If the value is the same than the previous one, no need to reload everything
-            if (selectedTeam.FifaCode == SettingsService.SelectedTeamFifaCode)
+            if (selectedTeam.FifaCode == settingsService.SelectedTeamFifaCode)
                 return;
 
-            SettingsService.SelectedTeamFifaCode = selectedTeam.FifaCode;
-            SettingsService.Save();
+            settingsService.SelectedTeamFifaCode = selectedTeam.FifaCode;
+            settingsService.SaveSettings();
             await RefreshDataDisplays();
         }
 
@@ -168,17 +173,16 @@ namespace foot2rue.WF.HomePage
                 // Force quit
                 Application.Exit();
             }
-            SettingsService.FirstLaunch = false;
-            SettingsService.Save();
+            settingsService.SaveSettings();
         }
 
         private async Task InitSelectionComboBoxes()
         {
-            toolStripComboBox_GenreSelection.SetItems(EnumUtility.GetEnumValues<Genre>(), genre => genre.GetLocalizedString(), SettingsService.SelectedGenre);
+            toolStripComboBox_GenreSelection.SetItems(EnumUtility.GetEnumValues<Genre>(), genre => genre.GetLocalizedString(), settingsService.SelectedGenre);
 
             IEnumerable<Team>? teams = await this.Wait(dataService!.GetTeams);
             // When swithcing genre, this line might output a null
-            Team? selectedTeam = teams?.SingleOrDefault(team => team.FifaCode == SettingsService.SelectedTeamFifaCode);
+            Team? selectedTeam = teams?.SingleOrDefault(team => team.FifaCode == settingsService.SelectedTeamFifaCode);
             // If that is the case, the comboBox removes its current selection
             toolStripComboBox_TeamSelection.SetItems(teams, selectedTeam);
         }
@@ -189,7 +193,7 @@ namespace foot2rue.WF.HomePage
             favoritesDataDisplay = new DataDisplay(
                 async (string fifaCode) => (await dataService!.GetPlayersByFifaCode(fifaCode))?
                 // If favorite players is null, no player is a favorite
-                .Where(player => SettingsService.FavoritePlayers.Contains(player.Name))
+                .Where(player => settingsService.FavoritePlayers.Contains(player.Name))
                 .Select(player => new PlayerDisplayUserControl(player)))
             {
                 Parent = tabControl1.TabPages[0],
@@ -270,7 +274,7 @@ namespace foot2rue.WF.HomePage
                 await InitSelectionComboBoxes();
             }
             if (settingsForm.SettingsDialogResult.HasFlag(SettingsDialogResult.OfflineModeChanged))
-                dataService!.SetOfflineMode(SettingsService.OfflineMode);
+                dataService!.SetOfflineMode(settingsService.OfflineMode);
         }
     }
 }

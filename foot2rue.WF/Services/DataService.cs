@@ -1,15 +1,15 @@
 ﻿using foot2rue.DAL.Models;
 using foot2rue.DAL.Repositories;
 using foot2rue.WF.Extensions;
-using foot2rue.WF.Models;
+using foot2rue.Settings;
 using foot2rue.WF.Utilities;
-using System.Linq.Expressions;
-using System.Reflection;
+using foot2rue.Settings.Extensions;
 
 namespace foot2rue.WF.Services
 {
     internal class DataService
     {
+        private static SettingsService settingsService = SettingsService.Instance;
         private IRepository repository;
 
         public Genre Genre { get; private set; }
@@ -112,7 +112,7 @@ namespace foot2rue.WF.Services
             UpdateRepository();
         }
 
-        public DataService() : this(SettingsService.SelectedGenre, SettingsService.OfflineMode) { }
+        public DataService() : this(settingsService.SelectedGenre, settingsService.OfflineMode) { }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         private void ResetData()
@@ -138,14 +138,12 @@ namespace foot2rue.WF.Services
             // Copy all the data from DAL Players
             // We store players in a dictionary so that the search complexity is O(1)
             // Check if this player is a favorite
-            // TODO Get the image of the player
             Dictionary<string, Models.Player> extendedPlayers = new Dictionary<string, Models.Player>();
             foreach (DAL.Models.Player player in players)
             {
                 Models.Player extendedPlayer = player.ExtendParentClass<DAL.Models.Player, Models.Player>();
-                extendedPlayer.IsFavorite = SettingsService.FavoritePlayers.Contains(player.Name);
-                // TODO How to get the image ?
-                //BllPlayer.Image = ;
+                extendedPlayer.IsFavorite = settingsService.FavoritePlayers.Contains(player.Name);
+                extendedPlayer.Image = PictureUtility.LoadPlayerPicture(extendedPlayer);
                 extendedPlayers.Add(player.Name, extendedPlayer);
             }
 
@@ -168,7 +166,10 @@ namespace foot2rue.WF.Services
             // Joining during a match (If a player joins a match twice, it will be counted for two different matches)
             foreach (Event matchEvent in events ?? Enumerable.Empty<Event>())
             {
-                Models.Player player = extendedPlayers[matchEvent.Player];
+                Models.Player? player = extendedPlayers.GetValueOrDefault(matchEvent.Player);
+                if (player == null)
+                    continue;
+
                 switch (matchEvent.Type)
                 {
                     // TODO Could be improved with a bit of reflection

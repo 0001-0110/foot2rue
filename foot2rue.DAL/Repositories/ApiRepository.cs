@@ -35,7 +35,7 @@ namespace foot2rue.DAL.Repositories
 
         public override async Task<IEnumerable<Match>?> GetMatchesByFifaCode(string fifaCode)
         {
-            return await GetRequest<Match>(Url("matches", $"country?fifa_code={fifaCode}"));
+            return await GetRequest<Match>(Url("matches", $"country?fifa_code={fifaCode}")); ;
         }
 
         public override async Task<IEnumerable<Team>?> GetTeams()

@@ -1,4 +1,5 @@
-﻿using foot2rue.WF.Extensions;
+﻿using foot2rue.Settings;
+using foot2rue.WF.Extensions;
 using LostInLocalization;
 using LostInLocalization.Extensions;
 using System.Globalization;
@@ -18,6 +19,7 @@ namespace foot2rue.WF.Settings
 
     public partial class SettingsForm : Form
     {
+        private SettingsService settingsService;
         private LocalizationService localizationService;
 
         private SettingsDialogResult settingsDialogResult;
@@ -32,6 +34,7 @@ namespace foot2rue.WF.Settings
 
         public SettingsForm()
         {
+            settingsService = SettingsService.Instance;
             localizationService = LocalizationService.Instance;
             InitializeComponent();
         }
@@ -39,7 +42,7 @@ namespace foot2rue.WF.Settings
         private void SettingsForm_Load(object sender, EventArgs e)
         {
             comboBox_LanguageSelection.LoadLanguageSelection();
-            checkBox_OfflineModeSelection.Checked = SettingsService.OfflineMode;
+            checkBox_OfflineModeSelection.Checked = settingsService.OfflineMode;
             // This needs to be set after loading the languages because otherwise index changed sets it back to true everytime
             languageChanged = false;
             offlineModeChanged = false;
@@ -63,22 +66,28 @@ namespace foot2rue.WF.Settings
             if (languageChanged)
             {
                 CultureInfo culture = comboBox_LanguageSelection.GetSelectedItem<CultureInfo>();
-                SettingsService.Culture = culture;
+                settingsService.Culture = culture;
                 localizationService.Culture = culture;
                 settingsDialogResult |= SettingsDialogResult.LanguageChanged;
             }
             if (offlineModeChanged)
             {
-                SettingsService.OfflineMode = checkBox_OfflineModeSelection.Checked;
+                settingsService.OfflineMode = checkBox_OfflineModeSelection.Checked;
                 settingsDialogResult |= SettingsDialogResult.OfflineModeChanged;
             }
-            SettingsService.Save();
+            if (languageChanged || offlineModeChanged)
+                settingsService.SaveSettings();
             SettingsDialogResult = settingsDialogResult;
         }
 
         private void button_Cancel_Click(object sender, EventArgs e)
         {
             SettingsDialogResult = SettingsDialogResult.Cancel;
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
