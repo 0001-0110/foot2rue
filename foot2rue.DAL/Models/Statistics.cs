@@ -50,19 +50,23 @@ namespace foot2rue.DAL.Models
         [JsonProperty("tackles")]
         public int Tackles { get; set; }
 
+        // These needs to be nullable because of the API
+        // Don't blame me, I know how stupid it looks
         [JsonProperty("clearances")]
-        public int Clearances { get; set; }
+        private int? clearances;
+        public int Clearances { get { return clearances ?? 0; } set { clearances = value; } }
 
         [JsonProperty("yellow_cards")]
-        public int YellowCards { get; set; }
+        private int? yellowCards;
+        public int YellowCards { get { return yellowCards ?? 0; } set { yellowCards = value; } }
 
         [JsonProperty("red_cards")]
-        public int RedCards { get; set; }
+        private int? redCards;
+        public int RedCards { get { return redCards ?? 0; } set { redCards = value; } }
 
-        // This needs to be nullable because of the API
-        // Don't blame me, I know how stupid it looks
         [JsonProperty("fouls_committed")]
-        public int? FoulsCommitted { get; set; }
+        private int? foulsCommited;
+        public int FoulsCommitted { get { return foulsCommited ?? 0; } set { foulsCommited = value; } }
 
 
         [JsonProperty("tactics")]
