@@ -54,7 +54,7 @@ namespace foot2rue.WF.InitialSetup
         private void RefreshLabel()
         {
             int playerCount = flowLayoutPanel_FavoritePlayers.Controls.Count;
-            label1.SetLocalizationString($"{{Label_SelectedPlayers}}: {playerCount} / {FAVORITECOUNT}");
+            label1.SetLocalizationString($"{{SelectedPlayers}}: {playerCount} / {FAVORITECOUNT}");
             label1.ForeColor = playerCount != FAVORITECOUNT ? Color.Red : Color.White;
         }
 

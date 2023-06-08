@@ -75,7 +75,7 @@
             label1.Name = "label1";
             label1.Size = new Size(240, 20);
             label1.TabIndex = 3;
-            label1.Tag = "{Label_GenreSelection}:";
+            label1.Tag = "{GenreSelection}:";
             label1.Text = "label1";
             label1.TextAlign = ContentAlignment.MiddleRight;
             // 
@@ -86,7 +86,7 @@
             label2.Name = "label2";
             label2.Size = new Size(240, 20);
             label2.TabIndex = 4;
-            label2.Tag = "{Label_TeamSelection}:";
+            label2.Tag = "{TeamSelection}:";
             label2.Text = "label2";
             label2.TextAlign = ContentAlignment.MiddleRight;
             // 

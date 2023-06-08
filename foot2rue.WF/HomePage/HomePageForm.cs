@@ -34,16 +34,20 @@ namespace foot2rue.WF.HomePage
         private DataDisplay? favoritesDataDisplay;
         private DataDisplay? allPlayersDataDisplay;
         // TODO Add data display
-        private DataDisplay? allMatchesDataDisplay;
+        private DataDisplay? matchesDataDisplay;
 
         public HomePageForm()
         {
             settingsService = SettingsService.Instance;
             dataService = new DataService();
+
             InitializeComponent();
+
             // Set the tool strip color
             ToolStripManager.Renderer = new ToolStripProfessionalRenderer(new CustomProfessionalColors());
-            // No need to localize since it's done in refresh form for this form
+
+            // Localization is done twice because of the refresh form, but otherwise it starts with ugly texts everywhere
+            this.LoadLocalization();
         }
 
         private async Task RefreshForm(Genre? newGenre = null, Team? newTeam = null, bool? newOfflineMode = null, CultureInfo? newCulture = null)
@@ -165,9 +169,9 @@ namespace foot2rue.WF.HomePage
             using (Brush brush = new SolidBrush(BACKCOLOR))
             {
                 _event.Graphics.FillRectangle(brush, _event.Bounds);
-                SizeF size = _event.Graphics.MeasureString(tabControl1.TabPages[_event.Index].Text, _event.Font!);
+                SizeF size = _event.Graphics.MeasureString(tabControl_Rankings.TabPages[_event.Index].Text, _event.Font!);
                 // Draw the labels on the tabs
-                _event.Graphics.DrawString(tabControl1.TabPages[_event.Index].Text, _event.Font!, new SolidBrush(FONTCOLOR), _event.Bounds.Left + (_event.Bounds.Width - size.Width) / 2, _event.Bounds.Top + (_event.Bounds.Height - size.Height) / 2 + 1);
+                _event.Graphics.DrawString(tabControl_Rankings.TabPages[_event.Index].Text, _event.Font!, new SolidBrush(FONTCOLOR), _event.Bounds.Left + (_event.Bounds.Width - size.Width) / 2, _event.Bounds.Top + (_event.Bounds.Height - size.Height) / 2 + 1);
 
                 Rectangle rectangle = _event.Bounds;
                 rectangle.Offset(0, 1);
@@ -209,21 +213,33 @@ namespace foot2rue.WF.HomePage
 
         private void InitDataDisplays()
         {
-            // This is hard to watch
+            // This whole function is hard to watch
+
+            int tabIndex = 0;
+
             favoritesDataDisplay = new DataDisplay(
-                async (string fifaCode) => (await dataService!.GetPlayersByFifaCode(fifaCode))?
+                async (string fifaCode) => (await dataService.GetPlayersByFifaCode(fifaCode))?
                 // If favorite players is null, no player is a favorite
                 .Where(player => settingsService.FavoritePlayers.Contains(player.Name))
                 .Select(player => new PlayerDisplayUserControl(player)))
             {
-                Parent = tabControl1.TabPages[0],
+                Parent = tabControl_Rankings.TabPages[tabIndex++],
                 Dock = DockStyle.Fill,
             };
+
             allPlayersDataDisplay = new DataDisplay(
-                async (string fifaCode) => (await dataService!.GetPlayersByFifaCode(fifaCode))?
+                async (string fifaCode) => (await dataService.GetPlayersByFifaCode(fifaCode))?
                 .Select(player => new PlayerDisplayUserControl(player)))
             {
-                Parent = tabControl1.TabPages[1],
+                Parent = tabControl_Rankings.TabPages[tabIndex++],
+                Dock = DockStyle.Fill,
+            };
+
+            matchesDataDisplay = new DataDisplay(
+                async (string fifaCode) => (await dataService.GetMatchesByFifaCode(fifaCode))?
+                .Select(match => new MatchDisplayUserControl(match)))
+            {
+                Parent = tabControl_Rankings.TabPages[tabIndex++],
                 Dock = DockStyle.Fill,
             };
         }
@@ -253,7 +269,7 @@ namespace foot2rue.WF.HomePage
             if (selectedTeam == null)
                 return;
 
-            DataDisplay activeDataDisplay = tabControl1.SelectedTab.Controls.OfType<DataDisplay>().Single();
+            DataDisplay activeDataDisplay = tabControl_Rankings.SelectedTab.Controls.OfType<DataDisplay>().Single();
             // Refresh the data of the current data display right now
             // Other data displays will be refreshed by themselves when shown again
             await this.Wait(async () => await activeDataDisplay.LoadData(selectedTeam.FifaCode));

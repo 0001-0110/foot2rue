@@ -10,8 +10,15 @@
 	<string name="Cancel">Cancel</string>
 	<string name="Quit">Quit</string>
 
+	<!-- Team selection -->
+
+	<string name="GenreSelection">Select a cup</string>
+	<string name="TeamSelection">Select a team</string>
+	
 	<!-- Favorite player selection -->
 
+	<string name="SelectedPlayers">Selected players</string>
+	
 	<string name="AddFavorite">Add favorite</string>"
 	<string name="RemoveFavorite">Remove favorite</string>"
 	<string name="Inverse">Inverse</string>"
@@ -23,9 +30,11 @@
 	
 	<string name="Print">Print</string>
 	<string name="Settings">Settings</string>
-	
+
+	<!-- Tabs -->
 	<string name="FavoritePlayers">Favorites</string>
 	<string name="AllPlayers">All players</string>
+	<string name="Matches">Matches</string>
 	
 	<!-- Settings -->
 

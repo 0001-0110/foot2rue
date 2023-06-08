@@ -50,7 +50,7 @@
             label1.Name = "label1";
             label1.Size = new Size(307, 102);
             label1.TabIndex = 1;
-            label1.Tag = "{Label_LanguageSelection}";
+            label1.Tag = "{LanguageSelection}";
             label1.Text = "label1";
             label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
