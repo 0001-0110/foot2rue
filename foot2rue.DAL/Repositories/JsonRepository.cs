@@ -1,34 +1,84 @@
 ﻿using foot2rue.DAL.Models;
+using Newtonsoft.Json;
 
 namespace foot2rue.DAL.Repositories
 {
     public class JsonRepository : Repository
     {
-        public JsonRepository(Genre genre) : base(genre) { }
+        private const string APPDATAFOLDER = "foot2rue";
+        private const string MENDATAFOLDER = "men";
+        private const string WOMENDATAFOLDER = "women";
+        private const string MATCHESFILE = "matches";
+        private const string TEAMFILE = "teams";
+        private const string TEAMRESULTFILE = "team_result";
+        private const string GROUPRESULTFILE = "group_result";
 
-        public override Task<IEnumerable<Match>?> GetMatches()
+        public JsonRepository(Genre genre) : base(genre) 
         {
-            throw new NotImplementedException();
+            // When starting the offline mode, we first make sure that all the data has been saved locally
+            ApiRepository apiRepository = new ApiRepository(genre);
+            Task.Run(() => SaveJsonIfNotExists(MATCHESFILE, apiRepository.GetMatches));
+            Task.Run(() => SaveJsonIfNotExists(TEAMFILE, apiRepository.GetTeams));
+            Task.Run(() => SaveJsonIfNotExists(TEAMRESULTFILE, apiRepository.GetTeamResults));
+            Task.Run(() => SaveJsonIfNotExists(GROUPRESULTFILE, apiRepository.GetGroupResults));
         }
 
-        public override Task<IEnumerable<Match>?> GetMatchesByFifaCode(string fifaCode)
+        private string GetFolderPath()
         {
-            throw new NotImplementedException();
+            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            return Path.Combine(appDataPath, APPDATAFOLDER, genre == Genre.Men ? MENDATAFOLDER : WOMENDATAFOLDER);
         }
 
-        public override Task<IEnumerable<Team>?> GetTeams()
+        private string GetFilePath(string filename)
         {
-            throw new NotImplementedException();
+            return Path.Combine(GetFolderPath(), $"{filename}.json");
         }
 
-        public override Task<IEnumerable<TeamResult>?> GetTeamResults()
+        private async Task<IEnumerable<T>?> LoadJson<T>(string filename)
         {
-            throw new NotImplementedException();
+            string path = GetFilePath(filename);
+            if (!File.Exists(path))
+                return null;
+
+            string content = await File.ReadAllTextAsync(path);
+            return JsonConvert.DeserializeObject<IEnumerable<T>>(content);
         }
 
-        public override Task<IEnumerable<GroupResult>?> GetGroupResults()
+        private async Task SaveJsonIfNotExists<T>(string filename, Func<Task<IEnumerable<T>?>> loadingFunction)
         {
-            throw new NotImplementedException();
+            string path = GetFilePath(filename);
+            if (File.Exists(path))
+                return;
+
+            IEnumerable<T>? data = await loadingFunction();
+            string content = JsonConvert.SerializeObject(data);
+            Directory.CreateDirectory(GetFolderPath());
+            await File.WriteAllTextAsync(path, content);
+        }
+
+        public override async Task<IEnumerable<Match>?> GetMatches()
+        {
+            return await LoadJson<Match>(MATCHESFILE);
+        }
+
+        public override async Task<IEnumerable<Match>?> GetMatchesByFifaCode(string fifaCode)
+        {
+            return (await LoadJson<Match>(MATCHESFILE))?.Where(match => match.HomeTeam.FifaCode == fifaCode || match.AwayTeam.FifaCode == fifaCode);
+        }
+
+        public override async Task<IEnumerable<Team>?> GetTeams()
+        {
+            return await LoadJson<Team>(TEAMFILE);
+        }
+
+        public override async Task<IEnumerable<TeamResult>?> GetTeamResults()
+        {
+            return await LoadJson<TeamResult>(TEAMRESULTFILE);
+        }
+
+        public override async Task<IEnumerable<GroupResult>?> GetGroupResults()
+        {
+            return await LoadJson<GroupResult>(GROUPRESULTFILE);
         }
     }
 }
