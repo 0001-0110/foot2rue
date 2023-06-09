@@ -1,4 +1,5 @@
 ﻿using foot2rue.DAL.Models;
+using foot2rue.DAL.Utilities;
 using Newtonsoft.Json;
 
 namespace foot2rue.DAL.Repositories
@@ -13,7 +14,25 @@ namespace foot2rue.DAL.Repositories
         private const string TEAMRESULTFILE = "team_result";
         private const string GROUPRESULTFILE = "group_result";
 
-        public JsonRepository(Genre genre) : base(genre) 
+        private static string GetFolderPath(Genre genre)
+        {
+            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            return Path.Combine(appDataPath, APPDATAFOLDER, genre == Genre.Men ? MENDATAFOLDER : WOMENDATAFOLDER);
+        }
+
+        private static string GetFilePath(Genre genre, string filename)
+        {
+            return Path.Combine(GetFolderPath(genre), $"{filename}.json");
+        }
+
+        public static void CleanJsonFiles()
+        {
+            foreach (Genre genre in EnumUtility.GetEnumValues<Genre>())
+                foreach (string file in new string[] { MATCHESFILE, TEAMFILE, TEAMRESULTFILE, GROUPRESULTFILE, })
+                    File.Delete(GetFilePath(genre, file));
+        }
+
+        public JsonRepository(Genre genre) : base(genre)
         {
             // When starting the offline mode, we first make sure that all the data has been saved locally
             ApiRepository apiRepository = new ApiRepository(genre);
@@ -25,8 +44,7 @@ namespace foot2rue.DAL.Repositories
 
         private string GetFolderPath()
         {
-            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-            return Path.Combine(appDataPath, APPDATAFOLDER, genre == Genre.Men ? MENDATAFOLDER : WOMENDATAFOLDER);
+            return GetFolderPath(genre);
         }
 
         private string GetFilePath(string filename)

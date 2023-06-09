@@ -1,6 +1,6 @@
-﻿namespace foot2rue.WF.Utilities
+﻿namespace foot2rue.DAL.Utilities
 {
-    internal static class EnumUtility
+    public static class EnumUtility
     {
         public static IEnumerable<T> GetEnumValues<T>() where T : Enum
         {
