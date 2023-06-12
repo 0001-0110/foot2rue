@@ -1,5 +1,5 @@
-﻿using foot2rue.BLL;
-using foot2rue.BLL.Extensions;
+﻿using foot2rue.BLL.Extensions;
+using foot2rue.BLL.Services;
 using foot2rue.BLL.Utilities;
 using foot2rue.DAL.Models;
 using foot2rue.DAL.Repositories;

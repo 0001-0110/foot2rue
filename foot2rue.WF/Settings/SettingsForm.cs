@@ -1,4 +1,4 @@
-﻿using foot2rue.BLL;
+﻿using foot2rue.BLL.Services;
 using foot2rue.WF.Extensions;
 using LostInLocalization;
 using System.Globalization;

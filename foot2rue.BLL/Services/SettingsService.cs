@@ -6,7 +6,7 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
 
-namespace foot2rue.BLL
+namespace foot2rue.BLL.Services
 {
     public class SettingsService
     {
