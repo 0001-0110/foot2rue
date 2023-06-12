@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingIsDoubting", "Testin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LostInLocalization", "LostInLocalization\LostInLocalization.csproj", "{29D166F6-8C5F-4D12-A0F5-71F4B2AE1743}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "foot2rue.Settings", "foot2rue.Settings\foot2rue.Settings.csproj", "{7DA15AF1-8C2B-4AA7-B956-5B0C8AC96245}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "foot2rue.BLL", "foot2rue.BLL\foot2rue.BLL.csproj", "{7DA15AF1-8C2B-4AA7-B956-5B0C8AC96245}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

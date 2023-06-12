@@ -1,4 +1,4 @@
-﻿using foot2rue.Settings;
+﻿using foot2rue.BLL;
 using foot2rue.WF.Extensions;
 using foot2rue.WF.Services;
 using System.Collections.Specialized;

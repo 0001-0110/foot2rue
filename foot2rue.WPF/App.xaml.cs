@@ -1,5 +1,4 @@
-﻿using foot2rue.Settings;
-using System.Windows;
+﻿using System.Windows;
 
 namespace foot2rue.WPF
 {

@@ -1,4 +1,4 @@
-﻿namespace foot2rue.WF.Models
+﻿namespace foot2rue.BLL.Models
 {
     public class Player : DAL.Models.Player
     {

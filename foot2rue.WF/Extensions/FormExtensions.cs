@@ -1,4 +1,4 @@
-﻿using foot2rue.Settings;
+﻿using foot2rue.BLL;
 using foot2rue.WF.MessageBoxes;
 
 namespace foot2rue.WF.Extensions

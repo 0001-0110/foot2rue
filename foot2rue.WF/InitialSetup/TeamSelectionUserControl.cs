@@ -1,9 +1,9 @@
-﻿using foot2rue.DAL.Models;
+﻿using foot2rue.BLL;
+using foot2rue.DAL.Models;
 using foot2rue.DAL.Repositories;
-using foot2rue.Settings;
+using foot2rue.DAL.Utilities;
 using foot2rue.WF.Extensions;
 using foot2rue.WF.Services;
-using foot2rue.WF.Utilities;
 using LostInLocalization;
 using LostInLocalization.Extensions;
 

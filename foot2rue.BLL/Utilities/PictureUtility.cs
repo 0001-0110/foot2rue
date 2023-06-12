@@ -1,6 +1,7 @@
 ﻿using foot2rue.DAL.Models;
+using System.IO;
 
-namespace foot2rue.WF.Utilities
+namespace foot2rue.BLL.Utilities
 {
     internal static class PictureUtility
     {

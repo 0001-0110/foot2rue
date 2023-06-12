@@ -1,7 +1,3 @@
-using foot2rue.WF.Extensions;
-using foot2rue.WF.Services;
-using System.Text.RegularExpressions;
-
 namespace TestingIsDoubting.WF.Localization
 {
     public class LocalizationTest

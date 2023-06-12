@@ -6,7 +6,7 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
 
-namespace foot2rue.Settings
+namespace foot2rue.BLL
 {
     public class SettingsService
     {
@@ -36,7 +36,7 @@ namespace foot2rue.Settings
 
         private static string GetSettingsFolder()
         {
-            string appDataLocalpath = StringExtensions.Troncate(Application.LocalUserAppDataPath, "\\", -3);
+            string appDataLocalpath = Application.LocalUserAppDataPath.Troncate("\\", -3);
             return Path.Combine(appDataLocalpath, SETTINGSFOLDER);
         }
 
@@ -50,7 +50,7 @@ namespace foot2rue.Settings
             return File.Exists(GetSettingsPath());
         }
 
-        private SettingsService() 
+        private SettingsService()
         {
             // These are default values
             // The real values are going to override these one if there is any

@@ -1,14 +1,13 @@
-﻿using foot2rue.DAL.Models;
+﻿using foot2rue.BLL;
+using foot2rue.BLL.Extensions;
+using foot2rue.BLL.Utilities;
+using foot2rue.DAL.Models;
 using foot2rue.DAL.Repositories;
-using foot2rue.WF.Extensions;
-using foot2rue.Settings;
-using foot2rue.WF.Utilities;
 using foot2rue.Settings.Extensions;
-using System.Linq;
 
 namespace foot2rue.WF.Services
 {
-    internal class DataService
+    public class DataService
     {
         private static SettingsService settingsService = SettingsService.Instance;
         private IRepository repository;
@@ -59,8 +58,8 @@ namespace foot2rue.WF.Services
             return matchesByFifaCode[fifaCode];
         }
 
-        private Dictionary<string, IEnumerable<Models.Player>?> playersByFifaCode = new Dictionary<string, IEnumerable<Models.Player>?>();
-        public async Task<IEnumerable<Models.Player>?> GetPlayersByFifaCode(string fifaCode)
+        private Dictionary<string, IEnumerable<BLL.Models.Player>?> playersByFifaCode = new Dictionary<string, IEnumerable<BLL.Models.Player>?>();
+        public async Task<IEnumerable<BLL.Models.Player>?> GetPlayersByFifaCode(string fifaCode)
         {
             if (!playersByFifaCode.ContainsKey(fifaCode))
             {
@@ -138,18 +137,18 @@ namespace foot2rue.WF.Services
             repository = OfflineMode ? new JsonRepository(Genre) : new ApiRepository(Genre);
         }
 
-        private IEnumerable<Models.Player> ExtendPlayers(IEnumerable<DAL.Models.Player>? players, IEnumerable<Statistics>? statistics, IEnumerable<Event>? events)
+        private IEnumerable<BLL.Models.Player> ExtendPlayers(IEnumerable<DAL.Models.Player>? players, IEnumerable<Statistics>? statistics, IEnumerable<Event>? events)
         {
             if (players == null)
-                return Enumerable.Empty<Models.Player>();
+                return Enumerable.Empty<BLL.Models.Player>();
 
             // Copy all the data from DAL Players
             // We store players in a dictionary so that the search complexity is O(1)
             // Check if this player is a favorite
-            Dictionary<string, Models.Player> extendedPlayers = new Dictionary<string, Models.Player>();
+            Dictionary<string, BLL.Models.Player> extendedPlayers = new Dictionary<string, BLL.Models.Player>();
             foreach (DAL.Models.Player player in players)
             {
-                Models.Player extendedPlayer = player.ExtendParentClass<DAL.Models.Player, Models.Player>();
+                BLL.Models.Player extendedPlayer = player.ExtendParentClass<DAL.Models.Player, BLL.Models.Player>();
                 extendedPlayer.IsFavorite = settingsService.FavoritePlayers.Contains(player.Name);
                 extendedPlayer.Image = PictureUtility.LoadPlayerPicture(extendedPlayer);
                 extendedPlayers.Add(player.Name, extendedPlayer);
@@ -162,7 +161,7 @@ namespace foot2rue.WF.Services
                 {
                     // We check before if the player is in the dictionnary to avoid crashes when the API contains typos
                     // It will return a wrong result, but it's better than no result at all
-                    Models.Player extendedPlayer;
+                    BLL.Models.Player extendedPlayer;
                     if (extendedPlayers.TryGetValue(player.Name, out extendedPlayer!))
                         extendedPlayer.MatchesPalyed++;
                 }
@@ -174,7 +173,7 @@ namespace foot2rue.WF.Services
             // Joining during a match (If a player joins a match twice, it will be counted for two different matches)
             foreach (Event matchEvent in events ?? Enumerable.Empty<Event>())
             {
-                Models.Player? player = extendedPlayers.GetValueOrDefault(matchEvent.Player);
+                BLL.Models.Player? player = extendedPlayers.GetValueOrDefault(matchEvent.Player);
                 if (player == null)
                     continue;
 

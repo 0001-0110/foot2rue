@@ -1,4 +1,4 @@
-﻿using foot2rue.WF.Models;
+﻿using foot2rue.BLL.Models;
 
 namespace foot2rue.WF.HomePage
 {
