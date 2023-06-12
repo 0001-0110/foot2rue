@@ -5,6 +5,8 @@ namespace foot2rue.WF.Extensions
 {
     internal static class FormExtensions
     {
+        private static string INITIALSETUPFAILURELOCALIZATIONSTRING = "{InitialSetupFailure}";
+
         public static void InitialSetup(this Form form, SettingsService settingsService)
         {
             Form initialSetupForm = new InitialSetupForm();
@@ -15,7 +17,7 @@ namespace foot2rue.WF.Extensions
             if (dialogResult != DialogResult.OK)
             {
                 // TODO Do this form
-                new InitialSetupFailureForm().ShowDialog();
+                new ErrorForm(INITIALSETUPFAILURELOCALIZATIONSTRING).ShowDialog();
                 // Force quit
                 Application.Exit();
             }

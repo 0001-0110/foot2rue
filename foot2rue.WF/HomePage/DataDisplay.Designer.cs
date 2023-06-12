@@ -31,7 +31,7 @@
             pictureBox_Error = new PictureBox();
             pictureBox_Loading = new PictureBox();
             pictureBox_NoData = new PictureBox();
-            flowLayoutPanel_DataPanel = new FlowLayoutPanel();
+            flippin_DataPanel = new FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Error).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Loading).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_NoData).BeginInit();
@@ -69,12 +69,12 @@
             // 
             // flowLayoutPanel_DataPanel
             // 
-            flowLayoutPanel_DataPanel.AutoScroll = true;
-            flowLayoutPanel_DataPanel.Dock = DockStyle.Fill;
-            flowLayoutPanel_DataPanel.Location = new Point(0, 0);
-            flowLayoutPanel_DataPanel.Name = "flowLayoutPanel_DataPanel";
-            flowLayoutPanel_DataPanel.Size = new Size(628, 373);
-            flowLayoutPanel_DataPanel.TabIndex = 4;
+            flippin_DataPanel.AutoScroll = true;
+            flippin_DataPanel.Dock = DockStyle.Fill;
+            flippin_DataPanel.Location = new Point(0, 0);
+            flippin_DataPanel.Name = "flowLayoutPanel_DataPanel";
+            flippin_DataPanel.Size = new Size(628, 373);
+            flippin_DataPanel.TabIndex = 4;
             // 
             // DataDisplay
             // 
@@ -83,7 +83,7 @@
             Controls.Add(pictureBox_Error);
             Controls.Add(pictureBox_NoData);
             Controls.Add(pictureBox_Loading);
-            Controls.Add(flowLayoutPanel_DataPanel);
+            Controls.Add(flippin_DataPanel);
             Name = "DataDisplay";
             Size = new Size(628, 373);
             ((System.ComponentModel.ISupportInitialize)pictureBox_Error).EndInit();
@@ -94,7 +94,7 @@
 
         #endregion
 
-        private FlowLayoutPanel flowLayoutPanel_DataPanel;
+        private FlowLayoutPanel flippin_DataPanel;
         private PictureBox pictureBox_Error;
         private PictureBox pictureBox_NoData;
         private PictureBox pictureBox_Loading;

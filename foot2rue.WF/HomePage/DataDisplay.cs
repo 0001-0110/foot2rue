@@ -1,4 +1,5 @@
 ﻿using foot2rue.WF.Extensions;
+using foot2rue.WF.MessageBoxes;
 
 namespace foot2rue.WF.HomePage
 {
@@ -23,12 +24,12 @@ namespace foot2rue.WF.HomePage
 
         public bool HasData()
         {
-            return flowLayoutPanel_DataPanel.Controls.Count > 0;
+            return flippin_DataPanel.Controls.Count > 0;
         }
 
         public void Clear()
         {
-            flowLayoutPanel_DataPanel.Controls.Clear();
+            flippin_DataPanel.Controls.Clear();
             // Display image showing no data
             SetDisplayMode(DisplayMode.NoData);
         }
@@ -38,7 +39,7 @@ namespace foot2rue.WF.HomePage
             pictureBox_Error.SetVisible(displayMode == DisplayMode.Error);
             pictureBox_NoData.SetVisible(displayMode == DisplayMode.NoData);
             pictureBox_Loading.SetVisible(displayMode == DisplayMode.Loading);
-            flowLayoutPanel_DataPanel.SetVisible(displayMode == DisplayMode.Loaded);
+            flippin_DataPanel.SetVisible(displayMode == DisplayMode.Loaded);
         }
 
         public async Task RefreshData(string fifaCode)
@@ -71,10 +72,19 @@ namespace foot2rue.WF.HomePage
             }
 
             // Show the data
-            flowLayoutPanel_DataPanel.Controls.AddRange(data.ToArray());
+            flippin_DataPanel.Controls.AddRange(data.ToArray());
             SetDisplayMode(DisplayMode.Loaded);
             // DEBUG
             //SetDisplayMode(DisplayMode.Loading);
+        }
+
+        public IEnumerable<Image> Print()
+        {
+            if (!HasData())
+                // Who would wanna print the loading or the error screen ?
+                throw new InvalidOperationException();
+
+            return flippin_DataPanel.Controls.Select(control => control.Print());
         }
     }
 }

@@ -17,6 +17,7 @@ namespace foot2rue.WF.HomePage
     public partial class HomePageForm : Form
     {
         private const string QUITCONFIRMATIONLOCALIZATIONSTRING = "{QuitConfirmation}";
+        private const string PRINTERRORLOCALIZATIONSTRING = "{PrintError}";
         private static readonly Color BACKCOLOR = ColorUtility.FromHex("#333333");
         private static readonly Color FONTCOLOR = Color.White;
 
@@ -38,6 +39,8 @@ namespace foot2rue.WF.HomePage
         // TODO Add data display
         private DataDisplay? matchesDataDisplay;
 
+        private Queue<Image> imagesToPrint;
+
         public HomePageForm()
         {
             settingsService = SettingsService.Instance;
@@ -50,6 +53,8 @@ namespace foot2rue.WF.HomePage
 
             // Localization is done twice because of the refresh form, but otherwise it starts with ugly texts everywhere
             this.LoadLocalization();
+
+            imagesToPrint = new Queue<Image>();
         }
 
         #region Initilization
@@ -187,26 +192,65 @@ namespace foot2rue.WF.HomePage
 
         private void toolStripButton_Print_Click(object sender, EventArgs e)
         {
+            if (!GetSelectedDataDisplay().HasData())
+            {
+                new ErrorForm(PRINTERRORLOCALIZATIONSTRING).ShowDialog();
+                return;
+            }
+
+            // Get the control to print
+            DataDisplay dataDisplay = GetSelectedDataDisplay();
+
+            // Get images for all controls that need to be printed
+            imagesToPrint.EnqueueRange(dataDisplay.Print());
+
             if (printPreviewDialog.ShowDialog() == DialogResult.OK)
                 printDocument.Print();
         }
 
+        private IEnumerable<(Image, Point)> GetImagePositions(Queue<Image> images, PrintPageEventArgs printPageEventArgs)
+        {
+            int minX = printPageEventArgs.MarginBounds.Left;
+            int minY = printPageEventArgs.MarginBounds.Top;
+            int maxX = printPageEventArgs.MarginBounds.Width;
+            int maxY = printPageEventArgs.MarginBounds.Height;
+
+            int currentX = minX;
+            int currentY = minY;
+
+            int currentRowHeight = 0;
+
+            Image image;
+            while (images.TryDequeue(out image!))
+            {
+                yield return (image, new Point(currentX, currentY));
+
+                // Compute the next point
+                currentRowHeight = Math.Max(currentRowHeight, image.Height);
+                currentX += image.Width;
+                if (currentX > maxX)
+                {
+                    // If the width is larger than the page width, we go to the next row
+                    currentX = minX;
+                    currentY += currentRowHeight;
+                    currentRowHeight = 0;
+                }
+
+                // If the height is greater than the max, we need a new page
+                // Stops dequeuing and start a new page that will start on the next image
+                if (currentY > maxY)
+                {
+                    printPageEventArgs.HasMorePages = true;
+                    break;
+                }
+            }
+        }
+
         private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
-            // Get the control to print
-            TabPage tabPage = tabControl_Rankings.SelectedTab;
-            // Create an empty bitmap
-            Bitmap bitmap = new Bitmap(tabPage.Width, tabPage.Height);
-            // Copy the control on the bitmap
-            tabPage.DrawToBitmap(bitmap, new Rectangle
-            {
-                X = 0,
-                Y = 0,
-                Width = tabPage.Size.Width,
-                Height = tabPage.Size.Height
-            });
-            // Print the bitmap on the print preview
-            e.Graphics?.DrawImage(bitmap, e.MarginBounds.Location);
+            // Draw each image on the document
+            foreach ((Image image, Point position) nextImage in GetImagePositions(imagesToPrint, e))
+                e.Graphics?.DrawImage(nextImage.image, nextImage.position);
         }
 
         #endregion
@@ -241,7 +285,14 @@ namespace foot2rue.WF.HomePage
 
         #endregion
 
-        #region ToolStripComboBox event handlers
+        #region Tool strip combo boxex
+
+        private Team? GetSelectedTeam()
+        {
+            return toolStripComboBox_TeamSelection.GetSelectedItem<Team>();
+        }
+
+        #region Tool strip combo box event handlers
 
         private async void toolStripComboBox_GenreSelection_SelectedIndexChanged(object? sender, EventArgs e)
         {
@@ -271,7 +322,9 @@ namespace foot2rue.WF.HomePage
 
         #endregion
 
-        #region TabControl event handlers
+        #endregion
+
+        #region Tab control event handlers
 
         // This function is used to draw tabs manually, to be able to change their color
         // I have no idea how this works, please refer to:
@@ -312,10 +365,16 @@ namespace foot2rue.WF.HomePage
 
         #region Data displays
 
+        private DataDisplay GetSelectedDataDisplay()
+        {
+            return tabControl_Rankings.SelectedTab.Controls.OfType<DataDisplay>().Single();
+        }
+
         private void ResetDataDisplays()
         {
             favoritesDataDisplay?.Clear();
             allPlayersDataDisplay?.Clear();
+            matchesDataDisplay?.Clear();
             // TODO Add all data displays to clear here when adding more tabs
         }
 
@@ -328,17 +387,12 @@ namespace foot2rue.WF.HomePage
             if (selectedTeam == null)
                 return;
 
-            DataDisplay activeDataDisplay = tabControl_Rankings.SelectedTab.Controls.OfType<DataDisplay>().Single();
+            DataDisplay activeDataDisplay = GetSelectedDataDisplay();
             // Refresh the data of the current data display right now
             // Other data displays will be refreshed by themselves when shown again
             await this.Wait(async () => await activeDataDisplay.LoadData(selectedTeam.FifaCode));
         }
 
         #endregion
-
-        private Team? GetSelectedTeam()
-        {
-            return toolStripComboBox_TeamSelection.GetSelectedItem<Team>();
-        }
     }
 }

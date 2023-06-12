@@ -166,5 +166,16 @@ namespace foot2rue.WF.Extensions
         }
 
         #endregion
+
+        #region Printing
+
+        public static Image Print(this Control control)
+        {
+            Bitmap bitmap = new Bitmap(control.Width, control.Height);
+            control.DrawToBitmap(bitmap, new Rectangle(0, 0, control.Width, control.Height));
+            return bitmap;
+        }
+
+        #endregion
     }
 }

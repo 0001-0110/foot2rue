@@ -1,6 +1,6 @@
 ﻿namespace foot2rue.WF.MessageBoxes
 {
-    partial class InitialSetupFailureForm
+    partial class ErrorForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InitialSetupFailureForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ErrorForm));
             label1 = new Label();
             button_Confirm = new Button();
             SuspendLayout();

@@ -2,10 +2,11 @@
 
 namespace foot2rue.WF.MessageBoxes
 {
-    public partial class InitialSetupFailureForm : Form
+    public partial class ErrorForm : Form
     {
-        public InitialSetupFailureForm()
+        public ErrorForm(string localizationString)
         {
+            label1.SetLocalizationString(localizationString);
             InitializeComponent();
             this.LoadLocalization();
         }
