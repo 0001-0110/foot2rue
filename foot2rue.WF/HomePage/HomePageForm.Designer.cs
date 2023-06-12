@@ -29,6 +29,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HomePageForm));
             toolStrip = new ToolStrip();
             toolStripComboBox_GenreSelection = new ToolStripComboBox();
             toolStripSeparator1 = new ToolStripSeparator();
@@ -40,6 +41,8 @@
             tabPage_Favorites = new TabPage();
             tabPage_AllPlayers = new TabPage();
             tabPage_Matches = new TabPage();
+            printDocument = new System.Drawing.Printing.PrintDocument();
+            printPreviewDialog = new PrintPreviewDialog();
             toolStrip.SuspendLayout();
             tabControl_Rankings.SuspendLayout();
             SuspendLayout();
@@ -107,6 +110,7 @@
             toolStripButton_Print.Size = new Size(29, 25);
             toolStripButton_Print.Tag = "{Print}";
             toolStripButton_Print.Text = "toolStripButton1";
+            toolStripButton_Print.Click += toolStripButton_Print_Click;
             // 
             // tabControl_Rankings
             // 
@@ -156,6 +160,21 @@
             tabPage_Matches.Tag = "{Matches}";
             tabPage_Matches.Text = "tabPage1";
             // 
+            // printDocument
+            // 
+            printDocument.PrintPage += PrintDocument_PrintPage;
+            // 
+            // printPreviewDialog
+            // 
+            printPreviewDialog.AutoScrollMargin = new Size(0, 0);
+            printPreviewDialog.AutoScrollMinSize = new Size(0, 0);
+            printPreviewDialog.ClientSize = new Size(400, 300);
+            printPreviewDialog.Document = printDocument;
+            printPreviewDialog.Enabled = true;
+            printPreviewDialog.Icon = (Icon)resources.GetObject("printPreviewDialog.Icon");
+            printPreviewDialog.Name = "printPreviewDialog";
+            printPreviewDialog.Visible = false;
+            // 
             // HomePageForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -189,5 +208,7 @@
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripButton toolStripButton_Print;
         private TabPage tabPage_Matches;
+        private System.Drawing.Printing.PrintDocument printDocument;
+        private PrintPreviewDialog printPreviewDialog;
     }
 }
