@@ -285,11 +285,16 @@ namespace foot2rue.WF.HomePage
 
         #endregion
 
-        #region Tool strip combo boxex
+        #region Data
 
         private Team? GetSelectedTeam()
         {
             return toolStripComboBox_TeamSelection.GetSelectedItem<Team>();
+        }
+
+        private async void toolStripButton_Refresh_Click(object sender, EventArgs e)
+        {
+            await RefreshDataDisplays();
         }
 
         #region Tool strip combo box event handlers

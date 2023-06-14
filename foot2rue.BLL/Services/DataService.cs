@@ -1,4 +1,5 @@
 ﻿using foot2rue.BLL.Extensions;
+using BllPlayer = foot2rue.BLL.Models.Player;
 using foot2rue.BLL.Services;
 using foot2rue.BLL.Utilities;
 using foot2rue.DAL.Models;
@@ -58,15 +59,15 @@ namespace foot2rue.WF.Services
             return matchesByFifaCode[fifaCode];
         }
 
-        private Dictionary<string, IEnumerable<BLL.Models.Player>?> playersByFifaCode = new Dictionary<string, IEnumerable<BLL.Models.Player>?>();
-        public async Task<IEnumerable<BLL.Models.Player>?> GetPlayersByFifaCode(string fifaCode)
+        private Dictionary<string, IEnumerable<BllPlayer>?> playersByFifaCode = new Dictionary<string, IEnumerable<BllPlayer>?>();
+        public async Task<IEnumerable<BllPlayer>?> GetPlayersByFifaCode(string fifaCode)
         {
             if (!playersByFifaCode.ContainsKey(fifaCode))
             {
                 // Get players from the repo
                 Match? match = (await Task.Run(() => repository.GetMatchesByFifaCode(fifaCode)))?.ElementAt(0);
                 Statistics? teamStatistics = match?.HomeTeam.FifaCode == fifaCode ? match?.HomeTeamStatistics : match?.AwayTeamStatistics;
-                IEnumerable<DAL.Models.Player>? players = teamStatistics?.StartingEleven.Concat(teamStatistics.Substitutes);
+                IEnumerable<Player>? players = teamStatistics?.StartingEleven.Concat(teamStatistics.Substitutes);
 
                 // Convert those players to BLL model using the events of the matches
                 IEnumerable<Match>? matches = await GetMatchesByFifaCode(fifaCode);
@@ -111,6 +112,8 @@ namespace foot2rue.WF.Services
             return groupResults;
         }
 
+        #region Initialization
+
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public DataService(Genre genre, bool offlineMode = false)
         {
@@ -137,19 +140,21 @@ namespace foot2rue.WF.Services
             repository = OfflineMode ? new JsonRepository(Genre) : new ApiRepository(Genre);
         }
 
-        private IEnumerable<BLL.Models.Player> ExtendPlayers(IEnumerable<DAL.Models.Player>? players, IEnumerable<Statistics>? statistics, IEnumerable<Event>? events)
+        #endregion
+
+        private IEnumerable<BllPlayer> ExtendPlayers(IEnumerable<Player>? players, IEnumerable<Statistics>? statistics, IEnumerable<Event>? events)
         {
             if (players == null)
-                return Enumerable.Empty<BLL.Models.Player>();
+                return Enumerable.Empty<BllPlayer>();
 
             // Copy all the data from DAL Players
             // We store players in a dictionary so that the search complexity is O(1)
             // Check if this player is a favorite
-            Dictionary<string, BLL.Models.Player> extendedPlayers = new Dictionary<string, BLL.Models.Player>();
-            foreach (DAL.Models.Player player in players)
+            Dictionary<string, BllPlayer> extendedPlayers = new Dictionary<string, BllPlayer>();
+            foreach (Player player in players)
             {
-                BLL.Models.Player extendedPlayer = player.ExtendParentClass<DAL.Models.Player, BLL.Models.Player>();
-                extendedPlayer.IsFavorite = settingsService.FavoritePlayers.Contains(player.Name);
+                BllPlayer extendedPlayer = player.ExtendParentClass<Player, BllPlayer>();
+                extendedPlayer.IsFavorite = IsFavorite(extendedPlayer);
                 extendedPlayer.Image = PictureUtility.LoadPlayerPicture(extendedPlayer);
                 extendedPlayers.Add(player.Name, extendedPlayer);
             }
@@ -157,7 +162,7 @@ namespace foot2rue.WF.Services
             // If statistics is null, skip this count
             // Players that are present at the start of the match
             foreach (Statistics stats in statistics.IfNotNull())
-                foreach (DAL.Models.Player player in stats.StartingEleven)
+                foreach (Player player in stats.StartingEleven)
                 {
                     // We check before if the player is in the dictionnary to avoid crashes when the API contains typos
                     // It will return a wrong result, but it's better than no result at all
@@ -189,6 +194,9 @@ namespace foot2rue.WF.Services
                     case "yellow-card":
                         player.YellowCards++;
                         break;
+                    case "red-card":
+                        player.RedCards++;
+                        break;
                     case "substitution-in":
                         player.MatchesPalyed++;
                         break;
@@ -197,5 +205,24 @@ namespace foot2rue.WF.Services
 
             return extendedPlayers.Select(pair => pair.Value).AsEnumerable();
         }
+
+        #region Favorites
+
+        public bool IsFavorite(BllPlayer player)
+        {
+            return settingsService.FavoritePlayers.Contains(player.Name);
+        }
+
+        public void AddFavorite(BllPlayer player)
+        {
+            settingsService.FavoritePlayers.Add(player.Name);
+        }
+
+        public void RemoveFavorite(BllPlayer player) 
+        {
+            settingsService.FavoritePlayers.Remove(player.Name);
+        }
+
+        #endregion
     }
 }

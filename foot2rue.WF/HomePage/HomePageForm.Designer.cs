@@ -43,6 +43,7 @@
             tabPage_Matches = new TabPage();
             printDocument = new System.Drawing.Printing.PrintDocument();
             printPreviewDialog = new PrintPreviewDialog();
+            toolStripButton_Refresh = new ToolStripButton();
             toolStrip.SuspendLayout();
             tabControl_Rankings.SuspendLayout();
             SuspendLayout();
@@ -50,7 +51,7 @@
             // toolStrip
             // 
             toolStrip.ImageScalingSize = new Size(20, 20);
-            toolStrip.Items.AddRange(new ToolStripItem[] { toolStripComboBox_GenreSelection, toolStripSeparator1, toolStripComboBox_TeamSelection, toolStripButton_Settings, toolStripSeparator2, toolStripButton_Print });
+            toolStrip.Items.AddRange(new ToolStripItem[] { toolStripComboBox_GenreSelection, toolStripSeparator1, toolStripComboBox_TeamSelection, toolStripButton_Settings, toolStripSeparator2, toolStripButton_Print, toolStripButton_Refresh });
             toolStrip.Location = new Point(0, 0);
             toolStrip.Name = "toolStrip";
             toolStrip.Size = new Size(1582, 28);
@@ -175,6 +176,17 @@
             printPreviewDialog.Name = "printPreviewDialog";
             printPreviewDialog.Visible = false;
             // 
+            // toolStripButton_Refresh
+            // 
+            toolStripButton_Refresh.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButton_Refresh.Image = Properties.Resources.refresh;
+            toolStripButton_Refresh.ImageTransparentColor = Color.Magenta;
+            toolStripButton_Refresh.Name = "toolStripButton_Refresh";
+            toolStripButton_Refresh.Size = new Size(29, 25);
+            toolStripButton_Refresh.Tag = "{Refresh}";
+            toolStripButton_Refresh.Text = "toolStripButton1";
+            toolStripButton_Refresh.Click += toolStripButton_Refresh_Click;
+            // 
             // HomePageForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -210,5 +222,6 @@
         private TabPage tabPage_Matches;
         private System.Drawing.Printing.PrintDocument printDocument;
         private PrintPreviewDialog printPreviewDialog;
+        private ToolStripButton toolStripButton_Refresh;
     }
 }

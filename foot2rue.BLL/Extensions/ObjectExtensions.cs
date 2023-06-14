@@ -19,7 +19,7 @@ namespace foot2rue.Settings.Extensions
             PropertyInfo[] destinationProperties = destination.GetType().GetProperties(bindingFlags);
             foreach (PropertyInfo sourceProperty in sourceProperties)
             {
-                PropertyInfo? destinationProperty = Array.Find(destinationProperties, p => p.Name == sourceProperty.Name);
+                PropertyInfo? destinationProperty = Array.Find(destinationProperties, property => property.Name == sourceProperty.Name);
                 if (destinationProperty != null && destinationProperty.PropertyType == sourceProperty.PropertyType && destinationProperty.CanWrite)
                 {
                     if ((!overrideValues && destinationProperty.GetValue(destination) != default) || sourceProperty.GetValue(source) == default)
@@ -32,7 +32,7 @@ namespace foot2rue.Settings.Extensions
         public static TChild ExtendParentClass<TParent, TChild>(this TParent source) where TParent : notnull where TChild : notnull, TParent, new()
         {
             TChild destination = new TChild();
-            destination.GetDataFrom(source);
+            destination.GetDataFrom(source, true);
             return destination;
         }
     }

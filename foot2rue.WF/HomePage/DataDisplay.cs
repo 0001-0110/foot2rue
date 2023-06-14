@@ -1,5 +1,4 @@
 ﻿using foot2rue.WF.Extensions;
-using foot2rue.WF.MessageBoxes;
 
 namespace foot2rue.WF.HomePage
 {
@@ -57,14 +56,14 @@ namespace foot2rue.WF.HomePage
             // Show loading screen
             SetDisplayMode(DisplayMode.Loading);
 
-            IEnumerable<Control>? data = await loadDataFunction(fifaCode);
-            if (data == null)
+            IEnumerable<Control>? controls = await loadDataFunction(fifaCode);
+            if (controls == null)
             {
                 // Loading of the data failed, displaying the error
                 SetDisplayMode(DisplayMode.Error);
                 return;
             }
-            if (data.Count() == 0)
+            if (controls.Count() == 0)
             {
                 // Nothing to display
                 SetDisplayMode(DisplayMode.NoData);
@@ -72,7 +71,7 @@ namespace foot2rue.WF.HomePage
             }
 
             // Show the data
-            flippin_DataPanel.Controls.AddRange(data.ToArray());
+            flippin_DataPanel.Controls.AddRange(controls.ToArray());
             SetDisplayMode(DisplayMode.Loaded);
             // DEBUG
             //SetDisplayMode(DisplayMode.Loading);
