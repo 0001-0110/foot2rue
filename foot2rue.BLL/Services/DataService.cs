@@ -168,7 +168,7 @@ namespace foot2rue.WF.Services
                     // It will return a wrong result, but it's better than no result at all
                     BLL.Models.Player extendedPlayer;
                     if (extendedPlayers.TryGetValue(player.Name, out extendedPlayer!))
-                        extendedPlayer.MatchesPalyed++;
+                        extendedPlayer.MatchPlayed++;
                 }
 
             // If event is null, skip this part
@@ -198,7 +198,7 @@ namespace foot2rue.WF.Services
                         player.RedCards++;
                         break;
                     case "substitution-in":
-                        player.MatchesPalyed++;
+                        player.MatchPlayed++;
                         break;
                 }
             }

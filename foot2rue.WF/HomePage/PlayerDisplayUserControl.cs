@@ -23,6 +23,7 @@ namespace foot2rue.WF.HomePage
             pictureBox_Favorite.Image = player.IsFavorite ? Properties.Resources.star : Properties.Resources.non_favorite;
             label_FullName.SetLocalizationString($"{player.Name} ({player.ShirtNumber})");
             label_Position.SetLocalizationString($"{{{player.Position}}}");
+            label_MatchPlayed.SetLocalizationString($"{{MatchPlayed}}: {player.MatchPlayed}");
             label_GoalCount.SetLocalizationString($"{{Goals}}: {player.Goals}");
             label_YellowCardsCount.SetLocalizationString($"{{YellowCards}}: {player.YellowCards}");
             label_RedCardsCount.SetLocalizationString($"{{RedCards}}: {player.RedCards}");

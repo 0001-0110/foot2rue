@@ -36,6 +36,7 @@
             label_Position = new Label();
             pictureBox_IsCaptain = new PictureBox();
             label_RedCardsCount = new Label();
+            label_MatchPlayed = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox_PlayerPicture).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Favorite).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_IsCaptain).BeginInit();
@@ -64,7 +65,7 @@
             // label_GoalCount
             // 
             label_GoalCount.AutoSize = true;
-            label_GoalCount.Location = new Point(457, 13);
+            label_GoalCount.Location = new Point(457, 45);
             label_GoalCount.Name = "label_GoalCount";
             label_GoalCount.Size = new Size(50, 20);
             label_GoalCount.TabIndex = 2;
@@ -73,7 +74,7 @@
             // label_YellowCardsCount
             // 
             label_YellowCardsCount.AutoSize = true;
-            label_YellowCardsCount.Location = new Point(457, 55);
+            label_YellowCardsCount.Location = new Point(457, 77);
             label_YellowCardsCount.Name = "label_YellowCardsCount";
             label_YellowCardsCount.Size = new Size(50, 20);
             label_YellowCardsCount.TabIndex = 3;
@@ -112,17 +113,27 @@
             // label_RedCardsCount
             // 
             label_RedCardsCount.AutoSize = true;
-            label_RedCardsCount.Location = new Point(457, 97);
+            label_RedCardsCount.Location = new Point(457, 109);
             label_RedCardsCount.Name = "label_RedCardsCount";
             label_RedCardsCount.Size = new Size(50, 20);
             label_RedCardsCount.TabIndex = 7;
             label_RedCardsCount.Text = "label3";
+            // 
+            // label_MatchPlayed
+            // 
+            label_MatchPlayed.AutoSize = true;
+            label_MatchPlayed.Location = new Point(457, 13);
+            label_MatchPlayed.Name = "label_MatchPlayed";
+            label_MatchPlayed.Size = new Size(50, 20);
+            label_MatchPlayed.TabIndex = 8;
+            label_MatchPlayed.Text = "label2";
             // 
             // PlayerDisplayUserControl
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.WindowFrame;
+            Controls.Add(label_MatchPlayed);
             Controls.Add(label_RedCardsCount);
             Controls.Add(pictureBox_IsCaptain);
             Controls.Add(label_Position);
@@ -150,5 +161,6 @@
         private Label label_Position;
         private PictureBox pictureBox_IsCaptain;
         private Label label_RedCardsCount;
+        private Label label_MatchPlayed;
     }
 }
