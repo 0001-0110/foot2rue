@@ -7,6 +7,8 @@
         public int RedCards { get; set; }
         public int MatchPlayed { get; set; }
         public bool IsFavorite { get; set; }
+
+        [Obsolete]
         public Image? Image { get; set; }
     }
 }

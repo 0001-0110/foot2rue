@@ -155,6 +155,7 @@ namespace foot2rue.WF.Services
             {
                 BllPlayer extendedPlayer = player.ExtendParentClass<Player, BllPlayer>();
                 extendedPlayer.IsFavorite = IsFavorite(extendedPlayer);
+                // Obsolete
                 extendedPlayer.Image = PictureUtility.LoadPlayerPicture(extendedPlayer);
                 extendedPlayers.Add(player.Name, extendedPlayer);
             }
@@ -166,7 +167,7 @@ namespace foot2rue.WF.Services
                 {
                     // We check before if the player is in the dictionnary to avoid crashes when the API contains typos
                     // It will return a wrong result, but it's better than no result at all
-                    BLL.Models.Player extendedPlayer;
+                    BllPlayer extendedPlayer;
                     if (extendedPlayers.TryGetValue(player.Name, out extendedPlayer!))
                         extendedPlayer.MatchPlayed++;
                 }
@@ -178,7 +179,7 @@ namespace foot2rue.WF.Services
             // Joining during a match (If a player joins a match twice, it will be counted for two different matches)
             foreach (Event matchEvent in events ?? Enumerable.Empty<Event>())
             {
-                BLL.Models.Player? player = extendedPlayers.GetValueOrDefault(matchEvent.Player);
+                BllPlayer? player = extendedPlayers.GetValueOrDefault(matchEvent.Player);
                 if (player == null)
                     continue;
 

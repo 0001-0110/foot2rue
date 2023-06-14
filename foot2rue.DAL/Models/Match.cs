@@ -45,10 +45,10 @@ namespace foot2rue.DAL.Models
         public string Winner { get; set; }
 
         [JsonProperty("home_team")]
-        public Team HomeTeam { get; set; }
+        public TeamMatch HomeTeam { get; set; }
 
         [JsonProperty("away_team")]
-        public Team AwayTeam { get; set; }
+        public TeamMatch AwayTeam { get; set; }
 
         [JsonProperty("home_team_events")]
         public Event[] HomeTeamEvents { get; set; }

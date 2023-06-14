@@ -3,6 +3,7 @@ using System.IO;
 
 namespace foot2rue.BLL.Utilities
 {
+    [Obsolete]
     internal static class PictureUtility
     {
         private const string RESOURCESFOLDER = "Resources";
@@ -10,7 +11,7 @@ namespace foot2rue.BLL.Utilities
 
         public static Image? LoadPlayerPicture(Player player)
         {
-            // TODO 
+            // TODO Is this the correct file type ?
             return LoadFromResources($"{player.Name}.jpg");
         }
 

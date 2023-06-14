@@ -16,8 +16,15 @@ namespace foot2rue.WF.HomePage
 {
     public partial class HomePageForm : Form
     {
+        #region Localization
+
         private const string QUITCONFIRMATIONLOCALIZATIONSTRING = "{QuitConfirmation}";
         private const string PRINTERRORLOCALIZATIONSTRING = "{PrintError}";
+
+        #endregion
+
+        #region Colors
+
         private static readonly Color BACKCOLOR = ColorUtility.FromHex("#333333");
         private static readonly Color FONTCOLOR = Color.White;
 
@@ -31,13 +38,15 @@ namespace foot2rue.WF.HomePage
             { get { return BACKCOLOR; } }
         }
 
+        #endregion
+
         private SettingsService settingsService;
         private DataService dataService;
 
         private DataDisplay? favoritesDataDisplay;
         private DataDisplay? allPlayersDataDisplay;
-        // TODO Add data display
         private DataDisplay? matchesDataDisplay;
+        // TODO Add data displays
 
         private Queue<Image> imagesToPrint;
 

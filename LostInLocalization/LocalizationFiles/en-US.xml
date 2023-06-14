@@ -31,12 +31,22 @@
 	<string name="Print">Print</string>
 	<string name="Settings">Settings</string>
 
+	<string name="Goals">Goals</string>
+	<string name="YellowCards">Yellow cards</string>
+	<string name="RedCards">Red cards</string>
+
+	<string name="MatchPlayed">Match played</string>
 	<string name="Goalie">Goalie</string>
 	<string name="Defender">Defender</string>
 	<string name="Midfield">Midfield</string>
 	<string name="Forward">Forward</string>
+
+	<string name="VisitorCount">Number of visitors</string>
+	<string name="AttemptsOnGoal">Attemps on goal</string>
+	<string name="BallPossession">Ball possession</string>
 	
 	<!-- Tabs -->
+	
 	<string name="FavoritePlayers">Favorites</string>
 	<string name="AllPlayers">All players</string>
 	<string name="Matches">Matches</string>

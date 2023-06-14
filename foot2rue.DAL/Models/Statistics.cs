@@ -9,7 +9,7 @@ namespace foot2rue.DAL.Models
         public string Country { get; set; }
 
         [JsonProperty("attempt_on_goal")]
-        public int AttemptOnGoal { get; set; }
+        public int AttemptsOnGoal { get; set; }
 
         [JsonProperty("on_target")]
         public int OnTarget { get; set; }
