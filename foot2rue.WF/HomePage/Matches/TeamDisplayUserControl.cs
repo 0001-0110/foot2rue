@@ -10,8 +10,9 @@ namespace foot2rue.WF.HomePage.Matches
         {
             InitializeComponent();
 
-            // TODO Display team
             pictureBox_CountryFlag.Image = ResourcesUtility.GetCountryImage(team.FifaCode);
+            if (pictureBox_CountryFlag.Image is Bitmap bitmap)
+                this.SetBorder(ColorUtility.GetAverageColor(bitmap));
             pictureBox_Winner.Visible = winner;
             // This line is necessary so that the winning icon does not block the flag beneath it
             pictureBox_CountryFlag.Controls.Add(pictureBox_Winner);

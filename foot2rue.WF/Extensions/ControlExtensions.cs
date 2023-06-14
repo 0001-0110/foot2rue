@@ -24,25 +24,35 @@ namespace foot2rue.WF.Extensions
 
         #region Paint
 
-        private static void control_PaintSelected(object? sender, PaintEventArgs e)
+        private static PaintEventHandler GetPainter(Color color)
         {
-            Control control = (Control)sender!;
-            // Draw a border around the selected control
-            ControlPaint.DrawBorder(e.Graphics, control.ClientRectangle, Color.Black, ButtonBorderStyle.Solid);
+            return (object? sender, PaintEventArgs e) =>
+                {
+                    Control control = (Control)sender!;
+                    // Draw a border around the selected control
+                    ControlPaint.DrawBorder(e.Graphics, control.ClientRectangle, color, ButtonBorderStyle.Solid);
+                };
         }
+
+        private static PaintEventHandler selectedPaintEventHandler = GetPainter(Color.Black);
 
         public static void ShowSelected(this Control control)
         {
-            control.Paint += control_PaintSelected;
+            control.Paint += selectedPaintEventHandler;
             // Force redraw this control
             control.Invalidate();
         }
 
         public static void ShowDeselected(this Control control)
         {
-            control.Paint -= control_PaintSelected;
+            control.Paint -= selectedPaintEventHandler;
             // Force redraw this control
             control.Invalidate();
+        }
+
+        public static void SetBorder(this Control control, Color color)
+        {
+            control.Paint += GetPainter(color);
         }
 
         #endregion

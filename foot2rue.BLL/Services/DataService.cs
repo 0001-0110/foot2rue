@@ -44,6 +44,9 @@ namespace foot2rue.WF.Services
             return matches;
         }
 
+        // Because of the multiple threads running, we use try add to make sure we don't try to add twice the same key
+        // Without it, if the user starts loading multiple tabs at once, creating an exception
+
         private Dictionary<string, IEnumerable<Match>?> matchesByFifaCode = new Dictionary<string, IEnumerable<Match>?>();
         public async Task<IEnumerable<Match>?> GetMatchesByFifaCode(string fifaCode)
         {
@@ -51,10 +54,10 @@ namespace foot2rue.WF.Services
             {
                 if (matches != null)
                     // If matches have already been loaded, just filter them
-                    matchesByFifaCode.Add(fifaCode, (await Task.Run(GetMatches))?.Where(match => match.HomeTeam.FifaCode == fifaCode || match.AwayTeam.FifaCode == fifaCode));
+                    matchesByFifaCode.TryAdd(fifaCode, (await Task.Run(GetMatches))?.Where(match => match.HomeTeam.FifaCode == fifaCode || match.AwayTeam.FifaCode == fifaCode));
                 else
                     // If no matches have been loaded yet, only get the matches we need from API
-                    matchesByFifaCode.Add(fifaCode, await Task.Run(() => repository.GetMatchesByFifaCode(fifaCode)));
+                    matchesByFifaCode.TryAdd(fifaCode, await Task.Run(() => repository.GetMatchesByFifaCode(fifaCode)));
             }
             return matchesByFifaCode[fifaCode];
         }
@@ -75,7 +78,7 @@ namespace foot2rue.WF.Services
                     match => match.HomeTeam.FifaCode == fifaCode ? match.HomeTeamStatistics : match.AwayTeamStatistics);
                 IEnumerable<Event>? events = matches?.SelectMany(
                     match => match.HomeTeam.FifaCode == fifaCode ? match.HomeTeamEvents : match.AwayTeamEvents);
-                playersByFifaCode.Add(fifaCode, ExtendPlayers(players, statistics, events));
+                playersByFifaCode.TryAdd(fifaCode, ExtendPlayers(players, statistics, events));
             }
 
             return playersByFifaCode[fifaCode];

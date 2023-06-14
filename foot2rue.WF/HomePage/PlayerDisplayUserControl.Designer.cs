@@ -102,6 +102,7 @@
             // 
             // pictureBox_IsCaptain
             // 
+            pictureBox_IsCaptain.BackColor = Color.Transparent;
             pictureBox_IsCaptain.Image = Properties.Resources.captain_band;
             pictureBox_IsCaptain.Location = new Point(151, 3);
             pictureBox_IsCaptain.Name = "pictureBox_IsCaptain";

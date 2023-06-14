@@ -15,12 +15,16 @@ namespace foot2rue.WF.HomePage
 
             label_Venue.SetLocalizationString(match.Venue);
             label_Location.SetLocalizationString(match.Location);
+            label_Date.SetLocalizationString($"{match.DateTime}");
             label_VisitorCount.SetLocalizationString($"{{VisitorCount}}: {match.Attendance}");
 
             homeTeamDisplay = new TeamDisplayUserControl(match.HomeTeam, match.HomeTeamStatistics, match.HomeTeam.Goals > match.AwayTeam.Goals);
             panel_HomeTeam.Controls.Add(homeTeamDisplay);
             awayTeamDisplay = new TeamDisplayUserControl(match.AwayTeam, match.AwayTeamStatistics, match.AwayTeam.Goals > match.HomeTeam.Goals);
             panel_AwayTeam.Controls.Add(awayTeamDisplay);
+
+            // Not needed ?
+            //this.LoadLocalization();
         }
     }
 }

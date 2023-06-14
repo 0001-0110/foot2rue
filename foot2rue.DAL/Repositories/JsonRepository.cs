@@ -35,11 +35,14 @@ namespace foot2rue.DAL.Repositories
         public JsonRepository(Genre genre) : base(genre)
         {
             // When starting the offline mode, we first make sure that all the data has been saved locally
-            ApiRepository apiRepository = new ApiRepository(genre);
-            Task.Run(() => SaveJsonIfNotExists(MATCHESFILE, apiRepository.GetMatches));
-            Task.Run(() => SaveJsonIfNotExists(TEAMFILE, apiRepository.GetTeams));
-            Task.Run(() => SaveJsonIfNotExists(TEAMRESULTFILE, apiRepository.GetTeamResults));
-            Task.Run(() => SaveJsonIfNotExists(GROUPRESULTFILE, apiRepository.GetGroupResults));
+            foreach (Genre _genre in EnumUtility.GetEnumValues<Genre>())
+            {
+                ApiRepository apiRepository = new ApiRepository(_genre);
+                Task.Run(() => EnsureJsonExists(MATCHESFILE, apiRepository.GetMatches));
+                Task.Run(() => EnsureJsonExists(TEAMFILE, apiRepository.GetTeams));
+                Task.Run(() => EnsureJsonExists(TEAMRESULTFILE, apiRepository.GetTeamResults));
+                Task.Run(() => EnsureJsonExists(GROUPRESULTFILE, apiRepository.GetGroupResults));
+            }
         }
 
         private string GetFolderPath()
@@ -62,7 +65,7 @@ namespace foot2rue.DAL.Repositories
             return JsonConvert.DeserializeObject<IEnumerable<T>>(content);
         }
 
-        private async Task SaveJsonIfNotExists<T>(string filename, Func<Task<IEnumerable<T>?>> loadingFunction)
+        private async Task EnsureJsonExists<T>(string filename, Func<Task<IEnumerable<T>?>> loadingFunction)
         {
             string path = GetFilePath(filename);
             if (File.Exists(path))

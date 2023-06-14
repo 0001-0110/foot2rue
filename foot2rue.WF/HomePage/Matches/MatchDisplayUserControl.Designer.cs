@@ -34,6 +34,7 @@
             flowLayoutPanel1 = new FlowLayoutPanel();
             label_Venue = new Label();
             label_Location = new Label();
+            label_Date = new Label();
             label_VisitorCount = new Label();
             pictureBox_VisitorIcon = new PictureBox();
             flowLayoutPanel2 = new FlowLayoutPanel();
@@ -76,9 +77,10 @@
             // 
             flowLayoutPanel1.Controls.Add(label_Venue);
             flowLayoutPanel1.Controls.Add(label_Location);
+            flowLayoutPanel1.Controls.Add(label_Date);
             flowLayoutPanel1.Location = new Point(0, 6);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(628, 33);
+            flowLayoutPanel1.Size = new Size(866, 33);
             flowLayoutPanel1.TabIndex = 3;
             // 
             // label_Venue
@@ -100,6 +102,16 @@
             label_Location.Size = new Size(65, 28);
             label_Location.TabIndex = 1;
             label_Location.Text = "label1";
+            // 
+            // label_Date
+            // 
+            label_Date.AutoSize = true;
+            label_Date.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label_Date.Location = new Point(159, 0);
+            label_Date.Name = "label_Date";
+            label_Date.Size = new Size(65, 28);
+            label_Date.TabIndex = 2;
+            label_Date.Text = "label1";
             // 
             // label_VisitorCount
             // 
@@ -163,5 +175,6 @@
         private Label label_VisitorCount;
         private PictureBox pictureBox_VisitorIcon;
         private FlowLayoutPanel flowLayoutPanel2;
+        private Label label_Date;
     }
 }
