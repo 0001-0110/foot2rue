@@ -20,7 +20,9 @@ namespace foot2rue.WF.Extensions
                 new ErrorForm(INITIALSETUPFAILURELOCALIZATIONSTRING).ShowDialog();
                 // Force quit
                 Application.Exit();
+                return;
             }
+
             settingsService.SaveSettings();
         }
     }

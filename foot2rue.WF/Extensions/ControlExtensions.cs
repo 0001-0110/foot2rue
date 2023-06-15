@@ -1,3 +1,4 @@
+using foot2rue.Settings.Extensions;
 using LostInLocalization;
 using System.Globalization;
 
@@ -20,6 +21,22 @@ namespace foot2rue.WF.Extensions
             control.Parent?.Controls.Remove(control);
             control.Parent = parent;
             parent?.Controls.Add(control);
+        }
+
+        public static void SetPropertyRecursive(this Control control, string propertyName, object? value)
+        {
+            control.SetPropertyByName(propertyName, value);
+
+            foreach (Control child in control.Controls)
+                child.SetPropertyRecursive(propertyName, value);
+        }
+
+        public static void SetEventRecursive<TEventHandler>(this Control control, string eventInfoName, TEventHandler eventHandler) where TEventHandler : Delegate
+        {
+            typeof(Control).GetEvent(eventInfoName)?.AddEventHandler(control, eventHandler);
+
+            foreach (Control child in control.Controls)
+                child.SetEventRecursive(eventInfoName, eventHandler);
         }
 
         #region Paint
@@ -55,8 +72,6 @@ namespace foot2rue.WF.Extensions
             control.Paint += GetPainter(color);
         }
 
-        #endregion
-
         [Obsolete]
         public static void SetBackColor(this Control control, Color color, bool recursive = true)
         {
@@ -66,6 +81,8 @@ namespace foot2rue.WF.Extensions
                 foreach (Control child in control.Controls)
                     child.SetBackColor(color, recursive);
         }
+
+        #endregion
 
         public static async Task Wait(this Control control, Func<Task> loadingFunction)
         {
@@ -94,9 +111,19 @@ namespace foot2rue.WF.Extensions
             }
         }
 
-        public static IEnumerable<T> FindChildrenOfType<T>(this Control control, bool recursive = false) where T : Control
+        private static TControl? FindParentOfType<TControl>(this Control control) where TControl : Control
         {
-            IEnumerable<T> controls = new List<T>();
+            return control as TControl ?? control.Parent?.FindParentOfType<TControl>();
+        }
+
+        public static TControl? FindParentOfType<TControl>(this Control control, bool includeRoot = false) where TControl : Control
+        {
+            return (includeRoot ? control : control.Parent)?.FindParentOfType<TControl>();
+        }
+
+        public static IEnumerable<TControl> FindChildrenOfType<TControl>(this Control control, bool recursive = false) where TControl : Control
+        {
+            IEnumerable<TControl> controls = new List<TControl>();
             control.FindChildrenOfType(ref controls, recursive);
             return controls;
         }

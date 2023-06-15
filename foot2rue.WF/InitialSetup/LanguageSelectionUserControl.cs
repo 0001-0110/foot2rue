@@ -47,7 +47,6 @@ namespace foot2rue.WF.InitialSetup
             }
 
             settingsService.Culture = comboBox1.GetSelectedItem<CultureInfo>();
-            settingsService.SaveSettings();
             onValidate.Invoke();
         }
     }

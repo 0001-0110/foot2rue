@@ -42,9 +42,9 @@
             // 
             // pictureBox_CountryFlag
             // 
-            pictureBox_CountryFlag.Location = new Point(0, 0);
+            pictureBox_CountryFlag.Location = new Point(5, 5);
             pictureBox_CountryFlag.Name = "pictureBox_CountryFlag";
-            pictureBox_CountryFlag.Size = new Size(150, 150);
+            pictureBox_CountryFlag.Size = new Size(140, 140);
             pictureBox_CountryFlag.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox_CountryFlag.TabIndex = 0;
             pictureBox_CountryFlag.TabStop = false;
@@ -108,7 +108,7 @@
             // 
             pictureBox_Winner.BackColor = Color.Transparent;
             pictureBox_Winner.Image = Properties.Resources.winner;
-            pictureBox_Winner.Location = new Point(110, 0);
+            pictureBox_Winner.Location = new Point(105, 5);
             pictureBox_Winner.Name = "pictureBox_Winner";
             pictureBox_Winner.Size = new Size(40, 40);
             pictureBox_Winner.SizeMode = PictureBoxSizeMode.Zoom;

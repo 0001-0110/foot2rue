@@ -1,4 +1,5 @@
 ﻿using foot2rue.BLL.Services;
+using foot2rue.Settings.Extensions;
 using foot2rue.WF.Extensions;
 using foot2rue.WF.Services;
 using System.Collections.Specialized;
@@ -72,24 +73,27 @@ namespace foot2rue.WF.InitialSetup
 
         private async Task InitFlowLayoutPanels()
         {
-            IEnumerable<Control>? playerUserControls =
+            IEnumerable<Control>? playerDisplayUserControls =
                 (await this.Wait(async () => await new DataService()
                 .GetPlayersByFifaCode(settingsService.SelectedTeamFifaCode)))?
                 .Select(player => new PlayerDisplayUserControl(player));
 
-            if (playerUserControls == null)
+            if (playerDisplayUserControls == null)
                 // TODO
                 throw new Exception("Tough luck");
 
-            foreach (Control playerUserControl in playerUserControls)
+            foreach (Control playerDisplayUserControl in playerDisplayUserControls)
             {
-                playerUserControl.Parent = flowLayoutPanel_AllPlayers;
-                playerUserControl.MouseDown += control_MouseDown;
-                playerUserControl.MouseUp += control_MouseUp;
+                playerDisplayUserControl.Parent = flowLayoutPanel_AllPlayers;
+
+                // We change the sender to the whole user control because otherwise only the selected control is affected
+                // Could have been done differently, like tracking down the user control from the sender, but it seemed easier like that
+                playerDisplayUserControl.SetEventRecursive<MouseEventHandler>(nameof(MouseDown), (_, e) => control_MouseDown(playerDisplayUserControl, e));
+                playerDisplayUserControl.SetEventRecursive<MouseEventHandler>(nameof(MouseUp), (_, e) => control_MouseUp(playerDisplayUserControl, e));
                 // So that controls do not block from dropping in the panel
-                playerUserControl.DragEnter += control_DragEnter;
-                playerUserControl.DragDrop += control_DragDrop;
-                playerUserControl.ContextMenuStrip = contextMenuStrip;
+                playerDisplayUserControl.SetEventRecursive<DragEventHandler>(nameof(DragEnter), (_, e) => control_DragEnter(playerDisplayUserControl, e));
+                playerDisplayUserControl.SetEventRecursive<DragEventHandler>(nameof(DragDrop), (_, e) => control_DragDrop(playerDisplayUserControl, e));
+                playerDisplayUserControl.SetPropertyRecursive(nameof(ContextMenuStrip), contextMenuStrip);
             }
         }
 
@@ -134,7 +138,7 @@ namespace foot2rue.WF.InitialSetup
 
         private void DragControl(object? sender, EventArgs e)
         {
-            // !-- sender is timer here, don't use it --!
+            // !-- sender is the timer here, don't use it --!
 
             if (clickedControl == null)
                 return;
@@ -181,7 +185,10 @@ namespace foot2rue.WF.InitialSetup
             // Changing parent will also move the controls since they are flowLayoutPanels
             foreach (Control control in controls)
             {
-                control.SetParent(getParent(control));
+                // No need to move the player if already in the correct panel
+                Control parent = getParent(control);
+                if (control.Parent != parent)
+                    control.SetParent(parent);
                 control.ShowDeselected();
             }
             selectedControls.Clear();
@@ -193,7 +200,9 @@ namespace foot2rue.WF.InitialSetup
         private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
             // Retrieve the control that triggered the context menu
-            clickedControl = ((ContextMenuStrip)sender).SourceControl;
+            Control control = ((ContextMenuStrip)sender).SourceControl;
+            clickedControl = control.FindParentOfType<PlayerDisplayUserControl>(includeRoot: true)!;
+
             Action<ToolStripMenuItem, Panel> setToolStripVisible = (menuItem, panel) =>
             {
                 // If the source control is in the panel, it can be moved with `This one`
@@ -270,7 +279,6 @@ namespace foot2rue.WF.InitialSetup
             }
 
             //SettingsService.FavoritePlayers = names;
-            settingsService.SaveSettings();
             onValidation.Invoke();
         }
 

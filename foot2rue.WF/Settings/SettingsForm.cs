@@ -59,8 +59,7 @@ namespace foot2rue.WF.Settings
         {
             // You can't cancel a reset
             button_Cancel.Disable();
-            settingsService.ResetSettings();
-            settingsService.SaveSettings();
+            settingsService.ResetSettings(true);
             this.InitialSetup(settingsService);
             SettingsDialogResult |= SettingsDialogResult.SettingsReseted;
             Close();

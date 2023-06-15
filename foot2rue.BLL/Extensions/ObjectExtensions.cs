@@ -4,6 +4,11 @@ namespace foot2rue.Settings.Extensions
 {
     public static class ObjectExtensions
     {
+        public static void SetPropertyByName<T>(this T self, string propertyName, object? value)
+        {
+            typeof(T).GetProperty(propertyName)?.SetValue(self, value);
+        }
+
         /// <summary>
         /// This is SOOOOOOOOOOOOOOO overengineered for what I need
         /// </summary>

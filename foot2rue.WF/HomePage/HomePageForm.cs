@@ -100,8 +100,6 @@ namespace foot2rue.WF.HomePage
                 this.LoadLocalization();
                 await RefreshSelectionComboBoxes();
             }
-
-            settingsService.SaveSettings();
         }
 
         private async Task RefreshSelectionComboBoxes()
@@ -186,10 +184,11 @@ namespace foot2rue.WF.HomePage
                     e.Cancel = true;
                     return;
                 }
+
+                // Before exiting, we save his settings
+                settingsService.SaveSettings();
             }
 
-            // Before exiting, we save his settings
-            settingsService.SaveSettings();
             // Then the form is closed
         }
 

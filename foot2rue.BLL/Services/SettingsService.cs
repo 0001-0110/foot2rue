@@ -57,13 +57,16 @@ namespace foot2rue.BLL.Services
             ResetSettings();
         }
 
-        public void ResetSettings()
+        public void ResetSettings(bool clean = false)
         {
             SelectedGenre = Genre.Men;
             SelectedTeamFifaCode = "FRA";
             FavoritePlayers = new StringCollection();
             OfflineMode = false;
             Culture = LocalizationService.DefaultCulture;
+
+            if (clean)
+                File.Delete(GetSettingsPath());
         }
 
         public void LoadSettings()

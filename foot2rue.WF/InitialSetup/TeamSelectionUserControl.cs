@@ -58,7 +58,6 @@ namespace foot2rue.WF.InitialSetup
                 return;
             }
 
-            settingsService.SaveSettings();
             onValidate.Invoke();
         }
     }
