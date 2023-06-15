@@ -25,6 +25,31 @@ namespace foot2rue.DAL.Repositories
             return Path.Combine(GetFolderPath(genre), $"{filename}.json");
         }
 
+        private static async Task EnsureJsonExists()
+        {
+            // When starting the offline mode, we first make sure that all the data has been saved locally
+            foreach (Genre genre in EnumUtility.GetEnumValues<Genre>())
+            {
+                ApiRepository apiRepository = new ApiRepository(genre);
+                await Task.Run(() => EnsureJsonExists(MATCHESFILE, genre, apiRepository.GetMatches));
+                await Task.Run(() => EnsureJsonExists(TEAMFILE, genre, apiRepository.GetTeams));
+                await Task.Run(() => EnsureJsonExists(TEAMRESULTFILE, genre, apiRepository.GetTeamResults));
+                await Task.Run(() => EnsureJsonExists(GROUPRESULTFILE, genre, apiRepository.GetGroupResults));
+            }
+        }
+
+        private static async Task EnsureJsonExists<T>(string filename, Genre genre, Func<Task<IEnumerable<T>?>> loadingFunction)
+        {
+            string path = GetFilePath(genre, filename);
+            if (File.Exists(path))
+                return;
+
+            IEnumerable<T>? data = await loadingFunction();
+            string content = JsonConvert.SerializeObject(data);
+            Directory.CreateDirectory(GetFolderPath(genre));
+            await File.WriteAllTextAsync(path, content);
+        }
+
         public static void CleanJsonFiles()
         {
             foreach (Genre genre in EnumUtility.GetEnumValues<Genre>())
@@ -32,17 +57,9 @@ namespace foot2rue.DAL.Repositories
                     File.Delete(GetFilePath(genre, file));
         }
 
-        public JsonRepository(Genre genre) : base(genre)
+        public JsonRepository(Genre genre) : base(genre) 
         {
-            // When starting the offline mode, we first make sure that all the data has been saved locally
-            foreach (Genre _genre in EnumUtility.GetEnumValues<Genre>())
-            {
-                ApiRepository apiRepository = new ApiRepository(_genre);
-                Task.Run(() => EnsureJsonExists(MATCHESFILE, apiRepository.GetMatches));
-                Task.Run(() => EnsureJsonExists(TEAMFILE, apiRepository.GetTeams));
-                Task.Run(() => EnsureJsonExists(TEAMRESULTFILE, apiRepository.GetTeamResults));
-                Task.Run(() => EnsureJsonExists(GROUPRESULTFILE, apiRepository.GetGroupResults));
-            }
+            _ = EnsureJsonExists();
         }
 
         private string GetFolderPath()
@@ -63,18 +80,6 @@ namespace foot2rue.DAL.Repositories
 
             string content = await File.ReadAllTextAsync(path);
             return JsonConvert.DeserializeObject<IEnumerable<T>>(content);
-        }
-
-        private async Task EnsureJsonExists<T>(string filename, Func<Task<IEnumerable<T>?>> loadingFunction)
-        {
-            string path = GetFilePath(filename);
-            if (File.Exists(path))
-                return;
-
-            IEnumerable<T>? data = await loadingFunction();
-            string content = JsonConvert.SerializeObject(data);
-            Directory.CreateDirectory(GetFolderPath());
-            await File.WriteAllTextAsync(path, content);
         }
 
         public override async Task<IEnumerable<Match>?> GetMatches()
