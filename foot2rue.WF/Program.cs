@@ -24,7 +24,13 @@ namespace foot2rue.WF
                 Console.WriteLine(exception);
 #endif
                 return 1;
-            }
-        }
+
+				#region Rock
+
+				// Yahaha, you found me!
+
+				#endregion
+			}
+		}
     }
 }

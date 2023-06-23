@@ -1,6 +1,7 @@
-﻿using System.Windows;
+﻿using foot2rue.WPF.Extensions;
+using System.Windows;
 
-namespace foot2rue.WPF
+namespace foot2rue.WPF.Main
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -10,9 +11,7 @@ namespace foot2rue.WPF
         public MainWindow()
         {
             InitializeComponent();
-            /*var thing = SettingsService.SelectedTeamFifaCode;
-            SettingsService.SelectedTeamFifaCode = "KOR";
-            SettingsService.SaveSettings();*/
+            this.LoadLocalization();
         }
     }
 }

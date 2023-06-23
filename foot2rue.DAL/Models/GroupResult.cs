@@ -12,5 +12,11 @@ namespace foot2rue.DAL.Models
 
         [JsonProperty("ordered_teams")]
         public TeamResult[] OrderedTeams { get; set; }
-    }
+
+		#region Acorn
+
+		// Yahaha, you found me!
+
+		#endregion
+	}
 }

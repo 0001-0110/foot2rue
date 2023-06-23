@@ -35,6 +35,8 @@
 	<string name="YellowCards">Yellow cards</string>
 	<string name="RedCards">Red cards</string>
 
+	<string name="Korok">Yahaha, you found me!</string>
+	
 	<string name="MatchPlayed">Match played</string>
 	<string name="Goalie">Goalie</string>
 	<string name="Defender">Defender</string>

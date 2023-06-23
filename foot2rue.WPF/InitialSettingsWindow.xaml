@@ -1,12 +1,12 @@
-﻿<Window x:Class="foot2rue.WPF.MainWindow"
+﻿<Window x:Class="foot2rue.WPF.InitialSettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:foot2rue.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="InitialSettingsWindow" Height="450" Width="800">
     <Grid>
-
+        
     </Grid>
 </Window>

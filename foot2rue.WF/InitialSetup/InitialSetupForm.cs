@@ -62,7 +62,13 @@ namespace foot2rue.WF
             Close();
         }
 
-        private void button_Quit_Click(object sender, EventArgs e)
+		#region Cube in the water
+
+		// Yahaha, you found me!
+
+		#endregion
+
+		private void button_Quit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }

@@ -11,7 +11,13 @@
                 button.BackColor = BackColors[button];
         }
 
-        public static void Disable(this Button button)
+		#region Fairy lights
+
+		// Yahaha, you found me!
+
+		#endregion
+
+		public static void Disable(this Button button)
         {
             button.Enabled = false;
             BackColors.SetOrAddKey(button, button.BackColor);

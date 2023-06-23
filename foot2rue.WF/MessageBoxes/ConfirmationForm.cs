@@ -9,9 +9,15 @@ namespace foot2rue.WF.MessageBoxes
             label1.SetLocalizationString(localizationString);
             InitializeComponent();
             this.LoadLocalization();
-        }
 
-        private void button_Confirm_Click(object sender, EventArgs e)
+			#region Tree stump
+
+			// Yahaha, you found me!
+
+			#endregion
+		}
+
+		private void button_Confirm_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
         }

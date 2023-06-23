@@ -6,6 +6,12 @@
         {
             foreach (E element in elements)
                 queue.Enqueue(element);
-        }
-    }
+
+			#region Metal door
+
+			// Yahaha, you found me!
+
+			#endregion
+		}
+	}
 }

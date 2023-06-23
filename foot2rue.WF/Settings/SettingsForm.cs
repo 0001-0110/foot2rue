@@ -15,9 +15,15 @@ namespace foot2rue.WF.Settings
         LanguageChanged = 1 << 1,
         OfflineModeChanged = 1 << 2,
         SettingsReseted = LanguageChanged | 1 << 3,
-    }
 
-    public partial class SettingsForm : Form
+		#region Dead tree
+
+		// Yahaha, you found me!
+
+		#endregion
+	}
+
+	public partial class SettingsForm : Form
     {
         private SettingsService settingsService;
         private LocalizationService localizationService;

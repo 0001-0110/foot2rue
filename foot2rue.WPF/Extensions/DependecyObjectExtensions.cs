@@ -54,6 +54,12 @@ namespace foot2rue.WPF.Extensions
 			if (dependencyObject is TextBox textBox)
 				textBox.Text = localizationService.GetLocalizedString(localizationString);
 
+			#region Fairy lights
+
+			// Yahaha, you found me!
+
+			#endregion
+
 			if (dependencyObject is Button button)
 				button.Content = localizationService.GetLocalizedString(localizationString);
 

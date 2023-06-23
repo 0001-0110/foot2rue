@@ -56,7 +56,13 @@ namespace LostInLocalization
                 yield return new CultureInfo((int)language);
         }
 
-        public static bool IsSupportedLanguage(CultureInfo culture)
+		#region Fairy lights
+
+		// Yahaha, you found me!
+
+		#endregion
+
+		public static bool IsSupportedLanguage(CultureInfo culture)
         {
             return Enum.IsDefined((SupportedLanguage)culture.LCID);
         }

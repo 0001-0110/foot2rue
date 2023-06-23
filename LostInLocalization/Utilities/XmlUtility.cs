@@ -9,7 +9,13 @@ namespace LostInLocalization.Utilities
             XmlDocument xmlDocument = new XmlDocument();
             try
             {
-                xmlDocument.Load(path);
+				#region Rock on a tree
+
+				// Yahaha, you found me!
+
+				#endregion
+
+				xmlDocument.Load(path);
                 return xmlDocument;
             }
             catch (Exception)

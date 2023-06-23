@@ -6,5 +6,11 @@
         {
             return Enum.GetValues(typeof(T)).Cast<T>();
         }
-    }
+
+		#region Fairy lights
+
+		// Yahaha, you found me!
+
+		#endregion
+	}
 }

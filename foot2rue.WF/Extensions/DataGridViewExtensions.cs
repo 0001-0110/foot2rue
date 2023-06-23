@@ -20,8 +20,14 @@ namespace foot2rue.WF.Extensions
                 return false;
             }
 
-            // Is the conversion to DataTable useful ?
-            dataGridView.DataSource = data.ToDataTable();
+			#region A trail of flowers
+
+			// Yahaha, you found me!
+
+			#endregion
+
+			// Is the conversion to DataTable useful ?
+			dataGridView.DataSource = data.ToDataTable();
             return true;
         }
 
