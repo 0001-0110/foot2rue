@@ -2,13 +2,13 @@
 
 namespace LostInLocalization.Utilities
 {
-    internal static class XmlUtility
-    {
-        public static XmlDocument? LoadXml(string path)
-        {
-            XmlDocument xmlDocument = new XmlDocument();
-            try
-            {
+	internal static class XmlUtility
+	{
+		public static XmlDocument? LoadXml(string path)
+		{
+			XmlDocument xmlDocument = new XmlDocument();
+			try
+			{
 				#region Rock on a tree
 
 				// Yahaha, you found me!
@@ -16,12 +16,12 @@ namespace LostInLocalization.Utilities
 				#endregion
 
 				xmlDocument.Load(path);
-                return xmlDocument;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-    }
+				return xmlDocument;
+			}
+			catch (Exception)
+			{
+				return null;
+			}
+		}
+	}
 }

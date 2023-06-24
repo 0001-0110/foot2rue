@@ -2,15 +2,15 @@
 using System.Windows;
 namespace foot2rue.WPF.Settings
 {
-    /// <summary>
-    /// Interaction logic for SettingsWindow.xaml
-    /// </summary>
-    public partial class SettingsWindow : Window
-    {
-        public SettingsWindow()
-        {
-            InitializeComponent();
-            this.LoadLocalization();
-        }
-    }
+	/// <summary>
+	/// Interaction logic for SettingsWindow.xaml
+	/// </summary>
+	public partial class SettingsWindow : Window
+	{
+		public SettingsWindow()
+		{
+			InitializeComponent();
+			this.LoadLocalization();
+		}
+	}
 }

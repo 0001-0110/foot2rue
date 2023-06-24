@@ -14,14 +14,14 @@ using System.Windows.Shapes;
 
 namespace foot2rue.WPF
 {
-    /// <summary>
-    /// Interaction logic for InitialSettingsWindow.xaml
-    /// </summary>
-    public partial class InitialSettingsWindow : Window
-    {
-        public InitialSettingsWindow()
-        {
-            InitializeComponent();
-        }
-    }
+	/// <summary>
+	/// Interaction logic for InitialSettingsWindow.xaml
+	/// </summary>
+	public partial class InitialSettingsWindow : Window
+	{
+		public InitialSettingsWindow()
+		{
+			InitializeComponent();
+		}
+	}
 }
