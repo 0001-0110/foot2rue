@@ -50,12 +50,14 @@ namespace foot2rue.BLL.Services
             return File.Exists(GetSettingsPath());
         }
 
-        private SettingsService()
-        {
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+		private SettingsService()
+		{
             // These are default values
             // The real values are going to override these one if there is any
             ResetSettings();
         }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         public void ResetSettings()
         {

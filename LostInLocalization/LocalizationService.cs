@@ -10,11 +10,11 @@ namespace LostInLocalization
     public class LocalizationService
     {
         private readonly string LOCALIZATIONFOLDER = "LocalizationFiles";
-        // Matches and capture evertythin inside curly braces
-        private static readonly Regex localizationRegex = new Regex("{([^}]*)}");
-        public static readonly CultureInfo DefaultCulture = new CultureInfo((int)SupportedLanguage.English_US);
+		// Matches and capture evertythin inside curly braces
+		private static readonly Regex localizationRegex = new("{([^}]*)}");
+        public static readonly CultureInfo DefaultCulture = new((int)SupportedLanguage.English_US);
 
-        public static LocalizationService Instance = new LocalizationService();
+        public readonly static LocalizationService Instance = new();
 
         private Dictionary<string, string> localizationStrings;
 
@@ -43,12 +43,14 @@ namespace LostInLocalization
             }
         }
 
-        private LocalizationService()
-        {
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+		private LocalizationService()
+		{
             Culture = DefaultCulture;
             // Not awaited on purpose
             LoadLocalizationFile();
         }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         public static IEnumerable<CultureInfo> GetAllSupportedLanguages()
         {

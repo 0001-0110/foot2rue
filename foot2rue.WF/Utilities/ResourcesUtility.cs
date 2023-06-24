@@ -19,8 +19,6 @@ namespace foot2rue.WF.Utilities
 
         public static Image? GetPlayerImage(Player player)
         {
-            return null;
-            // TODO Get the image
             return GetResource<Image>(player.Name);
         }
 

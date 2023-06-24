@@ -2,7 +2,7 @@
 {
     internal static class ButtonExtensions
     {
-        private static Dictionary<Button, Color> BackColors = new Dictionary<Button, Color>();
+        private static readonly Dictionary<Button, Color> BackColors = new();
 
         public static void Enable(this Button button)
         {

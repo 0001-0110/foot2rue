@@ -7,10 +7,10 @@ namespace foot2rue.WF.InitialSetup
 {
     public partial class LanguageSelectionUserControl : UserControl
     {
-        private SettingsService settingsService;
-        private LocalizationService localizationService;
+        private readonly SettingsService settingsService;
+        private readonly LocalizationService localizationService;
 
-        private Action onValidate;
+        private readonly Action onValidate;
 
         public LanguageSelectionUserControl(Action onValidate)
         {

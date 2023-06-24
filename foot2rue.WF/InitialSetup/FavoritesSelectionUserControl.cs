@@ -17,17 +17,17 @@ namespace foot2rue.WF.InitialSetup
         /// </remarks>
         private const int FAVORITECOUNT = 3;
 
-        private SettingsService settingsService;
+        private readonly SettingsService settingsService;
 
-        private Action onValidation;
+        private readonly Action onValidation;
 
         // Holding the mouse for less than this value is considered a click,
         // If longer, then it is considered a drag
         // Delay is in milliseconds
         private const int CLICKDURATION = 200;
-        private Timer clickTimer;
+        private readonly Timer clickTimer;
         private Control? clickedControl;
-        private ICollection<Control> selectedControls;
+        private readonly ICollection<Control> selectedControls;
 
         public FavoritesSelectionUserControl(Action onValidation)
         {
@@ -143,22 +143,20 @@ namespace foot2rue.WF.InitialSetup
             clickTimer.Stop();
         }
 
-        private void control_DragEnter(object? sender, DragEventArgs e)
+		private void control_DragEnter(object? sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Move;
         }
 
         private void control_DragDrop(object? sender, DragEventArgs e)
         {
-            // TODO change this to drag mutiple things at once
-            Control? draggedControl = e.Data?.GetData(typeof(PlayerDisplayUserControl)) as Control;
-            if (draggedControl == null)
-                // TODO What to do ?
-                return;
+			if (e.Data?.GetData(typeof(PlayerDisplayUserControl)) is not Control draggedControl)
+				// TODO What to do ?
+				return;
 
-            // If the sender is a user control, the control must be dragged in the same panel as this on
-            // If it is already a panel, then it's easy
-            Panel? target_Panel = sender is Panel panel ? panel : ((sender as Control)?.Parent as Panel);
+			// If the sender is a user control, the control must be dragged in the same panel as this on
+			// If it is already a panel, then it's easy
+			Panel? target_Panel = sender is Panel panel ? panel : ((sender as Control)?.Parent as Panel);
             if (target_Panel == null)
                 // 
                 return;
@@ -194,23 +192,23 @@ namespace foot2rue.WF.InitialSetup
         {
             // Retrieve the control that triggered the context menu
             clickedControl = ((ContextMenuStrip)sender).SourceControl;
-            Action<ToolStripMenuItem, Panel> setToolStripVisible = (menuItem, panel) =>
-            {
-                // If the source control is in the panel, it can be moved with `This one`
-                bool thisOne = clickedControl.Parent == panel;
-                // If any of the selected controls are in this panel, they can be moved with `All selected`
-                bool allSelected = selectedControls.Any(control => control.Parent == panel);
-                // If any controls are in this panel, they can be moved with `All`
-                bool all = panel.Controls.Count > 0;
+			void setToolStripVisible(ToolStripMenuItem menuItem, Panel panel)
+			{
+				// If the source control is in the panel, it can be moved with `This one`
+				bool thisOne = clickedControl.Parent == panel;
+				// If any of the selected controls are in this panel, they can be moved with `All selected`
+				bool allSelected = selectedControls.Any(control => control.Parent == panel);
+				// If any controls are in this panel, they can be moved with `All`
+				bool all = panel.Controls.Count > 0;
 
-                // Set the visiblity of all elements
-                menuItem.Visible = thisOne || allSelected || all;
-                menuItem.DropDownItems[0].Visible = thisOne;
-                menuItem.DropDownItems[1].Visible = allSelected;
-                menuItem.DropDownItems[2].Visible = all;
-            };
+				// Set the visiblity of all elements
+				menuItem.Visible = thisOne || allSelected || all;
+				menuItem.DropDownItems[0].Visible = thisOne;
+				menuItem.DropDownItems[1].Visible = allSelected;
+				menuItem.DropDownItems[2].Visible = all;
+			}
 
-            setToolStripVisible(addFavoriteToolStripMenuItem, flowLayoutPanel_AllPlayers);
+			setToolStripVisible(addFavoriteToolStripMenuItem, flowLayoutPanel_AllPlayers);
             setToolStripVisible(removeFavoriteToolStripMenuItem, flowLayoutPanel_FavoritePlayers);
 
             // Inverse this one is always possible
