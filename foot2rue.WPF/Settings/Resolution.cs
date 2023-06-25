@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace foot2rue.WPF.Settings
 {
-	internal class Resolution
+    internal class Resolution
 	{
 		public static readonly Resolution[] AllResolutions = new Resolution[] { new(800, 450) };
 

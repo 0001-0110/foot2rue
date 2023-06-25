@@ -5,14 +5,63 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:foot2rue.WPF.Main"
         mc:Ignorable="d"
-        Title="Foot2rue" Height="450" Width="800">
+        Title="Foot2rue" Height="450" Width="800"
+        Loaded="Window_Loaded">
+    <Window.Resources>
 
-    <Grid Style="{StaticResource PanelDarkTheme}">
+        <Style TargetType="ScrollBar">
+            <Setter Property="Background" Value="Gray" />
+        </Style>
+
+        <Style TargetType="ScrollViewer">
+            <Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
+            <Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
+                    <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+                </Trigger>
+            </Style.Triggers>
+            <Style.Resources>
+                <Style TargetType="ScrollBar">
+                    <Setter Property="Opacity" Value="0"/>
+                    <Style.Triggers>
+                        <Trigger Property="ScrollBar.Visibility" Value="Visible">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Style.Resources>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid Style="{StaticResource PanelBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.4*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="6*"/>
         </Grid.RowDefinitions>
+
+        <!-- Genre selection -->
+        <ComboBox Name="ComboBox_GenreSelection"
+                    Grid.Row="0"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    SelectionChanged="ComboBox_GenreSelectionChanged"/>
 
         <!-- Settings button -->
         <Button Grid.Row="0"
@@ -20,8 +69,6 @@
                 HorizontalAlignment="Right">
             <Image Source="../Resources/settings.png"/>
         </Button>
-
-        <Button Tag="{}{Goalie}"></Button>
 
         <!-- Header -->
         <Grid Grid.Row="1">
@@ -38,27 +85,103 @@
             </Grid.ColumnDefinitions>
 
             <!-- Selected team -->
-            <ComboBox Grid.Row="0"  Grid.Column="1" Margin="5"/>
-            <TextBlock x:Name="ComboBox_SelectedTeamScore" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <Image x:Name="Image_SelectedTeamImage" Grid.Row ="0" Grid.Column="0" Grid.RowSpan="2"/>
+            <ComboBox Name="ComboBox_SelectedTeam" Grid.Row="0"  Grid.Column="1" Margin="5" SelectionChanged="SelectedTeamChanged"/>
+            <Label Name="TextBlock_SelectedTeamScore" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Image Name="Image_SelectedTeamImage" Grid.Row ="0" Grid.Column="0" Grid.RowSpan="2"/>
 
             <!-- Opposing team -->
-            <ComboBox Grid.Row="0" Grid.Column="3" Margin="5"/>
-            <TextBlock x:Name="ComboBox_OpposingTeamScore" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <Image x:Name="Image_OpposingeamImage" Grid.Row ="0" Grid.Column="5" Grid.RowSpan="2"/>
+            <ComboBox Name="ComboBox_OpposingTeam" Grid.Row="0" Grid.Column="3" Margin="5" SelectionChanged="OpposingTeamChanged"/>
+            <Label Name="TextBlock_OpposingTeamScore" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Image Name="Image_OpposingeamImage" Grid.Row ="0" Grid.Column="5" Grid.RowSpan="2"/>
 
             <!-- Versus -->
             <Image Source="../Resources/versus.png"  Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"/>
 
         </Grid>
 
-        <!-- Page -->
-        <TabControl Grid.Row="2" Style="{StaticResource ControlDarkTheme}">
-            <TabItem>
-                <TextBlock Tag="{}{InitialSetupFailure}">PPPPPPPPPPP</TextBlock>
+        <TabControl Grid.Row="2" Style="{StaticResource ControlBackground}">
+            <!-- Stats -->
+            <TabItem Tag="{}{Statistics}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.25*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.25*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.25*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.25*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.25*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.25*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Lineup selected team -->
+                    <ScrollViewer Grid.Column="1">
+                        <StackPanel>
+                            <Label Tag="{}{StartingEleven}" Background="{StaticResource ForeroundColor}"/>
+                            <StackPanel Name="SelectedTeamStartingEleven"/>
+                            <Label Tag="{}{Substitutes}" Background="{StaticResource ForeroundColor}"/>
+                            <StackPanel Name="SelectedTeamSubstitutes"/>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <!-- Selected team events -->
+                    <ScrollViewer Grid.Column="3">
+                        <StackPanel Name="SelectedTeamEvents"/>
+                    </ScrollViewer>
+
+                    <!-- Statistics comparator -->
+                    <ScrollViewer Grid.Column="5">
+                        <StackPanel Name="StatsComparator"/>
+                    </ScrollViewer>
+
+                    <!-- Selected team events -->
+                    <ScrollViewer Grid.Column="7">
+                        <StackPanel Name="OpposingTeamEvents"/>
+                    </ScrollViewer>
+
+                    <!-- Lineup opposing team -->
+                    <ScrollViewer Grid.Column="9">
+                        <StackPanel>
+                            <Label Tag="{}{StartingEleven}" Background="{StaticResource ForeroundColor}"/>
+                            <StackPanel Name="OpposingTeamStartingEleven"/>
+                            <Label Tag="{}{Substitutes}" Background="{StaticResource ForeroundColor}"/>
+                            <StackPanel Name="OpposingTeamSubstitutes"/>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                </Grid>
             </TabItem>
-            <TabItem>
-                
+            <!-- Field -->
+            <TabItem Tag="{}{Field}">
+                <Grid>
+                    <Grid.Background>
+                        <ImageBrush ImageSource="../Resources/football_field.png" Stretch="Fill"/>
+                    </Grid.Background>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <local:FieldColumnUserControl Grid.Column="0"/>
+                    <local:FieldColumnUserControl Grid.Column="1"/>
+                    <local:FieldColumnUserControl Grid.Column="2"/>
+                    <local:FieldColumnUserControl Grid.Column="3"/>
+                    <local:FieldColumnUserControl Grid.Column="4"/>
+                    <local:FieldColumnUserControl Grid.Column="5"/>
+                    <local:FieldColumnUserControl Grid.Column="6"/>
+                    <local:FieldColumnUserControl Grid.Column="7"/>
+
+                </Grid>
             </TabItem>
         </TabControl>
 

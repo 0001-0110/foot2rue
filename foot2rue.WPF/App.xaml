@@ -11,17 +11,35 @@
             </SolidColorBrush.Color>
         </SolidColorBrush>
 
-        <Style x:Key="ControlDarkTheme" TargetType="{x:Type Control}">
+        <Style x:Key="ControlBackground" TargetType="{x:Type Control}">
             <Style.Setters>
                 <Setter Property="Background" Value="{StaticResource BackgroundColor}"/>
             </Style.Setters>
         </Style>
 
-        <Style x:Key="PanelDarkTheme" TargetType="{x:Type Panel}">
+        <Style x:Key="PanelBackground" TargetType="{x:Type Panel}">
             <Style.Setters>
                 <Setter Property="Background" Value="{StaticResource BackgroundColor}"/>
             </Style.Setters>
         </Style>
 
+        <SolidColorBrush x:Key="ForeroundColor">
+            <SolidColorBrush.Color>
+                <Color A="255" R="100" G="100" B="100"/>
+            </SolidColorBrush.Color>
+        </SolidColorBrush>
+
+        <Style x:Key="ControlForeground" TargetType="{x:Type Control}">
+            <Style.Setters>
+                <Setter Property="Background" Value="{StaticResource ForeroundColor}"/>
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="PanelForeground" TargetType="{x:Type Panel}">
+            <Style.Setters>
+                <Setter Property="Background" Value="{StaticResource ForeroundColor}"/>
+            </Style.Setters>
+        </Style>
+        
     </Application.Resources>
 </Application>

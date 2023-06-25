@@ -165,7 +165,7 @@ namespace foot2rue.WF.Services
 
 			// If statistics is null, skip this count
 			// Players that are present at the start of the match
-			foreach (Statistics stats in statistics.IfNotNull())
+			foreach (Statistics stats in statistics.EmptyIfNull())
 				foreach (Player player in stats.StartingEleven)
 				{
 					// We check before if the player is in the dictionnary to avoid crashes when the API contains typos

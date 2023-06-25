@@ -2,7 +2,6 @@
 using foot2rue.DAL.Models;
 using foot2rue.DAL.Repositories;
 using foot2rue.DAL.Utilities;
-using foot2rue.Settings;
 using foot2rue.WF.Extensions;
 using foot2rue.WF.Services;
 using LostInLocalization;
@@ -10,7 +9,7 @@ using LostInLocalization.Extensions;
 
 namespace foot2rue.WF.InitialSetup
 {
-	public partial class TeamSelectionUserControl : UserControl
+    public partial class TeamSelectionUserControl : UserControl
 	{
 		private SettingsService settingsService;
 		private LocalizationService localizationService;

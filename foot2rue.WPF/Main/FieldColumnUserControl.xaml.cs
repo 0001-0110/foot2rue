@@ -1,7 +1,7 @@
 ﻿using foot2rue.WPF.Extensions;
 using System.Windows.Controls;
 
-namespace foot2rue.WPF.Main.FieldPage
+namespace foot2rue.WPF.Main
 {
 	/// <summary>
 	/// Interaction logic for FieldColumnUserControl.xaml
