@@ -5,10 +5,14 @@ using foot2rue.DAL.Utilities;
 using foot2rue.WF.Services;
 using foot2rue.WPF.Extensions;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace foot2rue.WPF.Main
 {
@@ -17,6 +21,8 @@ namespace foot2rue.WPF.Main
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static readonly IEnumerable<PropertyInfo> Statistics = typeof(Statistics).GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(property => property.PropertyType == typeof(int));
+
         private readonly SettingsService settingsService;
         private readonly DataService dataService;
 
@@ -145,22 +151,24 @@ namespace foot2rue.WPF.Main
             OpposingTeamStartingEleven.Children.Clear();
             OpposingTeamSubstitutes.Children.Clear();
         }
-      
+
         private async Task LoadMatch(Match match)
         {
-            (Statistics selectedTeam, Statistics opposingTeam) = GetSelectedAndOpposingStatistics(match);
+            (Statistics selectedTeamStats, Statistics opposingTeamStats) = GetSelectedAndOpposingStatistics(match);
             (Event[] selectedTeamEvents, Event[] opposingTeamEvents) = GetSelectedAndOpposingEvents(match);
 
-            SelectedTeamStartingEleven.SetChildren(selectedTeam.StartingEleven.Select(player => new PlayerStatsUserControl(player)));
-            SelectedTeamSubstitutes.SetChildren(selectedTeam.Substitutes.Select(player => new PlayerStatsUserControl(player)));
+            SelectedTeamStartingEleven.SetChildren(selectedTeamStats.StartingEleven.Select(player => new PlayerStatsUserControl(player)));
+            SelectedTeamSubstitutes.SetChildren(selectedTeamStats.Substitutes.Select(player => new PlayerStatsUserControl(player)));
             //SelectedTeamEvents.SetChildren(selectedTeamEvents.Select(@event => ));
 
-            //foreach (var thing in selectedTeam.)
-                //StatsComparator.SetChildren();
+            StatsComparator.SetChildren(Statistics.Select(property => new StatsCardUserControl(
+                $"{{{property.Name}}}", 
+                Color.FromRgb(0, 255, 0), (int)property.GetValue(selectedTeamStats)!,
+                Color.FromRgb(255, 0, 0), (int)property.GetValue(opposingTeamStats)!)));
 
             //OpposingTeamEvents.SetChildren(opposingTeamEvents.Select(@event => ));
-            OpposingTeamStartingEleven.SetChildren(selectedTeam.StartingEleven.Select(player => new PlayerStatsUserControl(player)));
-            OpposingTeamSubstitutes.SetChildren(selectedTeam.Substitutes.Select(player => new PlayerStatsUserControl(player)));
+            OpposingTeamStartingEleven.SetChildren(opposingTeamStats.StartingEleven.Select(player => new PlayerStatsUserControl(player)));
+            OpposingTeamSubstitutes.SetChildren(opposingTeamStats.Substitutes.Select(player => new PlayerStatsUserControl(player)));
         }
 
         #endregion

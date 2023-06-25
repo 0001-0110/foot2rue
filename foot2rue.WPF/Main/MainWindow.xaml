@@ -104,17 +104,17 @@
             <TabItem Tag="{}{Statistics}">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.25*"/>
+                        <ColumnDefinition Width="0.1*"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="0.25*"/>
+                        <ColumnDefinition Width="0.1*"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="0.25*"/>
+                        <ColumnDefinition Width="0.1*"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="0.25*"/>
+                        <ColumnDefinition Width="0.1*"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="0.25*"/>
+                        <ColumnDefinition Width="0.1*"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="0.25*"/>
+                        <ColumnDefinition Width="0.1*"/>
                     </Grid.ColumnDefinitions>
 
                     <!-- Lineup selected team -->

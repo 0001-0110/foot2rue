@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace foot2rue.DAL.Models
 {
@@ -8,7 +9,7 @@ namespace foot2rue.DAL.Models
 		[JsonProperty("country")]
 		public string Country { get; set; }
 
-		[JsonProperty("attempt_on_goal")]
+        [JsonProperty("attempt_on_goal")]
 		public int AttemptsOnGoal { get; set; }
 
 		[JsonProperty("on_target")]
