@@ -4,7 +4,6 @@ using foot2rue.DAL.Repositories;
 using foot2rue.DAL.Utilities;
 using foot2rue.WF.Extensions;
 using foot2rue.WF.MessageBoxes;
-using foot2rue.WF.Services;
 using foot2rue.WF.Settings;
 using foot2rue.WF.Utilities;
 using LostInLocalization.Extensions;
@@ -14,7 +13,7 @@ using System.Globalization;
 
 namespace foot2rue.WF.HomePage
 {
-	public partial class HomePageForm : Form
+    public partial class HomePageForm : Form
 	{
 		#region Localization
 

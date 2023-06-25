@@ -2,8 +2,8 @@
 using foot2rue.DAL.Models;
 using foot2rue.DAL.Repositories;
 using foot2rue.DAL.Utilities;
-using foot2rue.WF.Services;
 using foot2rue.WPF.Extensions;
+using foot2rue.WPF.Utilities;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -70,7 +70,7 @@ namespace foot2rue.WPF.Main
             IEnumerable<Match>? matches = await this.Wait(() => dataService.GetMatchesByFifaCode(selectedFifaCode));
             Match? match = matches?.SingleOrDefault(match => (match.HomeTeam.FifaCode == selectedFifaCode ? match.AwayTeam : match.HomeTeam).FifaCode == OpposingTeamFifaCode);
             if (match != null)
-                await LoadMatch(match);
+                LoadMatch(match);
         }
 
         #endregion
@@ -152,7 +152,7 @@ namespace foot2rue.WPF.Main
             OpposingTeamSubstitutes.Children.Clear();
         }
 
-        private async Task LoadMatch(Match match)
+        private void LoadMatch(Match match)
         {
             (Statistics selectedTeamStats, Statistics opposingTeamStats) = GetSelectedAndOpposingStatistics(match);
             (Event[] selectedTeamEvents, Event[] opposingTeamEvents) = GetSelectedAndOpposingEvents(match);
@@ -163,8 +163,8 @@ namespace foot2rue.WPF.Main
 
             StatsComparator.SetChildren(Statistics.Select(property => new StatsCardUserControl(
                 $"{{{property.Name}}}", 
-                Color.FromRgb(0, 255, 0), (int)property.GetValue(selectedTeamStats)!,
-                Color.FromRgb(255, 0, 0), (int)property.GetValue(opposingTeamStats)!)));
+                ColorUtility.GetTeamColor(SelectedTeamFifaCode), (int)property.GetValue(selectedTeamStats)!,
+                ColorUtility.GetTeamColor(OpposingTeamFifaCode), (int)property.GetValue(opposingTeamStats)!)));
 
             //OpposingTeamEvents.SetChildren(opposingTeamEvents.Select(@event => ));
             OpposingTeamStartingEleven.SetChildren(opposingTeamStats.StartingEleven.Select(player => new PlayerStatsUserControl(player)));

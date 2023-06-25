@@ -1,5 +1,5 @@
-﻿using foot2rue.DAL.Repositories;
-using foot2rue.Settings.Extensions;
+﻿using foot2rue.BLL.Extensions;
+using foot2rue.DAL.Repositories;
 using LostInLocalization;
 using Newtonsoft.Json;
 using System.Collections.Specialized;
@@ -8,7 +8,7 @@ using System.IO;
 
 namespace foot2rue.BLL.Services
 {
-	public class SettingsService
+    public class SettingsService
 	{
 		private const string SETTINGSFOLDER = "foot2rue";
 		private const string SETTINGSFILE = "launchsettings.json";

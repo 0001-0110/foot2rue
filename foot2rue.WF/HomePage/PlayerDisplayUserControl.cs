@@ -1,11 +1,11 @@
 ﻿using foot2rue.BLL.Models;
+using foot2rue.BLL.Services;
 using foot2rue.WF.Extensions;
-using foot2rue.WF.Services;
 using foot2rue.WF.Utilities;
 
 namespace foot2rue.WF.HomePage
 {
-	public partial class PlayerDisplayUserControl : UserControl
+    public partial class PlayerDisplayUserControl : UserControl
 	{
 		private static readonly DataService dataService = new();
 
