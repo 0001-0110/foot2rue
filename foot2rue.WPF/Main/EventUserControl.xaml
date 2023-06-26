@@ -7,6 +7,20 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="{StaticResource ForeroundColor}">
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Image Name="Image_EventIcon" Grid.Column="0" Grid.RowSpan="2"/>
+        <Label Name="Label_EventName" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <Label Name="Label_PlayerName" Grid.Row="1" Grid.Column="1"/>
+        <Label Name="Label_Time" Grid.Row="1" Grid.Column="2"/>
+
     </Grid>
 </UserControl>

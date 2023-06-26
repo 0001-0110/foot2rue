@@ -13,9 +13,6 @@ using System.Windows.Controls;
 
 namespace foot2rue.WPF.Main
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private static readonly IEnumerable<PropertyInfo> Statistics = typeof(Statistics).GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(property => property.PropertyType == typeof(int));
@@ -52,6 +49,7 @@ namespace foot2rue.WPF.Main
         public async void SelectedTeamChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectedTeamFifaCode = ComboBox_SelectedTeam.GetSelectedItem<Team>()?.FifaCode;
+            Image_SelectedTeam.Source = ResourcesUtility.ConvertToWpfImage(ResourcesUtility.GetCountryImage(SelectedTeamFifaCode));
             ClearStatistics();
             // When changing the secleted team, user must select a new opposing team
             await LoadOpposingTeams();
@@ -60,6 +58,7 @@ namespace foot2rue.WPF.Main
         public async void OpposingTeamChanged(object sender, SelectionChangedEventArgs e)
         {
             OpposingTeamFifaCode = ComboBox_OpposingTeam.GetSelectedItem<Team>()?.FifaCode;
+            Image_OpposingTeam.Source = ResourcesUtility.ConvertToWpfImage(ResourcesUtility.GetCountryImage(OpposingTeamFifaCode));
             string? selectedFifaCode = SelectedTeamFifaCode;
             if (selectedFifaCode == null)
                 return;
@@ -165,7 +164,7 @@ namespace foot2rue.WPF.Main
             SelectedTeamEvents.SetChildren(selectedTeamEvents.Select(@event => new EventUserControl(@event)));
 
             StatsComparator.SetChildren(Statistics.Select(property => new StatsCardUserControl(
-                $"{{{property.Name}}}", 
+                $"{{{property.Name}}}",
                 ColorUtility.GetTeamColor(SelectedTeamFifaCode), (int)property.GetValue(selectedTeamStats)!,
                 ColorUtility.GetTeamColor(OpposingTeamFifaCode), (int)property.GetValue(opposingTeamStats)!)));
 
