@@ -1,15 +1,16 @@
-﻿using foot2rue.BLL.Models;
+﻿using foot2rue.DAL.Models;
 using System;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
-using System.Windows.Automation;
 using System.Windows.Media.Imaging;
 
 namespace foot2rue.WPF.Utilities
 {
     internal static class ResourcesUtility
     {
+        private static readonly Bitmap DEFAULTPLAYERIMAGE = GetResource<Bitmap>("default_player")!;
+
         /// <summary>
         /// Takes a bitmap and converts it to an image that can be handled by WPF ImageBrush
         /// </summary>
@@ -48,7 +49,7 @@ namespace foot2rue.WPF.Utilities
 
         public static Bitmap? GetPlayerImage(Player player)
         {
-            return GetResource<Bitmap>(player.Name);
+            return GetResource<Bitmap>(player.Name) ?? DEFAULTPLAYERIMAGE;
         }
 
         public static Bitmap? GetCountryImage(string fifaCode)

@@ -8,7 +8,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\default.png" />
 	  <None Remove="Resources\football_field.png" />
 	  <None Remove="Resources\settings.png" />
 	  <None Remove="Resources\versus.png" />
@@ -16,9 +15,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="Resources\default.png">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
 	  <Content Include="Resources\football_field.png">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>

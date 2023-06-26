@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:foot2rue.WPF.Settings"
         mc:Ignorable="d"
-        Title="SettingsWindow" Height="350" Width="400">
+        Title="SettingsWindow" Height="350" Width="400"
+        Closing="Window_Closing">
     <Grid Background="{StaticResource BackgroundColor}">
 
         <Grid.ColumnDefinitions>
@@ -76,9 +77,9 @@
                 MinHeight="20"
                 MinWidth="50"
                 Margin="20"
-                IsCancel="True">
-            <TextBlock Tag="\{Cancel}">Cancel</TextBlock>
-        </Button>
+                IsCancel="True"
+                Tag="{}{Cancel}"/>
+
         <Button Grid.Row="3" 
                 Grid.Column="1"
                 VerticalAlignment="Center"
@@ -87,9 +88,8 @@
                 MinHeight="20"
                 MinWidth="50"
                 IsDefault="True"
-                Click="ButtonSave_Click">
-            <TextBlock Tag="\{Save}">Save</TextBlock>
-        </Button>
+                Click="ButtonSave_Click"
+                Tag="{}{Save}"/>
 
     </Grid>
 </Window>

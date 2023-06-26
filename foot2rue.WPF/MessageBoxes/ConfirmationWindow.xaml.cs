@@ -1,15 +1,24 @@
-﻿using System.Windows;
+﻿using foot2rue.WPF.Extensions;
+using System.Windows;
 
 namespace foot2rue.WPF.MessageBoxes
 {
-    /// <summary>
-    /// Interaction logic for ConfirmationWindow.xaml
-    /// </summary>
     public partial class ConfirmationWindow : Window
 	{
-		public ConfirmationWindow()
+		private const string DEFAULTCONFIRMATIONLOCALIZATIONSTRING = "DefaultConfirmation";
+
+		public ConfirmationWindow(string localizationString = DEFAULTCONFIRMATIONLOCALIZATIONSTRING)
 		{
 			InitializeComponent();
+
+			TextBlock_Confirmation.SetLocalizationString(localizationString);
+
+			this.LoadLocalization();
 		}
-	}
+
+        private void ButtonOk_Click(object sender, RoutedEventArgs e)
+        {
+			DialogResult = true;
+        }
+    }
 }

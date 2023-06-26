@@ -63,16 +63,6 @@ namespace foot2rue.WPF.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap _default {
-            get {
-                object obj = ResourceManager.GetObject("default", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap arg {
             get {
                 object obj = ResourceManager.GetObject("arg", resourceCulture);
@@ -176,6 +166,16 @@ namespace foot2rue.WPF.Properties {
         internal static System.Drawing.Bitmap cro {
             get {
                 object obj = ResourceManager.GetObject("cro", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap default_player {
+            get {
+                object obj = ResourceManager.GetObject("default_player", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="Foot2rue" Height="450" Width="800"
         Loaded="Window_Loaded"
+        Closing="Window_Closing"
         Closed="Window_Closed">
     <Window.Resources>
 
@@ -97,14 +98,16 @@
             <Image Name="Image_OpposingTeam" Grid.Row ="0" Grid.Column="5" Grid.RowSpan="2"/>
 
             <!-- Versus -->
-            <Image Source="../Resources/versus.png"  Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"/>
+            <Image Name="Image_VersusIcon" Source="../Resources/versus.png"  Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"/>
 
         </Grid>
 
-        <TabControl Grid.Row="2" Style="{StaticResource ControlBackground}">
+        <TabControl Grid.Row="2" Style="{StaticResource ControlBackground}" SelectionChanged="TabControl_SelectionChanged">
             <!-- Team Stats -->
             <TabItem Tag="{}{TeamStatistics}">
-                
+                <Grid>
+                    
+                </Grid>
             </TabItem>
             <!-- Match Stats -->
             <TabItem Tag="{}{MatchStatistics}">
@@ -178,14 +181,14 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <local:FieldColumnUserControl Grid.Column="0"/>
-                    <local:FieldColumnUserControl Grid.Column="1"/>
-                    <local:FieldColumnUserControl Grid.Column="2"/>
-                    <local:FieldColumnUserControl Grid.Column="3"/>
-                    <local:FieldColumnUserControl Grid.Column="4"/>
-                    <local:FieldColumnUserControl Grid.Column="5"/>
-                    <local:FieldColumnUserControl Grid.Column="6"/>
-                    <local:FieldColumnUserControl Grid.Column="7"/>
+                    <local:FieldColumnUserControl x:Name="Grid_SelectedTeamGoalie" Grid.Column="0"/>
+                    <local:FieldColumnUserControl x:Name="Grid_SelectedTeamDefender" Grid.Column="1"/>
+                    <local:FieldColumnUserControl x:Name="Grid_SelectedTeamMidfield" Grid.Column="2"/>
+                    <local:FieldColumnUserControl x:Name="Grid_SelectedTeamForward" Grid.Column="3"/>
+                    <local:FieldColumnUserControl x:Name="Grid_OpposingTeamForward" Grid.Column="4"/>
+                    <local:FieldColumnUserControl x:Name="Grid_OpposingTeamMidfield" Grid.Column="5"/>
+                    <local:FieldColumnUserControl x:Name="Grid_OpposingTeamDefender" Grid.Column="6"/>
+                    <local:FieldColumnUserControl x:Name="Grid_OpposingTeamGoalie" Grid.Column="7"/>
 
                 </Grid>
             </TabItem>

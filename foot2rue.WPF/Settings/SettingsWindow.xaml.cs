@@ -1,9 +1,12 @@
 ﻿using foot2rue.BLL.Models;
 using foot2rue.BLL.Services;
 using foot2rue.WPF.Extensions;
+using foot2rue.WPF.MessageBoxes;
 using LostInLocalization;
+using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
+
 namespace foot2rue.WPF.Settings
 {
     /// <summary>
@@ -30,6 +33,10 @@ namespace foot2rue.WPF.Settings
 
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
+            if (!(bool)new ConfirmationWindow("{{SaveSettingsConfirmation}}").ShowDialog()!)
+                // Cancel and stay in settings
+                return;
+
             CultureInfo? selectedCulture = ComboBox_LanguageSelection.GetSelectedItem<CultureInfo>();
             localizationService.Culture = selectedCulture;
             settingsService.Culture = selectedCulture;
@@ -37,6 +44,15 @@ namespace foot2rue.WPF.Settings
             settingsService.Resolution = ComboBox_ResolutionSelection.GetSelectedItem<Resolution>();
             settingsService.SaveSettings();
             DialogResult = true;
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            if ((bool)new ConfirmationWindow("{{UnsavedSettingsConfirmation}}").ShowDialog()!)
+                // Ok and exit the settings
+                return;
+
+            e.Cancel = true;
         }
     }
 }

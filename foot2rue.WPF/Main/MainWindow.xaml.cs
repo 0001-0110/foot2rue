@@ -7,6 +7,7 @@ using foot2rue.WPF.MessageBoxes;
 using foot2rue.WPF.Settings;
 using foot2rue.WPF.Utilities;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -17,6 +18,8 @@ namespace foot2rue.WPF.Main
 {
     public partial class MainWindow : Window
     {
+        private const string SELECTEDTEAMGRID = "SelectedTeam";
+        private const string OPPOSINGTEAMGRID = "OpposingTeam";
         private static readonly IEnumerable<PropertyInfo> Statistics = typeof(Statistics).GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(property => property.PropertyType == typeof(int));
 
         private readonly SettingsService settingsService;
@@ -33,6 +36,8 @@ namespace foot2rue.WPF.Main
             this.LoadLocalization();
         }
 
+        #region Window
+
         #region Event handlers
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -42,31 +47,51 @@ namespace foot2rue.WPF.Main
             //await LoadTeams();
         }
 
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            if (!(bool)new ConfirmationWindow("{QuitConfirmation}").ShowDialog()!)
+                e.Cancel = true;
+        }
+
         private void Window_Closed(object sender, System.EventArgs e)
         {
             settingsService.SaveSettings();
         }
+
+        #endregion
+
+        #endregion
+
+        #region Header
+
+        #region Event handlers
 
         private async void ComboBox_GenreSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Genre selectedGenre = GetSelectedGenre();
             settingsService.SelectedGenre = selectedGenre;
             dataService.SetGenre(selectedGenre);
+
+            // No need to clear anything since Loading the teams will call SelectedTeamChanged
             await LoadTeams();
         }
 
-        public async void SelectedTeamChanged(object sender, SelectionChangedEventArgs e)
+        private async void SelectedTeamChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectedTeamFifaCode = ComboBox_SelectedTeam.GetSelectedItem<Team>()?.FifaCode;
             if (SelectedTeamFifaCode != null)
                 settingsService.SelectedTeamFifaCode = SelectedTeamFifaCode;
             Image_SelectedTeam.Source = ResourcesUtility.ConvertToWpfImage(ResourcesUtility.GetCountryImage(SelectedTeamFifaCode));
-            ClearStatistics();
+
+            ClearTeamStatistics();
+            ClearMatchStatistics();
+
             // When changing the secleted team, user must select a new opposing team
             await LoadOpposingTeams();
+            LoadTeamStatistics();
         }
 
-        public async void OpposingTeamChanged(object sender, SelectionChangedEventArgs e)
+        private async void OpposingTeamChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!SettingsService.SettingsExists())
                 if (!(bool)new InitialSettingsWindow().ShowDialog()!)
@@ -84,46 +109,23 @@ namespace foot2rue.WPF.Main
             IEnumerable<Match>? matches = await this.Wait(() => dataService.GetMatchesByFifaCode(selectedFifaCode));
             Match? match = matches?.SingleOrDefault(match => (match.HomeTeam.FifaCode == selectedFifaCode ? match.AwayTeam : match.HomeTeam).FifaCode == OpposingTeamFifaCode);
             if (match != null)
-                LoadMatch(match);
+            {
+                LoadMatchStatistics(match);
+                LoadMatchField(match);
+            }
         }
 
-        #endregion
 
-        #region Getters
-
-        private Genre GetSelectedGenre()
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            return ComboBox_GenreSelection.GetSelectedItem<Genre>();
-        }
+            if (!(sender is TabControl tabControl))
+                return;
 
-        private (TeamMatch, TeamMatch) GetSelectedAndOpposingTeams(Match match)
-        {
-            return match.HomeTeam.FifaCode == SelectedTeamFifaCode ?
-                (match.HomeTeam, match.AwayTeam) :
-                (match.AwayTeam, match.HomeTeam);
-        }
-
-        private (Statistics, Statistics) GetSelectedAndOpposingStatistics(Match match)
-        {
-            return match.HomeTeam.FifaCode == SelectedTeamFifaCode ?
-                (match.HomeTeamStatistics, match.AwayTeamStatistics) :
-                (match.AwayTeamStatistics, match.HomeTeamStatistics);
-        }
-
-        private (Event[], Event[]) GetSelectedAndOpposingEvents(Match match)
-        {
-            return match.HomeTeam.FifaCode == SelectedTeamFifaCode ?
-                (match.HomeTeamEvents, match.AwayTeamEvents) :
-                (match.AwayTeamEvents, match.HomeTeamEvents);
-        }
-
-        #endregion
-
-        #region Header
-
-        private void LoadGenre()
-        {
-            ComboBox_GenreSelection.SetItems(EnumUtility.GetEnumValues<Genre>(), settingsService.SelectedGenre);
+            Visibility visibility = tabControl.SelectedIndex == 0 ? Visibility.Hidden : Visibility.Visible;
+            Image_VersusIcon.Visibility = visibility;
+            ComboBox_OpposingTeam.Visibility = visibility;
+            TextBlock_OpposingTeamScore.Visibility = visibility;
+            Image_OpposingTeam.Visibility = visibility;
         }
 
         private void ButtonSettings_Click(object sender, RoutedEventArgs e)
@@ -131,10 +133,22 @@ namespace foot2rue.WPF.Main
             Window settingsWindow = new SettingsWindow();
             if (!(bool)settingsWindow.ShowDialog()!)
                 return;
-            
+
             this.LoadLocalization();
             dataService.SetOfflineMode(settingsService.OfflineMode);
             this.Resize(settingsService.Resolution);
+        }
+
+        #endregion
+
+        private Genre GetSelectedGenre()
+        {
+            return ComboBox_GenreSelection.GetSelectedItem<Genre>();
+        }
+
+        private void LoadGenre()
+        {
+            ComboBox_GenreSelection.SetItems(EnumUtility.GetEnumValues<Genre>(), settingsService.SelectedGenre);
         }
 
         private async Task LoadTeams()
@@ -164,13 +178,21 @@ namespace foot2rue.WPF.Main
 
         #region Team statistics tab
 
+        private void ClearTeamStatistics()
+        {
+            
+        }
 
+        private void LoadTeamStatistics()
+        {
+            
+        }
 
         #endregion
 
         #region Match statistics tab
 
-        private void ClearStatistics()
+        private void ClearMatchStatistics()
         {
             SelectedTeamStartingEleven.Children.Clear();
             SelectedTeamSubstitutes.Children.Clear();
@@ -183,7 +205,7 @@ namespace foot2rue.WPF.Main
             OpposingTeamSubstitutes.Children.Clear();
         }
 
-        private void LoadMatch(Match match)
+        private void LoadMatchStatistics(Match match)
         {
             (Statistics selectedTeamStats, Statistics opposingTeamStats) = GetSelectedAndOpposingStatistics(match);
             (Event[] selectedTeamEvents, Event[] opposingTeamEvents) = GetSelectedAndOpposingEvents(match);
@@ -206,7 +228,45 @@ namespace foot2rue.WPF.Main
 
         #region Field tab
 
+        private void LoadMatchField(Match match)
+        {
+            (Statistics, Statistics) statistics = GetSelectedAndOpposingStatistics(match);
 
+            for (int i = 0; i < 2; i++)
+            {
+                IEnumerable<IGrouping<string, Player>> playerByPosition = statistics.GetIndex(i).StartingEleven.GroupBy(player => player.Position);
+                foreach (IGrouping<string, Player> grouping in playerByPosition)
+                {
+                    string gridName = $"Grid_{(i == 0 ? SELECTEDTEAMGRID : OPPOSINGTEAMGRID)}{grouping.Key}";
+                    (FindName(gridName) as FieldColumnUserControl)?.SetPlayers(grouping);
+                }
+            }
+        }
+
+        #endregion
+
+        #region Others
+
+        private (TeamMatch, TeamMatch) GetSelectedAndOpposingTeams(Match match)
+        {
+            return match.HomeTeam.FifaCode == SelectedTeamFifaCode ?
+                (match.HomeTeam, match.AwayTeam) :
+                (match.AwayTeam, match.HomeTeam);
+        }
+
+        private (Statistics, Statistics) GetSelectedAndOpposingStatistics(Match match)
+        {
+            return match.HomeTeam.FifaCode == SelectedTeamFifaCode ?
+                (match.HomeTeamStatistics, match.AwayTeamStatistics) :
+                (match.AwayTeamStatistics, match.HomeTeamStatistics);
+        }
+
+        private (Event[], Event[]) GetSelectedAndOpposingEvents(Match match)
+        {
+            return match.HomeTeam.FifaCode == SelectedTeamFifaCode ?
+                (match.HomeTeamEvents, match.AwayTeamEvents) :
+                (match.AwayTeamEvents, match.HomeTeamEvents);
+        }
 
         #endregion
     }

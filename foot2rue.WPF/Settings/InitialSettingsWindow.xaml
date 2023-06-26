@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:foot2rue.WPF.Settings"
         mc:Ignorable="d"
         Title="InitialSettingsWindow" Height="450" Width="800">
-    <Grid>
+    <Grid Background="{StaticResource BackgroundColor}">
         
     </Grid>
 </Window>
