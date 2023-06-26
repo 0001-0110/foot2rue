@@ -6,9 +6,9 @@ namespace foot2rue.WF.InitialSetup
 {
 	public partial class PlayerDisplayUserControl : UserControl
 	{
-		public Player Player { get; private set; }
+		public PlayerCupResult Player { get; private set; }
 
-		public PlayerDisplayUserControl(Player player)
+		public PlayerDisplayUserControl(PlayerCupResult player)
 		{
 			Player = player;
 			InitializeComponent();

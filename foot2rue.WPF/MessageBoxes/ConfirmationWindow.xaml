@@ -21,7 +21,8 @@
                    Grid.ColumnSpan="2"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
-                   TextWrapping="Wrap"/>
+                   TextWrapping="Wrap"
+                   Margin="20"/>
         <Button Grid.Row="1"
                 Grid.Column="0"
                 HorizontalAlignment="Center" 

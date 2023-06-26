@@ -1,6 +1,8 @@
-﻿namespace foot2rue.BLL.Models
+﻿using foot2rue.DAL.Models;
+
+namespace foot2rue.BLL.Models
 {
-	public class Player : DAL.Models.Player
+	public class PlayerCupResult : Player
 	{
 		public int Goals { get; set; }
 		public int YellowCards { get; set; }

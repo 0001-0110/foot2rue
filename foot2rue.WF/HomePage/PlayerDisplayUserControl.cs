@@ -9,9 +9,9 @@ namespace foot2rue.WF.HomePage
 	{
 		private static readonly DataService dataService = new();
 
-		private readonly Player player;
+		private readonly PlayerCupResult player;
 
-		public PlayerDisplayUserControl(Player player)
+		public PlayerDisplayUserControl(PlayerCupResult player)
 		{
 			this.player = player;
 

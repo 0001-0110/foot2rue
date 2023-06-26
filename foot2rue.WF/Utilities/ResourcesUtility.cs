@@ -17,7 +17,7 @@ namespace foot2rue.WF.Utilities
 			return (T?)GetResource(resourceName, ignoreCase);
 		}
 
-		public static Image? GetPlayerImage(Player player)
+		public static Image? GetPlayerImage(PlayerCupResult player)
 		{
 			return GetResource<Image>(player.Name);
 		}

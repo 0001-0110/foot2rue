@@ -232,13 +232,13 @@ namespace foot2rue.WPF.Main
         {
             (Statistics, Statistics) statistics = GetSelectedAndOpposingStatistics(match);
 
-            for (int i = 0; i < 2; i++)
+            for (int teamIndex = 0; teamIndex < 2; teamIndex++)
             {
-                IEnumerable<IGrouping<string, Player>> playerByPosition = statistics.GetIndex(i).StartingEleven.GroupBy(player => player.Position);
+                IEnumerable<IGrouping<string, Player>> playerByPosition = statistics.GetIndex(teamIndex).StartingEleven.GroupBy(player => player.Position);
                 foreach (IGrouping<string, Player> grouping in playerByPosition)
                 {
-                    string gridName = $"Grid_{(i == 0 ? SELECTEDTEAMGRID : OPPOSINGTEAMGRID)}{grouping.Key}";
-                    (FindName(gridName) as FieldColumnUserControl)?.SetPlayers(grouping);
+                    string gridName = $"Grid_{(teamIndex == 0 ? SELECTEDTEAMGRID : OPPOSINGTEAMGRID)}{grouping.Key}";
+                    (FindName(gridName) as FieldColumnUserControl)?.SetPlayers(dataService, grouping, match, teamIndex);
                 }
             }
         }

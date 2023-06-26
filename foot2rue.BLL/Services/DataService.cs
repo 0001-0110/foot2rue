@@ -1,5 +1,5 @@
 ﻿using foot2rue.BLL.Extensions;
-using BllPlayer = foot2rue.BLL.Models.Player;
+using foot2rue.BLL.Models;
 using foot2rue.BLL.Utilities;
 using foot2rue.DAL.Models;
 using foot2rue.DAL.Repositories;
@@ -59,8 +59,8 @@ namespace foot2rue.BLL.Services
             return matchesByFifaCode[fifaCode];
         }
 
-        private readonly Dictionary<string, IEnumerable<BllPlayer>?> playersByFifaCode = new();
-        public async Task<IEnumerable<BllPlayer>?> GetPlayersByFifaCode(string fifaCode)
+        private readonly Dictionary<string, IEnumerable<PlayerCupResult>?> playersByFifaCode = new();
+        public async Task<IEnumerable<PlayerCupResult>?> GetPlayersByFifaCode(string fifaCode)
         {
             if (!playersByFifaCode.ContainsKey(fifaCode))
             {
@@ -79,6 +79,47 @@ namespace foot2rue.BLL.Services
             }
 
             return playersByFifaCode[fifaCode];
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="match"></param>
+        /// <param name="team">An integer showing in what team the player should be searched. 0 is the home team, 1 is the away team</param>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public PlayerMatchResult GetPlayerMatchResults(Match match, int team, Player player)
+        {
+            if (team < 0 || team > 1)
+                throw new ArgumentException("How many teams do you think there is in a football match ?");
+
+            PlayerMatchResult playerResult = player.ExtendParentClass<Player, PlayerMatchResult>();
+
+            foreach (Event @event in team == 0 ? match.HomeTeamEvents : match.AwayTeamEvents)
+            {
+                // We skip other players
+                if (@event.Player != player.Name)
+                    continue;
+
+                switch (@event.Type)
+                {
+                    // TODO Could be improved with a bit of reflection
+                    // Hard coding is ugly, but it'll do
+                    case "goal":
+                    case "goal-penalty":
+                    case "goal-own":
+                        playerResult.Goals++;
+                        break;
+                    case "yellow-card":
+                        playerResult.YellowCards++;
+                        break;
+                    case "red-card":
+                        playerResult.RedCards++;
+                        break;
+                }
+            }
+
+            return playerResult;
         }
 
         private IEnumerable<Team>? teams;
@@ -139,18 +180,18 @@ namespace foot2rue.BLL.Services
 
         #endregion
 
-        private IEnumerable<BllPlayer> ExtendPlayers(IEnumerable<Player>? players, IEnumerable<Statistics>? statistics, IEnumerable<Event>? events)
+        private IEnumerable<PlayerCupResult> ExtendPlayers(IEnumerable<Player>? players, IEnumerable<Statistics>? statistics, IEnumerable<Event>? events)
         {
             if (players == null)
-                return Enumerable.Empty<BllPlayer>();
+                return Enumerable.Empty<PlayerCupResult>();
 
             // Copy all the data from DAL Players
             // We store players in a dictionary so that the search complexity is O(1)
             // Check if this player is a favorite
-            Dictionary<string, BllPlayer> extendedPlayers = new();
+            Dictionary<string, PlayerCupResult> extendedPlayers = new();
             foreach (Player player in players)
             {
-                BllPlayer extendedPlayer = player.ExtendParentClass<Player, BllPlayer>();
+                PlayerCupResult extendedPlayer = player.ExtendParentClass<Player, PlayerCupResult>();
                 extendedPlayer.IsFavorite = IsFavorite(extendedPlayer);
                 // Obsolete
 #pragma warning disable CS0612 // Type or member is obsolete
@@ -168,7 +209,7 @@ namespace foot2rue.BLL.Services
                 {
                     // We check before if the player is in the dictionnary to avoid crashes when the API contains typos
                     // It will return a wrong result, but it's better than no result at all
-                    BllPlayer extendedPlayer;
+                    PlayerCupResult extendedPlayer;
                     if (extendedPlayers.TryGetValue(player.Name, out extendedPlayer!))
                         extendedPlayer.MatchPlayed++;
                 }
@@ -180,7 +221,7 @@ namespace foot2rue.BLL.Services
             // Joining during a match (If a player joins a match twice, it will be counted for two different matches)
             foreach (Event matchEvent in events ?? Enumerable.Empty<Event>())
             {
-                BllPlayer? player = extendedPlayers.GetValueOrDefault(matchEvent.Player);
+                PlayerCupResult? player = extendedPlayers.GetValueOrDefault(matchEvent.Player);
                 if (player == null)
                     continue;
 
@@ -210,17 +251,17 @@ namespace foot2rue.BLL.Services
 
         #region Favorites
 
-        public bool IsFavorite(BllPlayer player)
+        public bool IsFavorite(PlayerCupResult player)
         {
             return settingsService.FavoritePlayers.Contains(player.Name);
         }
 
-        public void AddFavorite(BllPlayer player)
+        public void AddFavorite(PlayerCupResult player)
         {
             settingsService.FavoritePlayers.Add(player.Name);
         }
 
-        public void RemoveFavorite(BllPlayer player)
+        public void RemoveFavorite(PlayerCupResult player)
         {
             settingsService.FavoritePlayers.Remove(player.Name);
         }
