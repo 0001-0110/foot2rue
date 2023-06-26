@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace foot2rue.WPF
+namespace foot2rue.WPF.Settings
 {
     /// <summary>
     /// Interaction logic for InitialSettingsWindow.xaml

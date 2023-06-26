@@ -1,15 +1,18 @@
-﻿using System.Windows;
+﻿using foot2rue.WPF.Extensions;
+using System.Windows;
 
 namespace foot2rue.WPF.MessageBoxes
 {
-    /// <summary>
-    /// Interaction logic for ErrorWindow.xaml
-    /// </summary>
     public partial class ErrorWindow : Window
 	{
-		public ErrorWindow()
+		private const string DEFAULTERROR = "Error";
+
+		public ErrorWindow() : this(DEFAULTERROR) { }
+
+		public ErrorWindow(string errorLocalizationString)
 		{
 			InitializeComponent();
+			Label_Error.SetLocalizationString(errorLocalizationString);
 		}
 	}
 }

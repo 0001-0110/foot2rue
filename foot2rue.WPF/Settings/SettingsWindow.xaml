@@ -17,6 +17,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Language selection -->
@@ -25,10 +26,11 @@
                   VerticalAlignment="Center" 
                   HorizontalAlignment="Right"
                   Margin="20"
-                  Tag="\{LanguageSelection}:">
+                  Tag="{}{LanguageSelection}:">
             Select your language:
         </TextBlock>
-        <ComboBox Grid.Row="0" 
+        <ComboBox Name="ComboBox_LanguageSelection"
+                  Grid.Row="0" 
                   Grid.Column="1"
                   VerticalAlignment="Center" 
                   HorizontalAlignment="Left"
@@ -40,26 +42,52 @@
                   VerticalAlignment="Center" 
                   HorizontalAlignment="Right"
                   Margin="20"
-                  Tag="\{OfflineMode}:">
+                  Tag="{}{OfflineMode}:">
             OfflineMode:
         </TextBlock>
-        <CheckBox Grid.Row="1" 
+        <CheckBox Name="CheckBox_OfflineMode"
+                  Grid.Row="1" 
+                  Grid.Column="1"
+                  VerticalAlignment="Center" 
+                  HorizontalAlignment="Left"
+                  Margin="20"/>
+
+        <!-- Resolution selection -->
+        <TextBlock Grid.Row="2" 
+                  Grid.Column="0"
+                  VerticalAlignment="Center" 
+                  HorizontalAlignment="Right"
+                  Margin="20"
+                  Tag="{}{ResolutionSelection}:">
+            Select your resolution:
+        </TextBlock>
+        <ComboBox Name="ComboBox_ResolutionSelection"
+                  Grid.Row="2" 
                   Grid.Column="1"
                   VerticalAlignment="Center" 
                   HorizontalAlignment="Left"
                   Margin="20"/>
 
         <!-- Buttons -->
-        <Button Grid.Row="2" 
+        <Button Grid.Row="3" 
                 Grid.Column="0"
                 VerticalAlignment="Center"
-                HorizontalContentAlignment="Center">
+                HorizontalAlignment="Right"
+                MinHeight="20"
+                MinWidth="50"
+                Margin="20"
+                IsCancel="True">
             <TextBlock Tag="\{Cancel}">Cancel</TextBlock>
         </Button>
-        <Button Grid.Row="2" 
+        <Button Grid.Row="3" 
                 Grid.Column="1"
                 VerticalAlignment="Center"
-                HorizontalContentAlignment="Center">
+                HorizontalAlignment="Left"
+                Margin="20"
+                MinHeight="20"
+                MinWidth="50"
+                IsDefault="True"
+                Click="ButtonSave_Click">
             <TextBlock Tag="\{Save}">Save</TextBlock>
         </Button>
 

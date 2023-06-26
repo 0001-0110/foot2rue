@@ -31,8 +31,11 @@ namespace foot2rue.WPF.Utilities
             return image;
         }
 
-        private static object? GetResource(string resourceName, bool ignoreCase = false)
+        private static object? GetResource(string? resourceName, bool ignoreCase = false)
         {
+            if (string.IsNullOrEmpty(resourceName))
+                return null;
+
             BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Static | (ignoreCase ? BindingFlags.IgnoreCase : BindingFlags.Default);
             // Null because these properties are static, hence no instance to pass
             return typeof(Properties.Resources).GetProperty(resourceName, bindingFlags)?.GetValue(null);

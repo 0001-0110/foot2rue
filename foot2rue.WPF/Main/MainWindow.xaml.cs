@@ -3,6 +3,8 @@ using foot2rue.DAL.Models;
 using foot2rue.DAL.Repositories;
 using foot2rue.DAL.Utilities;
 using foot2rue.WPF.Extensions;
+using foot2rue.WPF.MessageBoxes;
+using foot2rue.WPF.Settings;
 using foot2rue.WPF.Utilities;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,15 +42,24 @@ namespace foot2rue.WPF.Main
             //await LoadTeams();
         }
 
+        private void Window_Closed(object sender, System.EventArgs e)
+        {
+            settingsService.SaveSettings();
+        }
+
         private async void ComboBox_GenreSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            dataService.SetGenre(GetSelectedGenre());
+            Genre selectedGenre = GetSelectedGenre();
+            settingsService.SelectedGenre = selectedGenre;
+            dataService.SetGenre(selectedGenre);
             await LoadTeams();
         }
 
         public async void SelectedTeamChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectedTeamFifaCode = ComboBox_SelectedTeam.GetSelectedItem<Team>()?.FifaCode;
+            if (SelectedTeamFifaCode != null)
+                settingsService.SelectedTeamFifaCode = SelectedTeamFifaCode;
             Image_SelectedTeam.Source = ResourcesUtility.ConvertToWpfImage(ResourcesUtility.GetCountryImage(SelectedTeamFifaCode));
             ClearStatistics();
             // When changing the secleted team, user must select a new opposing team
@@ -57,6 +68,13 @@ namespace foot2rue.WPF.Main
 
         public async void OpposingTeamChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!SettingsService.SettingsExists())
+                if (!(bool)new InitialSettingsWindow().ShowDialog()!)
+                {
+                    new ErrorWindow().ShowDialog();
+                    Application.Current.Shutdown();
+                }
+
             OpposingTeamFifaCode = ComboBox_OpposingTeam.GetSelectedItem<Team>()?.FifaCode;
             Image_OpposingTeam.Source = ResourcesUtility.ConvertToWpfImage(ResourcesUtility.GetCountryImage(OpposingTeamFifaCode));
             string? selectedFifaCode = SelectedTeamFifaCode;
@@ -106,6 +124,17 @@ namespace foot2rue.WPF.Main
         private void LoadGenre()
         {
             ComboBox_GenreSelection.SetItems(EnumUtility.GetEnumValues<Genre>(), settingsService.SelectedGenre);
+        }
+
+        private void ButtonSettings_Click(object sender, RoutedEventArgs e)
+        {
+            Window settingsWindow = new SettingsWindow();
+            if (!(bool)settingsWindow.ShowDialog()!)
+                return;
+            
+            this.LoadLocalization();
+            Application.Current.MainWindow.Width = 420;
+            Application.Current.MainWindow.Height = 420;
         }
 
         private async Task LoadTeams()

@@ -69,6 +69,7 @@ namespace foot2rue.BLL.Services
 			FavoritePlayers = new StringCollection();
 			OfflineMode = false;
 			Culture = LocalizationService.DefaultCulture;
+			Resolution = new Resolution(800, 450);
 		}
 
 		public void LoadSettings()

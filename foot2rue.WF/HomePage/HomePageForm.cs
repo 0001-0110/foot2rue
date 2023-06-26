@@ -39,15 +39,15 @@ namespace foot2rue.WF.HomePage
 
 		#endregion
 
-		private SettingsService settingsService;
-		private DataService dataService;
+		private readonly SettingsService settingsService;
+		private readonly DataService dataService;
 
 		private DataDisplay? favoritesDataDisplay;
 		private DataDisplay? allPlayersDataDisplay;
 		private DataDisplay? matchesDataDisplay;
 		// TODO Add data displays
 
-		private Queue<Image> imagesToPrint;
+		private readonly Queue<Image> imagesToPrint;
 
 		public HomePageForm()
 		{
@@ -216,7 +216,7 @@ namespace foot2rue.WF.HomePage
 				printDocument.Print();
 		}
 
-		private IEnumerable<(Image, Point)> GetImagePositions(Queue<Image> images, PrintPageEventArgs printPageEventArgs)
+        private static IEnumerable<(Image, Point)> GetImagePositions(Queue<Image> images, PrintPageEventArgs printPageEventArgs)
 		{
 			int minX = printPageEventArgs.MarginBounds.Left;
 			int minY = printPageEventArgs.MarginBounds.Top;
@@ -267,7 +267,7 @@ namespace foot2rue.WF.HomePage
 
 		private async void toolStripButton_Settings_Click(object sender, EventArgs e)
 		{
-			SettingsForm settingsForm = new SettingsForm();
+            SettingsForm settingsForm = new();
 			settingsForm.ShowDialog();
 
 			Genre? newGenre = null;
@@ -342,29 +342,27 @@ namespace foot2rue.WF.HomePage
 		// This function is used to draw tabs manually, to be able to change their color
 		// I have no idea how this works, please refer to:
 		// https://stackoverflow.com/questions/5338587/set-tabpage-header-color
-		private void tabControl1_DrawItem(object sender, DrawItemEventArgs _event)
+		private void tabControl1_DrawItem(object sender, DrawItemEventArgs @event)
 		{
-			using (Brush brush = new SolidBrush(BACKCOLOR))
-			{
-				_event.Graphics.FillRectangle(brush, _event.Bounds);
-				SizeF size = _event.Graphics.MeasureString(tabControl_Rankings.TabPages[_event.Index].Text, _event.Font!);
-				// Draw the labels on the tabs
-				_event.Graphics.DrawString(tabControl_Rankings.TabPages[_event.Index].Text, _event.Font!, new SolidBrush(FONTCOLOR), _event.Bounds.Left + (_event.Bounds.Width - size.Width) / 2, _event.Bounds.Top + (_event.Bounds.Height - size.Height) / 2 + 1);
+            using Brush brush = new SolidBrush(BACKCOLOR);
+            @event.Graphics.FillRectangle(brush, @event.Bounds);
+            SizeF size = @event.Graphics.MeasureString(tabControl_Rankings.TabPages[@event.Index].Text, @event.Font!);
+            // Draw the labels on the tabs
+            @event.Graphics.DrawString(tabControl_Rankings.TabPages[@event.Index].Text, @event.Font!, new SolidBrush(FONTCOLOR), @event.Bounds.Left + (@event.Bounds.Width - size.Width) / 2, @event.Bounds.Top + (@event.Bounds.Height - size.Height) / 2 + 1);
 
-				Rectangle rectangle = _event.Bounds;
-				rectangle.Offset(0, 1);
-				rectangle.Inflate(0, -1);
-				_event.Graphics.DrawRectangle(Pens.DarkGray, rectangle);
-				_event.DrawFocusRectangle();
-			}
-		}
+            Rectangle rectangle = @event.Bounds;
+            rectangle.Offset(0, 1);
+            rectangle.Inflate(0, -1);
+            @event.Graphics.DrawRectangle(Pens.DarkGray, rectangle);
+            @event.DrawFocusRectangle();
+        }
 
 		private async void tabControl1_SelectedIndexChanged(object? sender, EventArgs e)
 		{
 			// Find the data grid view
 			// There should be only one, if there is none or more, throw
 			DataDisplay? dataDisplay = (sender as TabControl)?.SelectedTab.Controls.OfType<DataDisplay>().Single();
-			if (dataDisplay == null)
+            if (dataDisplay == null)
 				// TODO ?
 				throw new Exception("HELP");
 
