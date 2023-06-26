@@ -133,8 +133,8 @@ namespace foot2rue.WPF.Main
                 return;
             
             this.LoadLocalization();
-            Application.Current.MainWindow.Width = 420;
-            Application.Current.MainWindow.Height = 420;
+            dataService.SetOfflineMode(settingsService.OfflineMode);
+            this.Resize(settingsService.Resolution);
         }
 
         private async Task LoadTeams()

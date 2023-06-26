@@ -42,6 +42,11 @@ namespace foot2rue.WPF.Extensions
             comboBox.SetItems(itemDisplays, selectedItemDisplay);
         }
 
+        public static void SetItems<T>(this ComboBox comboBox, IEnumerable<T> items, Func<T, bool> comparer)
+        {
+            comboBox.SetItems(items, items.SingleOrDefault(comparer));
+        }
+
         public static void SetItems<T>(this ComboBox comboBox, IEnumerable<T>? items, T? selectedItem)
         {
             comboBox.SetItems(items, items?.ToList().IndexOf(selectedItem!) ?? -1);
