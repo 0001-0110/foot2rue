@@ -9,13 +9,16 @@ namespace foot2rue.WPF.Main
     /// </summary>
     public partial class PlayerStatsUserControl : UserControl
     {
-        public PlayerStatsUserControl(Player player)
+        public PlayerStatsUserControl(Player player, bool opposingTeam = false)
         {
             InitializeComponent();
 
             PlayerNumber.SetLocalizationString($"{player.ShirtNumber}");
             PlayerName.SetLocalizationString(player.Name);
             PlayerPosition.SetLocalizationString($"{{{player.Position}}}");
+
+            if (opposingTeam)
+                Animation.From = -Animation.From;
 
             this.LoadLocalization();
         }

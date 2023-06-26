@@ -5,14 +5,11 @@ using foot2rue.DAL.Utilities;
 using foot2rue.WPF.Extensions;
 using foot2rue.WPF.Utilities;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace foot2rue.WPF.Main
 {
@@ -137,7 +134,13 @@ namespace foot2rue.WPF.Main
 
         #endregion
 
-        #region Statistics tab
+        #region Team statistics tab
+
+
+
+        #endregion
+
+        #region Match statistics tab
 
         private void ClearStatistics()
         {
@@ -159,17 +162,23 @@ namespace foot2rue.WPF.Main
 
             SelectedTeamStartingEleven.SetChildren(selectedTeamStats.StartingEleven.Select(player => new PlayerStatsUserControl(player)));
             SelectedTeamSubstitutes.SetChildren(selectedTeamStats.Substitutes.Select(player => new PlayerStatsUserControl(player)));
-            //SelectedTeamEvents.SetChildren(selectedTeamEvents.Select(@event => ));
+            SelectedTeamEvents.SetChildren(selectedTeamEvents.Select(@event => new EventUserControl(@event)));
 
             StatsComparator.SetChildren(Statistics.Select(property => new StatsCardUserControl(
                 $"{{{property.Name}}}", 
                 ColorUtility.GetTeamColor(SelectedTeamFifaCode), (int)property.GetValue(selectedTeamStats)!,
                 ColorUtility.GetTeamColor(OpposingTeamFifaCode), (int)property.GetValue(opposingTeamStats)!)));
 
-            //OpposingTeamEvents.SetChildren(opposingTeamEvents.Select(@event => ));
-            OpposingTeamStartingEleven.SetChildren(opposingTeamStats.StartingEleven.Select(player => new PlayerStatsUserControl(player)));
-            OpposingTeamSubstitutes.SetChildren(opposingTeamStats.Substitutes.Select(player => new PlayerStatsUserControl(player)));
+            OpposingTeamEvents.SetChildren(opposingTeamEvents.Select(@event => new EventUserControl(@event)));
+            OpposingTeamStartingEleven.SetChildren(opposingTeamStats.StartingEleven.Select(player => new PlayerStatsUserControl(player, true)));
+            OpposingTeamSubstitutes.SetChildren(opposingTeamStats.Substitutes.Select(player => new PlayerStatsUserControl(player, true)));
         }
+
+        #endregion
+
+        #region Field tab
+
+
 
         #endregion
     }

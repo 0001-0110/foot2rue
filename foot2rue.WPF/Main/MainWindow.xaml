@@ -100,8 +100,12 @@
         </Grid>
 
         <TabControl Grid.Row="2" Style="{StaticResource ControlBackground}">
-            <!-- Stats -->
-            <TabItem Tag="{}{Statistics}">
+            <!-- Team Stats -->
+            <TabItem Tag="{}{TeamStatistics}">
+                
+            </TabItem>
+            <!-- Match Stats -->
+            <TabItem Tag="{}{MatchStatistics}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.1*"/>

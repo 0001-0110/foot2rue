@@ -1,4 +1,5 @@
 ﻿using foot2rue.BLL.Extensions;
+using foot2rue.BLL.Models;
 using foot2rue.DAL.Repositories;
 using LostInLocalization;
 using Newtonsoft.Json;
@@ -33,6 +34,8 @@ namespace foot2rue.BLL.Services
 		public bool OfflineMode { get; set; }
 
 		public CultureInfo Culture { get; set; }
+
+		public Resolution Resolution { get; set; }
 
 		private static string GetSettingsFolder()
 		{
