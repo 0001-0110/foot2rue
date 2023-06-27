@@ -52,14 +52,49 @@
 	<string name="FavoritePlayers">Favorites</string>
 	<string name="AllPlayers">All players</string>
 	<string name="Matches">Matches</string>
+
+	<string name="TeamStatistics">Team statistics</string>
+	<string name="MatchStatistics">Match statistics</string>
+	<string name="Field">Field</string>
+	
+	<!-- Match statistics -->
+
+	<string name="StartingEleven">Starting eleven</string>
+	<string name="Substitutes">Substitutes</string>
+
+	<string name="OnTarget">On Target</string>
+	<string name="OffTarget">Off Target</string>
+	<string name="Blocked">Blocked</string>
+	<string name="Woodwork">Woodwork</string>
+	<string name="Corners">Corners</string>
+	<string name="Offsides">Offsides</string>
+	<string name="PassAccuracy">Pass Accuracy</string>
+	<string name="PassesComplete">Passes complete</string>
+	<string name="NumPasses">Number of Passes</string>
+	<string name="DistanceCovered">Distance Covered</string>
+	<string name="BallsRecovered">Balls Recovered</string>
+	<string name="Tackles">Tackles</string>
+	<string name="Clearances">Clearances</string>
+	<string name="FoulsCommitted">Fouls Committed</string>
+
+	<string name="goal">Goal</string>
+	<string name="goal-penalty">Goal (Penalty)</string>
+	<string name="goal-own">Own Goal</string>
+	<string name="yellow-card">Yellow Card</string>
+	<string name="red-card">Red Card</string>
+	<string name="substitution-in">Substitution (In)</string>
+	<string name="substitution-out">Substitution (Out)</string>
 	
 	<!-- Settings -->
 
 	<string name="LanguageSelection">Select a language</string>
-
 	<string name="OfflineModeSelection">Offline mode</string>
+	<string name="ResolutionSelection">Select a resolution</string>
+
 	<string name="ResetSettings">Reset settings</string>
 	<string name="SaveSettings">Save</string>
+
+	<string name="UnsavedSettingsConfirmation">You have unsaved settings, do you want to discard them ?</string>
 	
 	<!-- Exit Confirmation -->
 	

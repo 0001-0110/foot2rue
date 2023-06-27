@@ -183,12 +183,12 @@ namespace foot2rue.WPF.Main
 
         private void ClearTeamStatistics()
         {
-            
+            // TODO
         }
 
         private void LoadTeamStatistics()
         {
-            
+            // TODO
         }
 
         #endregion
@@ -215,14 +215,14 @@ namespace foot2rue.WPF.Main
 
             SelectedTeamStartingEleven.SetChildren(selectedTeamStats.StartingEleven.Select(player => new PlayerStatsUserControl(player)));
             SelectedTeamSubstitutes.SetChildren(selectedTeamStats.Substitutes.Select(player => new PlayerStatsUserControl(player)));
-            SelectedTeamEvents.SetChildren(selectedTeamEvents.Select(@event => new EventUserControl(@event)));
+            SelectedTeamEvents.SetChildren(selectedTeamEvents.OrderBy(@event => @event.Time).Select(@event => new EventUserControl(@event)));
 
             StatsComparator.SetChildren(Statistics.Select(property => new StatsCardUserControl(
                 $"{{{property.Name}}}",
                 ColorUtility.GetTeamColor(SelectedTeamFifaCode), (int)property.GetValue(selectedTeamStats)!,
                 ColorUtility.GetTeamColor(OpposingTeamFifaCode), (int)property.GetValue(opposingTeamStats)!)));
 
-            OpposingTeamEvents.SetChildren(opposingTeamEvents.Select(@event => new EventUserControl(@event)));
+            OpposingTeamEvents.SetChildren(opposingTeamEvents.OrderBy(@event => @event.Time).Select(@event => new EventUserControl(@event)));
             OpposingTeamStartingEleven.SetChildren(opposingTeamStats.StartingEleven.Select(player => new PlayerStatsUserControl(player, true)));
             OpposingTeamSubstitutes.SetChildren(opposingTeamStats.Substitutes.Select(player => new PlayerStatsUserControl(player, true)));
         }

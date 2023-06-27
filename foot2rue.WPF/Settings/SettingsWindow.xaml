@@ -43,7 +43,7 @@
                   VerticalAlignment="Center" 
                   HorizontalAlignment="Right"
                   Margin="20"
-                  Tag="{}{OfflineMode}:">
+                  Tag="{}{OfflineModeSelection}:">
             OfflineMode:
         </TextBlock>
         <CheckBox Name="CheckBox_OfflineMode"
@@ -89,7 +89,7 @@
                 MinWidth="50"
                 IsDefault="True"
                 Click="ButtonSave_Click"
-                Tag="{}{Save}"/>
+                Tag="{}{SaveSettings}"/>
 
     </Grid>
 </Window>

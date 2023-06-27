@@ -48,7 +48,7 @@ namespace foot2rue.WPF.Settings
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            if ((bool)new ConfirmationWindow("{{UnsavedSettingsConfirmation}}").ShowDialog()!)
+            if ((bool)new ConfirmationWindow("{UnsavedSettingsConfirmation}").ShowDialog()!)
                 // Ok and exit the settings
                 return;
 

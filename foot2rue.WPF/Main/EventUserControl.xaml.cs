@@ -7,15 +7,15 @@ namespace foot2rue.WPF.Main
 {
     public partial class EventUserControl : UserControl
     {
-        public EventUserControl(Event thing)
+        public EventUserControl(Event @event)
         {
             InitializeComponent();
 
             // TODO
             //Image_EventIcon.Source = ResourcesUtility.GetEventIcon(thing.Type);
-            Label_EventName.SetLocalizationString(thing.Type);
-            Label_PlayerName.SetLocalizationString(thing.Player);
-            Label_Time.SetLocalizationString(thing.Time);
+            Label_EventName.SetLocalizationString($"{{{@event.Type}}}");
+            Label_PlayerName.SetLocalizationString(@event.Player);
+            Label_Time.SetLocalizationString(@event.Time);
 
             this.LoadLocalization();
         }
