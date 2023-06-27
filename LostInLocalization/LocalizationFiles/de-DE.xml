@@ -1,4 +1,108 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <localization>
-    <string name="button_Quit">Quitter</string>
+
+	<!-- Generic -->
+
+	<string name="Enum_Men">Männer</string>
+	<string name="Enum_Women">Frauen</string>
+
+	<string name="Ok">Ok</string>
+	<string name="Cancel">Abbrechen</string>
+	<string name="Quit">Beenden</string>
+
+	<!-- Team selection -->
+
+	<string name="GenreSelection">Wählen Sie einen Pokal aus</string>
+	<string name="TeamSelection">Wählen Sie eine Mannschaft aus</string>
+
+	<!-- Favorite player selection -->
+
+	<string name="SelectedPlayers">Ausgewählte Spieler</string>
+
+	<string name="AddFavorite">Zu Favoriten hinzufügen</string>"
+	<string name="RemoveFavorite">Aus Favoriten entfernen</string>"
+	<string name="Inverse">Umdrehen</string>"
+	<string name="ThisOne">Dieser</string>"
+	<string name="AllSelected">Alle ausgewählt</string>"
+	<string name="All">Alle</string>"
+
+	<!-- Home Page -->
+
+	<string name="Print">Drucken</string>
+	<string name="Settings">Einstellungen</string>
+
+	<string name="Goals">Tore</string>
+	<string name="YellowCards">Gelbe Karten</string>
+	<string name="RedCards">Rote Karten</string>
+
+	<string name="Korok">Yahaha, du hast mich gefunden!</string>
+
+	<string name="MatchPlayed">Spiel gespielt</string>
+	<string name="Goalie">Torhüter</string>
+	<string name="Defender">Verteidiger</string>
+	<string name="Midfield">Mittelfeld</string>
+	<string name="Forward">Stürmer</string>
+
+	<string name="VisitorCount">Anzahl der Besucher</string>
+	<string name="AttemptsOnGoal">Torschussversuche</string>
+	<string name="BallPossession">Ballbesitz</string>
+
+	<!-- Tabs -->
+
+	<string name="FavoritePlayers">Favoriten</string>
+	<string name="AllPlayers">Alle Spieler</string>
+	<string name="Matches">Spiele</string>
+
+	<string name="TeamStatistics">Teamstatistiken</string>
+	<string name="MatchStatistics">Spielstatistiken</string>
+	<string name="Field">Spielfeld</string>
+
+	<!-- Match statistics -->
+
+	<string name="StartingEleven">Startelf</string>
+	<string name="Substitutes">Ersatzspieler</string>
+
+	<string name="OnTarget">Auf das Tor</string>
+	<string name="OffTarget">Neben das Tor</string>
+	<string name="Blocked">Blockiert</string>
+	<string name="Woodwork">Lattentreffer</string>
+	<string name="Corners">Ecken</string>
+	<string name="Offsides">Abseits</string>
+	<string name="PassAccuracy">Passgenauigkeit</string>
+	<string name="PassesComplete">Erfolgreiche Pässe</string>
+	<string name="NumPasses">Anzahl der Pässe</string>
+	<string name="DistanceCovered">Zurückgelegte Strecke</string>
+	<string name="BallsRecovered">Erholte Bälle</string>
+	<string name="Tackles">Tacklings</string>
+	<string name="Clearances">Klärungen</string>
+	<string name="FoulsCommitted">Begangene Fouls</string>
+
+	<string name="goal">Tor</string>
+	<string name="goal-penalty">Tor (Elfmeter)</string>
+	<string name="goal-own">Eigentor</string>
+	<string name="yellow-card">Gelbe Karte</string>
+	<string name="red-card">Rote Karte</string>
+	<string name="substitution-in">Einwechslung</string>
+	<string name="substitution-out">Auswechslung</string>
+
+	<!-- Settings -->
+
+	<string name="LanguageSelection">Sprache auswählen</string>
+	<string name="OfflineModeSelection">Offline-Modus</string>
+	<string name="ResolutionSelection">Auflösung auswählen</string>
+
+	<string name="ResetSettings">Einstellungen zurücksetzen</string>
+	<string name="SaveSettings">Speichern</string>
+
+	<string name="SaveSettingsConfirmation">Sind Sie sicher, dass Sie diese Einstellungen übernehmen möchten?</string>
+	<string name="UnsavedSettingsConfirmation">Sie haben nicht gespeicherte Einstellungen. Möchten Sie sie verwerfen?</string>
+
+	<!-- Exit Confirmation -->
+
+	<string name="QuitConfirmation">Sie sind dabei, die App zu beenden. Sind Sie sicher?</string>
+
+	<!-- InitialSetupFailure -->
+
+	<string name="InitialSetupFailure">Sie müssen die Einrichtung abschließen, um die App zu verwenden. Schließen wird ausgeführt.</string>
+
 </localization>

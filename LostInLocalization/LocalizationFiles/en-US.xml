@@ -94,6 +94,7 @@
 	<string name="ResetSettings">Reset settings</string>
 	<string name="SaveSettings">Save</string>
 
+	<string name="SaveSettingsConfirmation">Are you sure about those settings ?</string>
 	<string name="UnsavedSettingsConfirmation">You have unsaved settings, do you want to discard them ?</string>
 	
 	<!-- Exit Confirmation -->

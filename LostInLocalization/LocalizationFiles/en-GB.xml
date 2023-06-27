@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<localization>
+
+	<!-- Generic -->
+
+	<string name="Enum_Men">Lads</string>
+	<string name="Enum_Women">Lasses</string>
+
+	<string name="Ok">Aye</string>
+	<string name="Cancel">Avast</string>
+	<string name="Quit">Abandon Ship</string>
+
+	<!-- Team selection -->
+
+	<string name="GenreSelection">Select a treasure chest</string>
+	<string name="TeamSelection">Select a crew</string>
+
+	<!-- Favorite player selection -->
+
+	<string name="SelectedPlayers">Selected scallywags</string>
+
+	<string name="AddFavorite">Add treasure</string>"
+	<string name="RemoveFavorite">Remove treasure</string>"
+	<string name="Inverse">Inverse</string>"
+	<string name="ThisOne">This one</string>"
+	<string name="AllSelected">All selected</string>"
+	<string name="All">All</string>"
+
+	<!-- Home Page -->
+
+	<string name="Print">Print the map</string>
+	<string name="Settings">Settings</string>
+
+	<string name="Goals">Bounties</string>
+	<string name="YellowCards">Yellow scrolls</string>
+	<string name="RedCards">Red scrolls</string>
+
+	<string name="Korok">Yarr, ye found me treasure!</string>
+
+	<string name="MatchPlayed">Match played</string>
+	<string name="Goalie">Helmsman</string>
+	<string name="Defender">Defender</string>
+	<string name="Midfield">Midfielder</string>
+	<string name="Forward">Forward</string>
+
+	<string name="VisitorCount">Number of visitors</string>
+	<string name="AttemptsOnGoal">Attempts on treasure</string>
+	<string name="BallPossession">Chest possession</string>
+
+	<!-- Tabs -->
+
+	<string name="FavoritePlayers">Favorite treasure</string>
+	<string name="AllPlayers">All scallywags</string>
+	<string name="Matches">Maps</string>
+
+	<string name="TeamStatistics">Crew statistics</string>
+	<string name="MatchStatistics">Map statistics</string>
+	<string name="Field">Field</string>
+
+	<!-- Match statistics -->
+
+	<string name="StartingEleven">Starting crew</string>
+	<string name="Substitutes">Substitutes</string>
+
+	<string name="OnTarget">On Target</string>
+	<string name="OffTarget">Off Target</string>
+	<string name="Blocked">Blocked</string>
+	<string name="Woodwork">Woodwork</string>
+	<string name="Corners">Corners</string>
+	<string name="Offsides">Offsides</string>
+	<string name="PassAccuracy">Pass Accuracy</string>
+	<string name="PassesComplete">Passes complete</string>
+	<string name="NumPasses">Number of Passes</string>
+	<string name="DistanceCovered">Distance Covered</string>
+	<string name="BallsRecovered">Balls Recovered</string>
+	<string name="Tackles">Tackles</string>
+	<string name="Clearances">Clearances</string>
+	<string name="FoulsCommitted">Fouls Committed</string>
+
+	<string name="goal">Treasure Found</string>
+	<string name="goal-penalty">Treasure Found (Penalty)</string>
+	<string name="goal-own">Own Treasure Found</string>
+	<string name="yellow-card">Yellow Scroll</string>
+	<string name="red-card">Red Scroll</string>
+	<string name="substitution-in">Substitution (In)</string>
+	<string name="substitution-out">Substitution (Out)</string>
+
+	<!-- Settings -->
+
+	<string name="LanguageSelection">Select a language</string>
+	<string name="OfflineModeSelection">Offline mode</string>
+	<string name="ResolutionSelection">Select a resolution</string>
+
+	<string name="ResetSettings">Reset settings</string>
+	<string name="SaveSettings">Save</string>
+
+	<string name="SaveSettingsConfirmation">Are ye sure about those settings?</string>
+	<string name="UnsavedSettingsConfirmation">Ye have unsaved settings, do ye want to discard them?</string>
+
+	<!-- Exit Confirmation -->
+
+	<string name="QuitConfirmation">Ye be about to abandon ship, Arr ye sure?</string>
+
+	<!-- InitialSetupFailure -->
+
+	<string name="InitialSetupFailure">Ye have to finish setup to use the app. Now closing</string>
+
+</localization>

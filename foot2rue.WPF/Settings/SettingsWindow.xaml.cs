@@ -33,7 +33,7 @@ namespace foot2rue.WPF.Settings
 
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
-            if (!(bool)new ConfirmationWindow("{{SaveSettingsConfirmation}}").ShowDialog()!)
+            if (!(bool)new ConfirmationWindow("{SaveSettingsConfirmation}").ShowDialog()!)
                 // Cancel and stay in settings
                 return;
 
@@ -48,6 +48,10 @@ namespace foot2rue.WPF.Settings
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
+            // If the window is closing after the save, no need to ask for confirmation
+            if (DialogResult != null)
+                return;
+
             if ((bool)new ConfirmationWindow("{UnsavedSettingsConfirmation}").ShowDialog()!)
                 // Ok and exit the settings
                 return;

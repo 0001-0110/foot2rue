@@ -8,28 +8,28 @@
 
   <ItemGroup>
     <None Remove="LocalizationFiles\de-DE.xml" />
-    <None Remove="LocalizationFiles\en-UK.xml" />
+    <None Remove="LocalizationFiles\en-GB.xml" />
     <None Remove="LocalizationFiles\en-US.xml" />
     <None Remove="LocalizationFiles\fr-FR.xml" />
     <None Remove="LocalizationFiles\hr-HR.xml" />
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="LocalizationFiles\de-DE.xml">
+    <Content Include="LocalizationFiles\de-DE.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </AdditionalFiles>
-    <AdditionalFiles Include="LocalizationFiles\en-UK.xml">
+    </Content>
+    <Content Include="LocalizationFiles\en-GB.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </AdditionalFiles>
-    <AdditionalFiles Include="LocalizationFiles\en-US.xml">
+    </Content>
+    <Content Include="LocalizationFiles\en-US.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </AdditionalFiles>
-    <AdditionalFiles Include="LocalizationFiles\fr-FR.xml">
+    </Content>
+    <Content Include="LocalizationFiles\fr-FR.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </AdditionalFiles>
-    <AdditionalFiles Include="LocalizationFiles\hr-HR.xml">
+    </Content>
+    <Content Include="LocalizationFiles\hr-HR.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </AdditionalFiles>
+    </Content>
   </ItemGroup>
 
 </Project>

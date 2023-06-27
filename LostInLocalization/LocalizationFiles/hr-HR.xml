@@ -1,4 +1,108 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <localization>
-    <string name="button_Quit">Quitter</string>
+
+	<!-- Generic -->
+
+	<string name="Enum_Men">Muškarci</string>
+	<string name="Enum_Women">Žene</string>
+
+	<string name="Ok">U redu</string>
+	<string name="Cancel">Odustani</string>
+	<string name="Quit">Izađi</string>
+
+	<!-- Team selection -->
+
+	<string name="GenreSelection">Odaberi kup</string>
+	<string name="TeamSelection">Odaberi momčad</string>
+
+	<!-- Favorite player selection -->
+
+	<string name="SelectedPlayers">Odabrani igrači</string>
+
+	<string name="AddFavorite">Dodaj u favorite</string>"
+	<string name="RemoveFavorite">Ukloni iz favorita</string>"
+	<string name="Inverse">Invertiraj</string>"
+	<string name="ThisOne">Ovaj</string>"
+	<string name="AllSelected">Svi odabrani</string>"
+	<string name="All">Svi</string>"
+
+	<!-- Home Page -->
+
+	<string name="Print">Ispis</string>
+	<string name="Settings">Postavke</string>
+
+	<string name="Goals">Golovi</string>
+	<string name="YellowCards">Žuti kartoni</string>
+	<string name="RedCards">Crveni kartoni</string>
+
+	<string name="Korok">Yahaha, pronašli ste me!</string>
+
+	<string name="MatchPlayed">Odigrana utakmica</string>
+	<string name="Goalie">Vratari</string>
+	<string name="Defender">Braniči</string>
+	<string name="Midfield">Vezni igrači</string>
+	<string name="Forward">Napadači</string>
+
+	<string name="VisitorCount">Broj posjetitelja</string>
+	<string name="AttemptsOnGoal">Pokušaji prema golu</string>
+	<string name="BallPossession">Posjed lopte</string>
+
+	<!-- Tabs -->
+
+	<string name="FavoritePlayers">Favoriti</string>
+	<string name="AllPlayers">Svi igrači</string>
+	<string name="Matches">Utakmice</string>
+
+	<string name="TeamStatistics">Statistika momčadi</string>
+	<string name="MatchStatistics">Statistika utakmice</string>
+	<string name="Field">Igračište</string>
+
+	<!-- Match statistics -->
+
+	<string name="StartingEleven">Početnih jedanaest</string>
+	<string name="Substitutes">Izmjene</string>
+
+	<string name="OnTarget">Na cilj</string>
+	<string name="OffTarget">Van cilja</string>
+	<string name="Blocked">Blokirano</string>
+	<string name="Woodwork">Stativa/greda</string>
+	<string name="Corners">Kutovi</string>
+	<string name="Offsides">Zaleđe</string>
+	<string name="PassAccuracy">Točnost dodavanja</string>
+	<string name="PassesComplete">Uspješna dodavanja</string>
+	<string name="NumPasses">Broj dodavanja</string>
+	<string name="DistanceCovered">Prelaženje udaljenosti</string>
+	<string name="BallsRecovered">Oduzete lopte</string>
+	<string name="Tackles">Startovi</string>
+	<string name="Clearances">Iznošenje lopte</string>
+	<string name="FoulsCommitted">Napravljeni prekršaji</string>
+
+	<string name="goal">Gol</string>
+	<string name="goal-penalty">Gol (Kazneni udarac)</string>
+	<string name="goal-own">Vlastiti gol</string>
+	<string name="yellow-card">Žuti karton</string>
+	<string name="red-card">Crveni karton</string>
+	<string name="substitution-in">Izmjena (Unos)</string>
+	<string name="substitution-out">Izmjena (Izlaz)</string>
+
+	<!-- Settings -->
+
+	<string name="LanguageSelection">Odaberi jezik</string>
+	<string name="OfflineModeSelection">Offline način rada</string>
+	<string name="ResolutionSelection">Odaberi rezoluciju</string>
+
+	<string name="ResetSettings">Resetiraj postavke</string>
+	<string name="SaveSettings">Spremi</string>
+
+	<string name="SaveSettingsConfirmation">Jeste li sigurni da želite spremiti ove postavke?</string>
+	<string name="UnsavedSettingsConfirmation">Imate nespremljene postavke. Želite li ih odbaciti?</string>
+
+	<!-- Exit Confirmation -->
+
+	<string name="QuitConfirmation">Jeste li sigurni da želite izaći iz aplikacije?</string>
+
+	<!-- InitialSetupFailure -->
+
+	<string name="InitialSetupFailure">Morate završiti postavljanje kako biste koristili aplikaciju. Zatvaranje u tijeku.</string>
+
 </localization>

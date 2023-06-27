@@ -6,6 +6,7 @@ using foot2rue.WPF.Extensions;
 using foot2rue.WPF.MessageBoxes;
 using foot2rue.WPF.Settings;
 using foot2rue.WPF.Utilities;
+using LostInLocalization;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -31,6 +32,7 @@ namespace foot2rue.WPF.Main
         public MainWindow()
         {
             settingsService = SettingsService.Instance;
+            LocalizationService.Instance.Culture = settingsService.Culture;
             dataService = new DataService();
             InitializeComponent();
             this.LoadLocalization();
@@ -52,7 +54,7 @@ namespace foot2rue.WPF.Main
                 }
             }
 
-            LoadGenre();
+            LoadGenres();
             // Automatically call ComboBox_GenreSelectionChanged when loading genres
             //await LoadTeams();
         }
@@ -118,7 +120,6 @@ namespace foot2rue.WPF.Main
             }
         }
 
-
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!(sender is TabControl tabControl))
@@ -137,6 +138,7 @@ namespace foot2rue.WPF.Main
             if (!(bool)settingsWindow.ShowDialog()!)
                 return;
 
+            //LoadGenres();
             this.LoadLocalization();
             dataService.SetOfflineMode(settingsService.OfflineMode);
             this.Resize(settingsService.Resolution);
@@ -149,7 +151,7 @@ namespace foot2rue.WPF.Main
             return ComboBox_GenreSelection.GetSelectedItem<Genre>();
         }
 
-        private void LoadGenre()
+        private void LoadGenres()
         {
             ComboBox_GenreSelection.SetItems(EnumUtility.GetEnumValues<Genre>(), settingsService.SelectedGenre);
         }
