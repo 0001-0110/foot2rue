@@ -24,7 +24,7 @@ namespace foot2rue.WPF.Settings
 
             InitializeComponent();
 
-            ComboBox_LanguageSelection.LoadLanguageSelection();
+            ComboBox_LanguageSelection.LoadLanguageSelection(settingsService.Culture);
             CheckBox_OfflineMode.IsChecked = settingsService.OfflineMode;
             ComboBox_ResolutionSelection.SetItems(Resolution.GetAvailableResolutions(), resolution => resolution == Application.Current.MainWindow.GetResolution());
 

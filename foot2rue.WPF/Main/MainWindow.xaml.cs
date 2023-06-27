@@ -42,6 +42,16 @@ namespace foot2rue.WPF.Main
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            if (!SettingsService.SettingsExists())
+            {
+                InitialSettingsWindow initialSettingsWindow = new() { Owner = this };
+                if (!(bool)initialSettingsWindow.ShowDialog()!)
+                {
+                    new ErrorWindow().ShowDialog();
+                    Application.Current.Shutdown();
+                }
+            }
+
             LoadGenre();
             // Automatically call ComboBox_GenreSelectionChanged when loading genres
             //await LoadTeams();
@@ -49,7 +59,7 @@ namespace foot2rue.WPF.Main
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            if (!(bool)new ConfirmationWindow("{QuitConfirmation}").ShowDialog()!)
+            if (!(new ConfirmationWindow("{QuitConfirmation}").ShowDialog() ?? false))
                 e.Cancel = true;
         }
 
@@ -93,13 +103,6 @@ namespace foot2rue.WPF.Main
 
         private async void OpposingTeamChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!SettingsService.SettingsExists())
-                if (!(bool)new InitialSettingsWindow().ShowDialog()!)
-                {
-                    new ErrorWindow().ShowDialog();
-                    Application.Current.Shutdown();
-                }
-
             OpposingTeamFifaCode = ComboBox_OpposingTeam.GetSelectedItem<Team>()?.FifaCode;
             Image_OpposingTeam.Source = ResourcesUtility.ConvertToWpfImage(ResourcesUtility.GetCountryImage(OpposingTeamFifaCode));
             string? selectedFifaCode = SelectedTeamFifaCode;

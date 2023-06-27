@@ -26,13 +26,12 @@ namespace foot2rue.WPF.Extensions
             }
         }
 
-        public static void LoadLanguageSelection(this ComboBox comboBox)
+        public static void LoadLanguageSelection(this ComboBox comboBox, CultureInfo? selectedLanguage)
         {
             comboBox.DisplayMemberPath = "NativeName";
-            CultureInfo systemCulture = LocalizationService.Instance.Culture;
             List<CultureInfo> supportedLanguages = LocalizationService.GetAllSupportedLanguages().ToList();
             // If the systemCulture is not part of the supported culture, the comboBox will stay empty
-            comboBox.SetItems(supportedLanguages, systemCulture);
+            comboBox.SetItems(supportedLanguages, selectedLanguage);
         }
 
         public static void SetItems<T>(this ComboBox comboBox, IEnumerable<T>? items, Func<T, string> naming, T selectedItem)
