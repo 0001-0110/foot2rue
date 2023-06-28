@@ -49,7 +49,7 @@ namespace foot2rue.WPF.Utilities
 
         public static Bitmap? GetPlayerImage(Player player)
         {
-            return GetResource<Bitmap>(player.Name) ?? DEFAULTPLAYERIMAGE;
+            return GetResource<Bitmap>(player.Name.Replace(' ', '_'), true) ?? DEFAULTPLAYERIMAGE;
         }
 
         public static Bitmap? GetCountryImage(string fifaCode)
@@ -59,8 +59,7 @@ namespace foot2rue.WPF.Utilities
 
         public static Bitmap? GetEventIcon(string eventType)
         {
-            throw new NotImplementedException();
-            //return GetResource<Bitmap>();
+            return GetResource<Bitmap>(eventType);
         }
     }
 }

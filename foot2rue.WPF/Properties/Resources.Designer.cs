@@ -253,6 +253,16 @@ namespace foot2rue.WPF.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Hugo_Lloris {
+            get {
+                object obj = ResourceManager.GetObject("Hugo_Lloris", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap irn {
             get {
                 object obj = ResourceManager.GetObject("irn", resourceCulture);

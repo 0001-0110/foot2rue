@@ -19,7 +19,7 @@ namespace foot2rue.WF.Utilities
 
 		public static Image? GetPlayerImage(PlayerCupResult player)
 		{
-			return GetResource<Image>(player.Name);
+			return GetResource<Bitmap>(player.Name.Replace(' ', '_'), true);
 		}
 
 		public static Image? GetCountryImage(string fifaCode)
