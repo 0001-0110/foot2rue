@@ -18,7 +18,7 @@ namespace foot2rue.WPF.Main
             Label_PlayerName.SetLocalizationString($"{player.Name} ({player.ShirtNumber})");
             Label_Position.SetLocalizationString($"{{{player.Position}}}");
             // TODO This data must be from the match only
-            Label_GoalScored.SetLocalizationString($"{{GoalScored}}: {player.Goals}");
+            Label_GoalScored.SetLocalizationString($"{{Goals}}: {player.Goals}");
             Label_YellowCards.SetLocalizationString($"{{YellowCards}}: {player.YellowCards}");
 
             this.LoadLocalization();

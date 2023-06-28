@@ -26,6 +26,7 @@ namespace foot2rue.WPF.Main
         private readonly SettingsService settingsService;
         private readonly DataService dataService;
 
+        private TeamStatsWindow? teamStatsWindow;
         private string? SelectedTeamFifaCode { get; set; }
         private string? OpposingTeamFifaCode { get; set; }
 
@@ -67,6 +68,7 @@ namespace foot2rue.WPF.Main
 
         private void Window_Closed(object sender, System.EventArgs e)
         {
+            teamStatsWindow?.Close();
             settingsService.SaveSettings();
         }
 
@@ -95,12 +97,11 @@ namespace foot2rue.WPF.Main
                 settingsService.SelectedTeamFifaCode = SelectedTeamFifaCode;
             Image_SelectedTeam.Source = ResourcesUtility.ConvertToWpfImage(ResourcesUtility.GetCountryImage(SelectedTeamFifaCode));
 
-            ClearTeamStatistics();
+            await LoadTeamStatistics();
             ClearMatchStatistics();
 
             // When changing the secleted team, user must select a new opposing team
             await LoadOpposingTeams();
-            LoadTeamStatistics();
         }
 
         private async void OpposingTeamChanged(object sender, SelectionChangedEventArgs e)
@@ -122,7 +123,7 @@ namespace foot2rue.WPF.Main
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!(sender is TabControl tabControl))
+            if (sender is not TabControl tabControl)
                 return;
 
             Visibility visibility = tabControl.SelectedIndex == 0 ? Visibility.Hidden : Visibility.Visible;
@@ -183,14 +184,33 @@ namespace foot2rue.WPF.Main
 
         #region Team statistics tab
 
-        private void ClearTeamStatistics()
+        #region Event handlers
+
+        // Open the user control in a new window
+        private async void ButtonPopOut_Click(object sender, RoutedEventArgs e)
         {
-            // TODO
+            // Don't open the window twice
+            if (teamStatsWindow?.IsLoaded ?? false)
+                return;
+
+            teamStatsWindow = new TeamStatsWindow(await dataService.GetTeamResultByFifaCode(SelectedTeamFifaCode));
+            teamStatsWindow.Show();
         }
 
-        private void LoadTeamStatistics()
+        #endregion
+
+        private void ClearTeamStatistics()
         {
-            // TODO
+            TeamStats.SetTeam(null);
+        }
+
+        private async Task LoadTeamStatistics()
+        {
+            TeamResult? teamResult = await dataService.GetTeamResultByFifaCode(SelectedTeamFifaCode);
+            // Set the stats for the correct team
+            TeamStats.SetTeam(teamResult);
+            // If the stats are popped out, update them as well
+            teamStatsWindow?.SetTeam(teamResult);
         }
 
         #endregion

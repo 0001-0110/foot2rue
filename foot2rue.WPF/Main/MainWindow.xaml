@@ -106,7 +106,17 @@
             <!-- Team Stats -->
             <TabItem Tag="{}{TeamStatistics}">
                 <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.1*"/>
+                    </Grid.ColumnDefinitions>
                     
+                    <local:TeamStatsUserControl x:Name="TeamStats" 
+                                                Grid.Column="0"/>
+                    <Button Grid.Column="1" 
+                            VerticalAlignment="Top" 
+                            Tag="{}{PopOut}"
+                            Click="ButtonPopOut_Click"/>
                 </Grid>
             </TabItem>
             <!-- Match Stats -->

@@ -11,7 +11,10 @@ namespace foot2rue.BLL.Services
         private static readonly SettingsService settingsService = SettingsService.Instance;
         private IRepository repository;
 
+        #region Setters
+
         public Genre Genre { get; private set; }
+        
         public void SetGenre(Genre genre)
         {
             // No need to reset everything if the value is unchanged
@@ -24,6 +27,7 @@ namespace foot2rue.BLL.Services
         }
 
         public bool OfflineMode { get; private set; }
+        
         public void SetOfflineMode(bool offlineMode)
         {
             // No need to change everything if the value is unchanged
@@ -34,17 +38,27 @@ namespace foot2rue.BLL.Services
             UpdateRepository();
         }
 
+        #endregion
+
+        #region Matches
+
         private IEnumerable<Match>? matches;
+        
         public async Task<IEnumerable<Match>?> GetMatches()
         {
             matches ??= await Task.Run(repository.GetMatches);
             return matches;
         }
 
+        #endregion
+
+        #region Players
+
         // Because of the multiple threads running, we use try add to make sure we don't try to add twice the same key
         // Without it, if the user starts loading multiple tabs at once, creating an exception
 
         private readonly Dictionary<string, IEnumerable<Match>?> matchesByFifaCode = new();
+        
         public async Task<IEnumerable<Match>?> GetMatchesByFifaCode(string fifaCode)
         {
             if (!matchesByFifaCode.ContainsKey(fifaCode))
@@ -122,64 +136,6 @@ namespace foot2rue.BLL.Services
             return playerResult;
         }
 
-        private IEnumerable<Team>? teams;
-        public async Task<IEnumerable<Team>?> GetTeams()
-        {
-            teams ??= await Task.Run(repository.GetTeams);
-            return teams;
-        }
-
-        public async Task<Team?> GetTeamByFifaCode(string fifaCode)
-        {
-            if (teams == null)
-                await GetTeams();
-            return teams?.FirstOrDefault(team => team.FifaCode == fifaCode);
-        }
-
-        private IEnumerable<TeamResult>? teamResults;
-        public async Task<IEnumerable<TeamResult>?> GetTeamResults()
-        {
-            teamResults ??= await Task.Run(repository.GetTeamResults);
-            return teamResults;
-        }
-
-        private IEnumerable<GroupResult>? groupResults;
-        public async Task<IEnumerable<GroupResult>?> GetGroupResults()
-        {
-            groupResults ??= await Task.Run(repository.GetGroupResults);
-            return groupResults;
-        }
-
-        #region Initialization
-
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public DataService(Genre genre, bool offlineMode = false)
-        {
-            Genre = genre;
-            OfflineMode = offlineMode;
-            UpdateRepository();
-        }
-
-        public DataService() : this(settingsService.SelectedGenre, settingsService.OfflineMode) { }
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-
-        private void ResetData()
-        {
-            matches = null;
-            matchesByFifaCode.Clear();
-            playersByFifaCode.Clear();
-            teams = null;
-            teamResults = null;
-            groupResults = null;
-        }
-
-        private void UpdateRepository()
-        {
-            repository = OfflineMode ? new JsonRepository(Genre) : new ApiRepository(Genre);
-        }
-
-        #endregion
-
         private IEnumerable<PlayerCupResult> ExtendPlayers(IEnumerable<Player>? players, IEnumerable<Statistics>? statistics, IEnumerable<Event>? events)
         {
             if (players == null)
@@ -193,12 +149,10 @@ namespace foot2rue.BLL.Services
             {
                 PlayerCupResult extendedPlayer = player.ExtendParentClass<Player, PlayerCupResult>();
                 extendedPlayer.IsFavorite = IsFavorite(extendedPlayer);
+
                 // Obsolete
-#pragma warning disable CS0612 // Type or member is obsolete
-#pragma warning disable CS0612 // Type or member is obsolete
                 extendedPlayer.Image = PictureUtility.LoadPlayerPicture(extendedPlayer);
-#pragma warning restore CS0612 // Type or member is obsolete
-#pragma warning restore CS0612 // Type or member is obsolete
+
                 extendedPlayers.Add(player.Name, extendedPlayer);
             }
 
@@ -248,6 +202,85 @@ namespace foot2rue.BLL.Services
 
             return extendedPlayers.Select(pair => pair.Value).AsEnumerable();
         }
+
+        #endregion
+
+        #region Teams
+
+        private IEnumerable<Team>? teams;
+        
+        public async Task<IEnumerable<Team>?> GetTeams()
+        {
+            teams ??= await Task.Run(repository.GetTeams);
+            return teams;
+        }
+
+        public async Task<Team?> GetTeamByFifaCode(string fifaCode)
+        {
+            if (teams == null)
+                await GetTeams();
+            return teams?.FirstOrDefault(team => team.FifaCode == fifaCode);
+        }
+
+        #endregion
+
+        #region Team results
+
+        private IEnumerable<TeamResult>? teamResults;
+
+        public async Task<IEnumerable<TeamResult>?> GetTeamResults()
+        {
+            teamResults ??= await Task.Run(repository.GetTeamResults);
+            return teamResults;
+        }
+
+        public async Task<TeamResult?> GetTeamResultByFifaCode(string fifaCode)
+        {
+            return (await GetTeamResults())?.Where(teamResult => teamResult.FifaCode == fifaCode).SingleOrDefault();
+        }
+
+        #endregion
+
+        #region Group results
+
+        private IEnumerable<GroupResult>? groupResults;
+        public async Task<IEnumerable<GroupResult>?> GetGroupResults()
+        {
+            groupResults ??= await Task.Run(repository.GetGroupResults);
+            return groupResults;
+        }
+
+        #endregion
+
+        #region Initialization
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        public DataService(Genre genre, bool offlineMode = false)
+        {
+            Genre = genre;
+            OfflineMode = offlineMode;
+            UpdateRepository();
+        }
+
+        public DataService() : this(settingsService.SelectedGenre, settingsService.OfflineMode) { }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
+        private void ResetData()
+        {
+            matches = null;
+            matchesByFifaCode.Clear();
+            playersByFifaCode.Clear();
+            teams = null;
+            teamResults = null;
+            groupResults = null;
+        }
+
+        private void UpdateRepository()
+        {
+            repository = OfflineMode ? new JsonRepository(Genre) : new ApiRepository(Genre);
+        }
+
+        #endregion
 
         #region Favorites
 

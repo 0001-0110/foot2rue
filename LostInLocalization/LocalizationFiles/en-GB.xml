@@ -47,6 +47,16 @@
 	<string name="AttemptsOnGoal">Attempts on treasure</string>
 	<string name="BallPossession">Chest possession</string>
 
+	<string name="PopOut">Avast!</string>
+
+	<string name="Wins">Vict'ries</string>
+	<string name="Losses">Defeats</string>
+	<string name="Draws">Draws</string>
+	<string name="GoalsFor">Goals Plundered</string>
+	<string name="GoalsAgainst">Goals Thwarted</string>
+	<string name="GoalDifferential">Doubloons Difference</string>
+
+
 	<!-- Tabs -->
 
 	<string name="FavoritePlayers">Favorite treasure</string>

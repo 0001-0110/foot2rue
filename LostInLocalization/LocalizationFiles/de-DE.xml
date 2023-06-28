@@ -47,6 +47,16 @@
 	<string name="AttemptsOnGoal">Torschussversuche</string>
 	<string name="BallPossession">Ballbesitz</string>
 
+	<string name="PopOut">Ausklappen</string>
+
+	<string name="Wins">Siege</string>
+	<string name="Losses">Niederlagen</string>
+	<string name="Draws">Unentschieden</string>
+	<string name="GoalsFor">Erzielte Tore</string>
+	<string name="GoalsAgainst">Gegentore</string>
+	<string name="GoalDifferential">Torverhältnis</string>
+
+
 	<!-- Tabs -->
 
 	<string name="FavoritePlayers">Favoriten</string>

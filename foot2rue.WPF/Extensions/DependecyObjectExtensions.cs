@@ -43,14 +43,14 @@ namespace foot2rue.WPF.Extensions
 
         #region Threading
 
-        public static async Task Wait(this DependencyObject dependencyObject, Func<Task> loadingFunction)
+        public static async Task Wait(this DependencyObject _, Func<Task> loadingFunction)
         {
             Application.Current.Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
             await loadingFunction();
             Application.Current.Dispatcher.Invoke(() => { Mouse.OverrideCursor = null; });
         }
 
-        public static async Task<T> Wait<T>(this DependencyObject dependencyObject, Func<Task<T>> loadingFunction)
+        public static async Task<T> Wait<T>(this DependencyObject _, Func<Task<T>> loadingFunction)
         {
             Application.Current.Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
             T result = await loadingFunction(); 
@@ -64,7 +64,7 @@ namespace foot2rue.WPF.Extensions
 
         private static readonly LocalizationService localizationService = LocalizationService.Instance;
 
-        public static void SetLocalizationString(this FrameworkElement element, string localizationString, bool refresh = false)
+        public static void SetLocalizationString(this FrameworkElement element, string? localizationString, bool refresh = false)
         {
             element.Tag = localizationString;
             if (refresh)
@@ -82,8 +82,7 @@ namespace foot2rue.WPF.Extensions
                 foreach (DependencyObject child in dependencyObject.GetAllChildren())
                     child.LoadLocalization(culture);
 
-            string? localizationString = (dependencyObject as FrameworkElement)?.Tag as string;
-            if (localizationString == null)
+            if ((dependencyObject as FrameworkElement)?.Tag is not string localizationString)
                 return;
             string localizedString = localizationService.GetLocalizedString(localizationString);
 

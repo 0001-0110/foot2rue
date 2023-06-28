@@ -47,6 +47,16 @@
 	<string name="AttemptsOnGoal">Tentatives de but</string>
 	<string name="BallPossession">Possession de balle</string>
 
+	<string name="PopOut">Afficher</string>
+
+	<string name="Wins">Victoires</string>
+	<string name="Losses">Défaites</string>
+	<string name="Draws">Matchs nuls</string>
+	<string name="GoalsFor">Buts marqués</string>
+	<string name="GoalsAgainst">Buts encaissés</string>
+	<string name="GoalDifferential">Différence de buts</string>
+
+
 	<!-- Tabs -->
 
 	<string name="FavoritePlayers">Favoris</string>

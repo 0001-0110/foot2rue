@@ -47,6 +47,16 @@
 	<string name="AttemptsOnGoal">Pokušaji prema golu</string>
 	<string name="BallPossession">Posjed lopte</string>
 
+	<string name="PopOut">Istakni</string>
+
+	<string name="Wins">Pobjede</string>
+	<string name="Losses">Porazi</string>
+	<string name="Draws">Izjednačeno</string>
+	<string name="GoalsFor">Postignuti golovi</string>
+	<string name="GoalsAgainst">Primljeni golovi</string>
+	<string name="GoalDifferential">Razlika u golovima</string>
+
+
 	<!-- Tabs -->
 
 	<string name="FavoritePlayers">Favoriti</string>

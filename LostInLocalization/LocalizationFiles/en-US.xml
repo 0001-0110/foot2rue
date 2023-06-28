@@ -46,6 +46,15 @@
 	<string name="VisitorCount">Number of visitors</string>
 	<string name="AttemptsOnGoal">Attemps on goal</string>
 	<string name="BallPossession">Ball possession</string>
+
+	<string name="PopOut">Pop out</string>
+	
+	<string name="Wins">Wins</string>
+	<string name="Losses">Losses</string>
+	<string name="Draws">Draws</string>
+	<string name="GoalsFor">Goals scored</string>
+	<string name="GoalsAgaisnt">Goals conceived</string>
+	<string name="GoalDifferential">Goal differential</string>
 	
 	<!-- Tabs -->
 	
