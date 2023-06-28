@@ -1,4 +1,4 @@
-﻿namespace foot2rue.Settings.Extensions
+﻿namespace foot2rue.BLL.Extensions
 {
     internal static class StringExtensions
     {

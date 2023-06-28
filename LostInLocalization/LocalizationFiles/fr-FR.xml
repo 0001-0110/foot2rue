@@ -1,4 +1,118 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <localization>
-    <string name="button_Quit">Quitter</string>
+
+	<!-- Generic -->
+
+	<string name="Enum_Men">Hommes</string>
+	<string name="Enum_Women">Femmes</string>
+
+	<string name="Ok">Ok</string>
+	<string name="Cancel">Annuler</string>
+	<string name="Quit">Quitter</string>
+
+	<!-- Team selection -->
+
+	<string name="GenreSelection">Sélectionnez une coupe</string>
+	<string name="TeamSelection">Sélectionnez une équipe</string>
+
+	<!-- Favorite player selection -->
+
+	<string name="SelectedPlayers">Joueurs sélectionnés</string>
+
+	<string name="AddFavorite">Ajouter aux favoris</string>"
+	<string name="RemoveFavorite">Retirer des favoris</string>"
+	<string name="Inverse">Inverser</string>"
+	<string name="ThisOne">Celui-ci</string>"
+	<string name="AllSelected">Tous sélectionnés</string>"
+	<string name="All">Tous</string>"
+
+	<!-- Home Page -->
+
+	<string name="Print">Imprimer</string>
+	<string name="Settings">Paramètres</string>
+
+	<string name="Goals">Buts</string>
+	<string name="YellowCards">Cartons jaunes</string>
+	<string name="RedCards">Cartons rouges</string>
+
+	<string name="Korok">Yahaha, tu m'as trouvé !</string>
+
+	<string name="MatchPlayed">Match joué</string>
+	<string name="Goalie">Gardien de but</string>
+	<string name="Defender">Défenseur</string>
+	<string name="Midfield">Milieu de terrain</string>
+	<string name="Forward">Attaquant</string>
+
+	<string name="VisitorCount">Nombre de visiteurs</string>
+	<string name="AttemptsOnGoal">Tentatives de but</string>
+	<string name="BallPossession">Possession de balle</string>
+
+	<string name="PopOut">Afficher</string>
+
+	<string name="Wins">Victoires</string>
+	<string name="Losses">Défaites</string>
+	<string name="Draws">Matchs nuls</string>
+	<string name="GoalsFor">Buts marqués</string>
+	<string name="GoalsAgainst">Buts encaissés</string>
+	<string name="GoalDifferential">Différence de buts</string>
+
+
+	<!-- Tabs -->
+
+	<string name="FavoritePlayers">Favoris</string>
+	<string name="AllPlayers">Tous les joueurs</string>
+	<string name="Matches">Matchs</string>
+
+	<string name="TeamStatistics">Statistiques de l'équipe</string>
+	<string name="MatchStatistics">Statistiques du match</string>
+	<string name="Field">Terrain</string>
+
+	<!-- Match statistics -->
+
+	<string name="StartingEleven">Onze de départ</string>
+	<string name="Substitutes">Remplaçants</string>
+
+	<string name="OnTarget">Cadrés</string>
+	<string name="OffTarget">Non cadrés</string>
+	<string name="Blocked">Bloqués</string>
+	<string name="Woodwork">Montant</string>
+	<string name="Corners">Corners</string>
+	<string name="Offsides">Hors-jeu</string>
+	<string name="PassAccuracy">Précision de passe</string>
+	<string name="PassesComplete">Passes réussies</string>
+	<string name="NumPasses">Nombre de passes</string>
+	<string name="DistanceCovered">Distance parcourue</string>
+	<string name="BallsRecovered">Balles récupérées</string>
+	<string name="Tackles">Tacles</string>
+	<string name="Clearances">Dégagements</string>
+	<string name="FoulsCommitted">Fautes commises</string>
+
+	<string name="goal">But</string>
+	<string name="goal-penalty">But (Penalty)</string>
+	<string name="goal-own">But contre son camp</string>
+	<string name="yellow-card">Carton jaune</string>
+	<string name="red-card">Carton rouge</string>
+	<string name="substitution-in">Remplacement (Entrée)</string>
+	<string name="substitution-out">Remplacement (Sortie)</string>
+
+	<!-- Settings -->
+
+	<string name="LanguageSelection">Sélectionnez une langue</string>
+	<string name="OfflineModeSelection">Mode hors ligne</string>
+	<string name="ResolutionSelection">Sélectionnez une résolution</string>
+
+	<string name="ResetSettings">Réinitialiser les paramètres</string>
+	<string name="SaveSettings">Enregistrer</string>
+
+	<string name="SaveSettingsConfirmation">Êtes-vous sûr de ces paramètres ?</string>
+	<string name="UnsavedSettingsConfirmation">Vous avez des paramètres non enregistrés, voulez-vous les ignorer ?</string>
+
+	<!-- Exit Confirmation -->
+
+	<string name="QuitConfirmation">Vous êtes sur le point de quitter l'application. Êtes-vous sûr ?</string>
+
+	<!-- InitialSetupFailure -->
+
+	<string name="InitialSetupFailure">Vous devez terminer la configuration pour utiliser l'application. Fermeture en cours</string>
+
 </localization>

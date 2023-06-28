@@ -5,9 +5,9 @@ using System.Linq.Expressions;
 
 namespace foot2rue.WF.InitialSetup
 {
-    public partial class PlayerDisplayUserControl : UserControl
-    {
-        public Player Player { get; private set; }
+	public partial class PlayerDisplayUserControl : UserControl
+	{
+		public PlayerCupResult Player { get; private set; }
 
         public PlayerDisplayUserControl(Player player)
         {

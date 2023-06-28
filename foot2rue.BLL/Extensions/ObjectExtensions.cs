@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace foot2rue.Settings.Extensions
+namespace foot2rue.BLL.Extensions
 {
     public static class ObjectExtensions
     {
@@ -27,7 +27,7 @@ namespace foot2rue.Settings.Extensions
                 PropertyInfo? destinationProperty = Array.Find(destinationProperties, property => property.Name == sourceProperty.Name);
                 if (destinationProperty != null && destinationProperty.PropertyType == sourceProperty.PropertyType && destinationProperty.CanWrite)
                 {
-                    if ((!overrideValues && destinationProperty.GetValue(destination) != default) || sourceProperty.GetValue(source) == default)
+                    if (!overrideValues && destinationProperty.GetValue(destination) != default || sourceProperty.GetValue(source) == default)
                         continue;
                     destinationProperty.SetValue(destination, sourceProperty.GetValue(source));
                 }

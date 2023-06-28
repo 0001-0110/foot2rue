@@ -18,3 +18,9 @@ using System.Runtime.InteropServices;
 [assembly: Guid("51ce72d2-5300-40a8-bbab-4618be8ec034")]
 
 [assembly: InternalsVisibleTo("TestingIsDoubting")]
+
+#region Fairy lights
+
+// Yahaha, you found me!
+
+#endregion

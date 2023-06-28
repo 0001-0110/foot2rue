@@ -1,19 +1,20 @@
 ﻿using foot2rue.BLL.Extensions;
-using BllPlayer = foot2rue.BLL.Models.Player;
-using foot2rue.BLL.Services;
+using foot2rue.BLL.Models;
 using foot2rue.BLL.Utilities;
 using foot2rue.DAL.Models;
 using foot2rue.DAL.Repositories;
-using foot2rue.Settings.Extensions;
 
-namespace foot2rue.WF.Services
+namespace foot2rue.BLL.Services
 {
     public class DataService
     {
-        private static SettingsService settingsService = SettingsService.Instance;
+        private static readonly SettingsService settingsService = SettingsService.Instance;
         private IRepository repository;
 
+        #region Setters
+
         public Genre Genre { get; private set; }
+        
         public void SetGenre(Genre genre)
         {
             // No need to reset everything if the value is unchanged
@@ -26,6 +27,7 @@ namespace foot2rue.WF.Services
         }
 
         public bool OfflineMode { get; private set; }
+        
         public void SetOfflineMode(bool offlineMode)
         {
             // No need to change everything if the value is unchanged
@@ -36,18 +38,27 @@ namespace foot2rue.WF.Services
             UpdateRepository();
         }
 
+        #endregion
+
+        #region Matches
+
         private IEnumerable<Match>? matches;
+        
         public async Task<IEnumerable<Match>?> GetMatches()
         {
-            if (matches == null)
-                matches = await Task.Run(repository.GetMatches);
+            matches ??= await Task.Run(repository.GetMatches);
             return matches;
         }
+
+        #endregion
+
+        #region Players
 
         // Because of the multiple threads running, we use try add to make sure we don't try to add twice the same key
         // Without it, if the user starts loading multiple tabs at once, creating an exception
 
-        private Dictionary<string, IEnumerable<Match>?> matchesByFifaCode = new Dictionary<string, IEnumerable<Match>?>();
+        private readonly Dictionary<string, IEnumerable<Match>?> matchesByFifaCode = new();
+        
         public async Task<IEnumerable<Match>?> GetMatchesByFifaCode(string fifaCode)
         {
             if (!matchesByFifaCode.ContainsKey(fifaCode))
@@ -62,8 +73,8 @@ namespace foot2rue.WF.Services
             return matchesByFifaCode[fifaCode];
         }
 
-        private Dictionary<string, IEnumerable<BllPlayer>?> playersByFifaCode = new Dictionary<string, IEnumerable<BllPlayer>?>();
-        public async Task<IEnumerable<BllPlayer>?> GetPlayersByFifaCode(string fifaCode)
+        private readonly Dictionary<string, IEnumerable<PlayerCupResult>?> playersByFifaCode = new();
+        public async Task<IEnumerable<PlayerCupResult>?> GetPlayersByFifaCode(string fifaCode)
         {
             if (!playersByFifaCode.ContainsKey(fifaCode))
             {
@@ -84,11 +95,123 @@ namespace foot2rue.WF.Services
             return playersByFifaCode[fifaCode];
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="match"></param>
+        /// <param name="team">An integer showing in what team the player should be searched. 0 is the home team, 1 is the away team</param>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public PlayerMatchResult GetPlayerMatchResults(Match match, int team, Player player)
+        {
+            if (team < 0 || team > 1)
+                throw new ArgumentException("How many teams do you think there is in a football match ?");
+
+            PlayerMatchResult playerResult = player.ExtendParentClass<Player, PlayerMatchResult>();
+
+            foreach (Event @event in team == 0 ? match.HomeTeamEvents : match.AwayTeamEvents)
+            {
+                // We skip other players
+                if (@event.Player != player.Name)
+                    continue;
+
+                switch (@event.Type)
+                {
+                    // TODO Could be improved with a bit of reflection
+                    // Hard coding is ugly, but it'll do
+                    case "goal":
+                    case "goal-penalty":
+                    case "goal-own":
+                        playerResult.Goals++;
+                        break;
+                    case "yellow-card":
+                        playerResult.YellowCards++;
+                        break;
+                    case "red-card":
+                        playerResult.RedCards++;
+                        break;
+                }
+            }
+
+            return playerResult;
+        }
+
+        private IEnumerable<PlayerCupResult> ExtendPlayers(IEnumerable<Player>? players, IEnumerable<Statistics>? statistics, IEnumerable<Event>? events)
+        {
+            if (players == null)
+                return Enumerable.Empty<PlayerCupResult>();
+
+            // Copy all the data from DAL Players
+            // We store players in a dictionary so that the search complexity is O(1)
+            // Check if this player is a favorite
+            Dictionary<string, PlayerCupResult> extendedPlayers = new();
+            foreach (Player player in players)
+            {
+                PlayerCupResult extendedPlayer = player.ExtendParentClass<Player, PlayerCupResult>();
+                extendedPlayer.IsFavorite = IsFavorite(extendedPlayer);
+
+                // Obsolete
+                extendedPlayer.Image = PictureUtility.LoadPlayerPicture(extendedPlayer);
+
+                extendedPlayers.Add(player.Name, extendedPlayer);
+            }
+
+            // If statistics is null, skip this count
+            // Players that are present at the start of the match
+            foreach (Statistics stats in statistics.EmptyIfNull())
+                foreach (Player player in stats.StartingEleven)
+                {
+                    // We check before if the player is in the dictionnary to avoid crashes when the API contains typos
+                    // It will return a wrong result, but it's better than no result at all
+                    PlayerCupResult extendedPlayer;
+                    if (extendedPlayers.TryGetValue(player.Name, out extendedPlayer!))
+                        extendedPlayer.MatchPlayed++;
+                }
+
+            // If event is null, skip this part
+            // Count players that are:
+            // Scoring
+            // Gets a yellow card
+            // Joining during a match (If a player joins a match twice, it will be counted for two different matches)
+            foreach (Event matchEvent in events ?? Enumerable.Empty<Event>())
+            {
+                PlayerCupResult? player = extendedPlayers.GetValueOrDefault(matchEvent.Player);
+                if (player == null)
+                    continue;
+
+                switch (matchEvent.Type)
+                {
+                    // TODO Could be improved with a bit of reflection
+                    // Hard coding is ugly, but it'll do
+                    case "goal":
+                    case "goal-penalty":
+                    case "goal-own":
+                        player.Goals++;
+                        break;
+                    case "yellow-card":
+                        player.YellowCards++;
+                        break;
+                    case "red-card":
+                        player.RedCards++;
+                        break;
+                    case "substitution-in":
+                        player.MatchPlayed++;
+                        break;
+                }
+            }
+
+            return extendedPlayers.Select(pair => pair.Value).AsEnumerable();
+        }
+
+        #endregion
+
+        #region Teams
+
         private IEnumerable<Team>? teams;
+        
         public async Task<IEnumerable<Team>?> GetTeams()
         {
-            if (teams == null)
-                teams = await Task.Run(repository.GetTeams);
+            teams ??= await Task.Run(repository.GetTeams);
             return teams;
         }
 
@@ -99,21 +222,35 @@ namespace foot2rue.WF.Services
             return teams?.FirstOrDefault(team => team.FifaCode == fifaCode);
         }
 
+        #endregion
+
+        #region Team results
+
         private IEnumerable<TeamResult>? teamResults;
+
         public async Task<IEnumerable<TeamResult>?> GetTeamResults()
         {
-            if (teamResults == null)
-                teamResults = await Task.Run(repository.GetTeamResults);
+            teamResults ??= await Task.Run(repository.GetTeamResults);
             return teamResults;
         }
+
+        public async Task<TeamResult?> GetTeamResultByFifaCode(string fifaCode)
+        {
+            return (await GetTeamResults())?.Where(teamResult => teamResult.FifaCode == fifaCode).SingleOrDefault();
+        }
+
+        #endregion
+
+        #region Group results
 
         private IEnumerable<GroupResult>? groupResults;
         public async Task<IEnumerable<GroupResult>?> GetGroupResults()
         {
-            if (groupResults == null)
-                groupResults = await Task.Run(repository.GetGroupResults);
+            groupResults ??= await Task.Run(repository.GetGroupResults);
             return groupResults;
         }
+
+        #endregion
 
         #region Initialization
 
@@ -145,84 +282,19 @@ namespace foot2rue.WF.Services
 
         #endregion
 
-        private IEnumerable<BllPlayer> ExtendPlayers(IEnumerable<Player>? players, IEnumerable<Statistics>? statistics, IEnumerable<Event>? events)
-        {
-            if (players == null)
-                return Enumerable.Empty<BllPlayer>();
-
-            // Copy all the data from DAL Players
-            // We store players in a dictionary so that the search complexity is O(1)
-            // Check if this player is a favorite
-            Dictionary<string, BllPlayer> extendedPlayers = new Dictionary<string, BllPlayer>();
-            foreach (Player player in players)
-            {
-                BllPlayer extendedPlayer = player.ExtendParentClass<Player, BllPlayer>();
-                extendedPlayer.IsFavorite = IsFavorite(extendedPlayer);
-                // Obsolete
-                extendedPlayer.Image = PictureUtility.LoadPlayerPicture(extendedPlayer);
-                extendedPlayers.Add(player.Name, extendedPlayer);
-            }
-
-            // If statistics is null, skip this count
-            // Players that are present at the start of the match
-            foreach (Statistics stats in statistics.IfNotNull())
-                foreach (Player player in stats.StartingEleven)
-                {
-                    // We check before if the player is in the dictionnary to avoid crashes when the API contains typos
-                    // It will return a wrong result, but it's better than no result at all
-                    BllPlayer extendedPlayer;
-                    if (extendedPlayers.TryGetValue(player.Name, out extendedPlayer!))
-                        extendedPlayer.MatchPlayed++;
-                }
-
-            // If event is null, skip this part
-            // Count players that are:
-            // Scoring
-            // Gets a yellow card
-            // Joining during a match (If a player joins a match twice, it will be counted for two different matches)
-            foreach (Event matchEvent in events ?? Enumerable.Empty<Event>())
-            {
-                BllPlayer? player = extendedPlayers.GetValueOrDefault(matchEvent.Player);
-                if (player == null)
-                    continue;
-
-                switch (matchEvent.Type)
-                {
-                    // TODO Could be improved with a bit of reflection
-                    // Hard coding is ugly, but it'll do
-                    case "goal":
-                    case "goal-penalty":
-                    case "goal-own":
-                        player.Goals++;
-                        break;
-                    case "yellow-card":
-                        player.YellowCards++;
-                        break;
-                    case "red-card":
-                        player.RedCards++;
-                        break;
-                    case "substitution-in":
-                        player.MatchPlayed++;
-                        break;
-                }
-            }
-
-            return extendedPlayers.Select(pair => pair.Value).AsEnumerable();
-        }
-
         #region Favorites
 
-        public bool IsFavorite(BllPlayer player)
+        public bool IsFavorite(PlayerCupResult player)
         {
             return settingsService.FavoritePlayers.Contains(player.Name);
         }
 
-        public void AddFavorite(BllPlayer player)
+        public void AddFavorite(PlayerCupResult player)
         {
             settingsService.FavoritePlayers.Add(player.Name);
         }
 
-        public void RemoveFavorite(BllPlayer player) 
+        public void RemoveFavorite(PlayerCupResult player)
         {
             settingsService.FavoritePlayers.Remove(player.Name);
         }

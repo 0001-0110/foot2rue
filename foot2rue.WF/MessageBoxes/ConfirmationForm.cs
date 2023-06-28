@@ -2,23 +2,29 @@
 
 namespace foot2rue.WF.MessageBoxes
 {
-    public partial class ConfirmationForm : Form
-    {
-        public ConfirmationForm(string localizationString)
-        {
-            label1.SetLocalizationString(localizationString);
-            InitializeComponent();
-            this.LoadLocalization();
-        }
+	public partial class ConfirmationForm : Form
+	{
+		public ConfirmationForm(string localizationString)
+		{
+			label1.SetLocalizationString(localizationString);
+			InitializeComponent();
+			this.LoadLocalization();
 
-        private void button_Confirm_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.OK;
-        }
+			#region Tree stump
 
-        private void button_Cancel_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-        }
-    }
+			// Yahaha, you found me!
+
+			#endregion
+		}
+
+		private void button_Confirm_Click(object sender, EventArgs e)
+		{
+			DialogResult = DialogResult.OK;
+		}
+
+		private void button_Cancel_Click(object sender, EventArgs e)
+		{
+			DialogResult = DialogResult.Cancel;
+		}
+	}
 }
