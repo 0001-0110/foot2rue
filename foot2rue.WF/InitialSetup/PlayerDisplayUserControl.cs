@@ -1,7 +1,6 @@
 ﻿using foot2rue.BLL.Models;
 using foot2rue.WF.Extensions;
 using foot2rue.WF.Utilities;
-using System.Linq.Expressions;
 
 namespace foot2rue.WF.InitialSetup
 {
@@ -9,7 +8,7 @@ namespace foot2rue.WF.InitialSetup
 	{
 		public PlayerCupResult Player { get; private set; }
 
-        public PlayerDisplayUserControl(Player player)
+        public PlayerDisplayUserControl(PlayerCupResult player)
         {
             Player = player;
             InitializeComponent();

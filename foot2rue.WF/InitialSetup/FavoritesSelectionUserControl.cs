@@ -1,5 +1,4 @@
 ﻿using foot2rue.BLL.Services;
-using foot2rue.Settings.Extensions;
 using foot2rue.WF.Extensions;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -200,21 +199,21 @@ namespace foot2rue.WF.InitialSetup
             Control control = ((ContextMenuStrip)sender).SourceControl;
             clickedControl = control.FindParentOfType<PlayerDisplayUserControl>(includeRoot: true)!;
 
-            Action<ToolStripMenuItem, Panel> setToolStripVisible = (menuItem, panel) =>
-            {
-                // If the source control is in the panel, it can be moved with `This one`
-                bool thisOne = clickedControl.Parent == panel;
-                // If any of the selected controls are in this panel, they can be moved with `All selected`
-                bool allSelected = selectedControls.Any(control => control.Parent == panel);
-                // If any controls are in this panel, they can be moved with `All`
-                bool all = panel.Controls.Count > 0;
+			Action<ToolStripMenuItem, Panel> setToolStripVisible = (menuItem, panel) =>
+			{
+				// If the source control is in the panel, it can be moved with `This one`
+				bool thisOne = clickedControl.Parent == panel;
+				// If any of the selected controls are in this panel, they can be moved with `All selected`
+				bool allSelected = selectedControls.Any(control => control.Parent == panel);
+				// If any controls are in this panel, they can be moved with `All`
+				bool all = panel.Controls.Count > 0;
 
 				// Set the visiblity of all elements
 				menuItem.Visible = thisOne || allSelected || all;
 				menuItem.DropDownItems[0].Visible = thisOne;
 				menuItem.DropDownItems[1].Visible = allSelected;
 				menuItem.DropDownItems[2].Visible = all;
-			}
+			};
 
 			setToolStripVisible(addFavoriteToolStripMenuItem, flowLayoutPanel_AllPlayers);
 			setToolStripVisible(removeFavoriteToolStripMenuItem, flowLayoutPanel_FavoritePlayers);
