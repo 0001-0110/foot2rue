@@ -4,7 +4,7 @@ namespace foot2rue.BLL.Models
 {
     public class Resolution
     {
-        public static readonly Resolution[] AllResolutions = new Resolution[] { new(800, 450) };
+        public static readonly Resolution[] AllResolutions = new Resolution[] { new(800, 450), new(1280, 720), new(1920, 1080), };
 
         public readonly double Width;
         public readonly double Height;
