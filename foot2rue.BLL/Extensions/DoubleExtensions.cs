@@ -21,7 +21,7 @@
 
         public static bool GreaterThan(this double a, double b)
         {
-            return a- b > EPSILON;
+            return a - b > EPSILON;
         }
 
         public static bool GreaterOrEqual(this double a, double b)
